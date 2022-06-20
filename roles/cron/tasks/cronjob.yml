@@ -1,0 +1,9 @@
+---
+
+- name: "{{ cron_task_prefix }} create job by crontab schedule"
+  include_tasks: cronjob_crontab.yml
+  when: job.schedule is defined
+
+- name: "{{ cron_task_prefix }} create job by ansible schedule"
+  include_tasks: cronjob_ansible.yml
+  when: job.schedule is undefined

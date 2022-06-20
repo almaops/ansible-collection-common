@@ -1,0 +1,36 @@
+---
+
+- ansible.builtin.include_role:
+    name: almaops.pkg_install
+  vars:
+    pkg_install_packages:
+      - "tzdata"
+
+- name: "{{ timezone_task_prefix }} configure /etc/timezone"
+  ansible.builtin.copy:
+    dest: "/etc/timezone"
+    content: |
+      {{ timezone_tz }}
+    mode: 0644
+    owner: root
+    group: root
+  when: ansible_os_family == "Debian"
+
+- name: "{{ timezone_task_prefix }} configure /etc/sysconfig/clock"
+  ansible.builtin.copy:
+    dest: "/etc/sysconfig/clock"
+    content: |
+      ZONE="{{ timezone_tz }}"
+    mode: 0644
+    owner: root
+    group: root
+  when: ansible_os_family == "RedHat"
+
+- name: "{{ timezone_task_prefix }} configure /etc/localtime"
+  ansible.builtin.file:
+    src: "/usr/share/zoneinfo/{{ timezone_tz }}"
+    dest: "/etc/localtime"
+    state: link
+    force: true
+
+...

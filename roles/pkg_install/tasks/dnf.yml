@@ -1,0 +1,7 @@
+---
+- name: "{{ pkg_install_task_prefix }} install packages"
+  ansible.builtin.dnf:
+    name: "{{ pkg_install_packages }}"
+    state: "{{ pkg_install_state }}"
+    update_cache: "{{ pkg_install_update_cache }}"
+...

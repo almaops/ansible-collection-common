@@ -1,0 +1,25 @@
+---
+extends: default
+rules:
+  braces:
+    min-spaces-inside: 1
+    max-spaces-inside: 1
+    min-spaces-inside-empty: 0
+    max-spaces-inside-empty: 0
+    level: error
+  brackets:
+    min-spaces-inside: 1
+    max-spaces-inside: 1
+    min-spaces-inside-empty: 0
+    max-spaces-inside-empty: 0
+    level: error
+  colons:
+    max-spaces-before: 0
+    max-spaces-after: 1
+  line-length: disable
+  key-duplicates: enable
+  new-lines: enable
+  octal-values:
+    forbid-implicit-octal: true
+  trailing-spaces: enable
+...

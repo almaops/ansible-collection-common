@@ -1,0 +1,18 @@
+---
+# JFYI
+# ansible_os_family -> Debian
+# ansible_distribution -> Ubuntu
+# ansible_distribution_version -> 18.06
+# ansible_distribution_release -> bionic
+
+- name: "{{ pkg_install_task_prefix }} check package manager"
+  ansible.builtin.include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+    - "{{ ansible_distribution }}.yml"
+    - "{{ ansible_os_family }}-{{ ansible_distribution_release }}.yml"
+    - "{{ ansible_os_family }}-{{ ansible_distribution_major_version }}.yml"
+    - "{{ ansible_os_family }}.yml"
+
+- ansible.builtin.include_tasks: "{{ pkg_install_package_manager | default('none') }}.yml"
+...

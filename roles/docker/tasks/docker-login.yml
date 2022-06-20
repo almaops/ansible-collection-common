@@ -1,0 +1,8 @@
+---
+- name: "{{ docker_task_prefix }} login for registry: {{ creds.registry }}"
+  community.docker.docker_login:
+    registry_url: "{{ creds.registry }}"
+    username: "{{ creds.username }}"
+    password: "{{ creds.password }}"
+    state: present
+...

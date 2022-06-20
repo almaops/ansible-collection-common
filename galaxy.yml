@@ -1,0 +1,21 @@
+---
+namespace: almaops
+name: common
+version: 1.0.0
+readme: README.md
+authors:
+  - Dmitrii Kashin <freehck@freehck.com>
+description: 'This Ansible collection provides base Almaops roles'
+license:
+  - MIT
+tags:
+  - almaops
+  - common
+dependencies: []
+repository: 'https://github.com/almaops/ansible-collection-common'
+homepage: 'https://almaops.com'
+issues: 'https://github.com/almaops/ansible-collection-common/issues'
+build_ignore:
+  - .gitignore
+  - .yamllint
+...

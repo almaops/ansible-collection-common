@@ -1,0 +1,15 @@
+# This is an example of argument validation for the role
+---
+argument_specs:
+  main:
+    short_description: validation for params in tasks/main.yml
+    options:
+      cron_jobs:
+        type: "list"
+        required: true
+      cron_default_state:
+        choices:
+          - "present"
+          - "absent"
+
+...

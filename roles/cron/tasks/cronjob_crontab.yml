@@ -1,0 +1,19 @@
+---
+- name: "{{ cron_task_prefix }} create cronjob '{{ job.name }}'"
+  ansible.builtin.cron:
+    name: "{{ job.name }}"
+    cron_file: "{{ (job.file is defined) | ternary(job.file, cron_default_file) }}"
+    minute: "{{ schedule[0] }}"
+    hour: "{{ schedule[1] }}"
+    day: "{{ schedule[2] }}"
+    month: "{{ schedule[3] }}"
+    weekday: "{{ schedule[4] }}"
+    state: "{{ (job.state is defined) | ternary(job.state, cron_default_state) }}"
+    user: "{{ (job.user is defined) | ternary(job.user, cron_default_user) }}"
+    disabled: "{{ (job.skip is defined) | ternary(job.skip, false) | bool }}"
+    job: "{{ job.command }}"
+  loop: "{{ [ (job.schedule.split(' ') | select('!=', '') | list) ] }}"
+  loop_control:
+    loop_var: schedule
+    label: '{{ job.schedule }}'
+...

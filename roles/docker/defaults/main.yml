@@ -1,0 +1,29 @@
+---
+
+docker_task_prefix: "=== DOCKER ==="
+
+docker_enable_pkg_install: true
+docker_enable_pip_install: true
+docker_enable_configure: true
+docker_enable_docker_compose: false
+
+docker_template_daemon_json: "daemon.json.j2"
+docker_path_daemon_json: "/etc/docker"
+docker_file_daemon_json: "daemon.json"
+
+docker_systemd_service: "docker"
+
+docker_registry_mirror_urls: []
+docker_dns_servers:
+  - "8.8.8.8"
+
+docker_log_driver: "json-file"
+docker_log_opts:
+  max-size: "150m"
+  max-file: "10"
+  compress: "true"
+
+docker_registry_credentials: []
+#  - registry: "docker.io"
+#    username: "almaops"
+#    password: "password"

@@ -1,0 +1,8 @@
+---
+- name: "{{ cron_task_prefix }} process jobs"
+  include_tasks: cronjob.yml
+  loop: "{{ cron_jobs }}"
+  loop_control:
+    loop_var: job
+    label: "file: {{ job.file if job.file is defined else cron_default_file }}, job: {{ job.name }}"
+...

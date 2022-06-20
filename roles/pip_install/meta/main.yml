@@ -1,0 +1,34 @@
+---
+galaxy_info:
+  author: Dmitrii Kashin
+  description: install pip packages
+  role_name: pip_install
+  namespace: almaops
+  license: MIT
+
+  min_ansible_version: 2.10
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - all
+    - name: EL
+      versions:
+        - all
+    - name: Fedora
+      versions:
+        - all
+
+  galaxy_tags:
+    - system
+    - package
+    - install
+    - python
+    - pip
+
+allow_duplicates: true
+dependencies: []
+...

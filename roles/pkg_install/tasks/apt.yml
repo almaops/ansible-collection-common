@@ -1,0 +1,21 @@
+---
+# we cannot use only cache_valid_time and update_cache=false because of this:
+# https://github.com/ansible/ansible/blob/ecc8e5104426c19580f0475ca63fe8c522a2ff4e/lib/ansible/modules/packaging/os/apt.py#L1108
+# so using block task
+
+- name: "{{ pkg_install_task_prefix }} install packages: {{ pkg_install_packages | join(' ') }}"
+  block:
+    - name: "{{ pkg_install_task_prefix }} install packages with cache update: {{ pkg_install_packages | join(' ') }}"
+      ansible.builtin.apt:
+        name: "{{ pkg_install_packages }}"
+        state: "{{ pkg_install_state }}"
+        cache_valid_time: "{{ pkg_install_cache_valid_time }}"
+        update_cache: true
+      when: pkg_install_update_cache
+    - name: "{{ pkg_install_task_prefix }} install packages w/o cache update: {{ pkg_install_packages | join(' ') }}"
+      ansible.builtin.apt:
+        name: "{{ pkg_install_packages }}"
+        state: "{{ pkg_install_state }}"
+        update_cache: false
+      when: not pkg_install_update_cache
+...

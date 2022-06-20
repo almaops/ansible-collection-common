@@ -1,0 +1,28 @@
+{
+
+{% if (docker_registry_mirror_urls | length) != 0  %}
+  "registry-mirrors": [
+{% for url in docker_registry_mirror_urls %}
+  "{{ url }}"{% if not loop.last %},{% endif %}
+{% endfor %}
+  ],
+{% endif %}
+
+  "log-driver": "{{ docker_log_driver }}",
+{% if docker_log_opts != {} %}
+  "log-opts": {
+{% for key,val in docker_log_opts.items() %}
+    "{{ key }}": "{{ val }}"{% if not loop.last %},{% endif %}
+
+{% endfor %}
+  },
+{% endif %}
+
+  "dns": [
+{% for dns in docker_dns_servers %}
+    "{{ dns }}"{% if not loop.last %},{% endif %}
+
+{% endfor %}
+  ]
+
+}

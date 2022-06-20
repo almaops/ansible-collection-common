@@ -1,0 +1,14 @@
+---
+cron_task_prefix: "=== CRON ==="
+cron_default_file: "ansible"
+cron_default_day: "*"
+cron_default_hour: "*"
+cron_default_minute: "*"
+cron_default_month: "*"
+cron_default_weekday: "*"
+cron_default_state: "present"  # absent
+cron_default_user: "root"
+
+# cron_jobs: []
+
+...

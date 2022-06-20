@@ -1,0 +1,26 @@
+---
+galaxy_info:
+  author: Dmitrii Kashin
+  description: configure timezone
+  role_name: timezone
+  namespace: almaops
+  license: MIT
+  min_ansible_version: "2.10"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - all
+    - name: EL
+      versions:
+        - all
+    - name: Fedora
+      versions:
+        - all
+  galaxy_tags:
+    - timezone
+
+dependencies: []
+...

@@ -1,0 +1,28 @@
+---
+galaxy_info:
+  author: Dmitrii Kashin
+  description: template module wrapped into the role
+  role_name: template
+  license: MIT
+
+  min_ansible_version: 2.4
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - all
+    - name: EL
+      versions:
+        - all
+    - name: Fedora
+      versions:
+        - all
+
+  galaxy_tags:
+    - template
+
+allow_duplicates: true
+dependencies: []
