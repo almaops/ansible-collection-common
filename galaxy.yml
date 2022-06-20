@@ -5,7 +5,7 @@ version: 1.0.0
 readme: README.md
 authors:
   - Dmitrii Kashin <freehck@freehck.com>
-description: 'This Ansible collection provides base Almaops roles'
+description: 'Base Almaops roles'
 license:
   - MIT
 tags:
