@@ -11,7 +11,7 @@ license:
 tags:
   - almaops
   - common
-dependencies: []
+dependencies: {}
 repository: 'https://github.com/almaops/ansible-collection-common'
 homepage: 'https://almaops.com'
 issues: 'https://github.com/almaops/ansible-collection-common/issues'
