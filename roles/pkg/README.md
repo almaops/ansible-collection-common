@@ -1,4 +1,4 @@
-almaops.pkg_install
+almaops.common.pkg
 =========
 
 This role simply installs a list of packages.
@@ -6,7 +6,7 @@ This role simply installs a list of packages.
 Description
 -----------
 
-It was created because of 2 reasons. First, although there's [package module](https://docs.ansible.com/ansible/latest/modules/package_module.html) in Ansible distribution, it does not provide you an ability to specify cache validity time, because some package managers (f.e. yum and dnf) perform repository metadata update automatically, even when it's not necessary. Second, when it's wrapped into role, you can use it as a dependency in other role's meta file.
+It was created because of 2 reasons. First, although there's [package module](https://docs.ansible.com/ansible/latest/modules/package_module.html) in Ansible distribution, it does not provide you an ability to specify cache validity time, because some package managers (f.e. yum and dnf) perform repository metadata update automatically, even when it's not necessary. Second, when it's wrapped into role, you can use it as a dependency in other roles.
 
 Role Variables
 --------------
@@ -27,7 +27,7 @@ Example
 - hosts: all
   become: true
   roles:
-    - role: almaops.pkg_install
+    - role: almaops.common.pkg
       pkg_install_packages:
         - tmux
         - screen
@@ -36,9 +36,9 @@ Example
 Install
 -------
 
-This role can be installed from [Ansible Galaxy](https://galaxy.ansible.com/almaops/pkg_install):
+This role is part of [Ansible Galaxy collection](https://galaxy.ansible.com/almaops/common):
 
-`ansible-galaxy install almaops.pkg_install`
+`ansible-galaxy collection install almaops.common`
 
 License
 -------
