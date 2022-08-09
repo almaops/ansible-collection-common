@@ -25,17 +25,17 @@ collections:
 
 ## Roles
 
-### almaops.common.pkg_install
+### almaops.common.pkg
 
-Packages installation. Please consult with role's [README](./roles/pkg_install/README.md)
+Packages installation. Please consult with role's [README](./roles/pkg/README.md)
 
-### almaops.common.pip_install
+### almaops.common.pip
 
-Python pip packages installation. Please consult with role's [README](./roles/pip_install/README.md)
+Python pip packages installation. Please consult with role's [README](./roles/pip/README.md)
 
 ### almaops.common.docker
 
-Installation/configuration for Docker daemon and Docker client userspace configuration. Please consult with role's [README](./roles/pip_install/README.md)
+Installation/configuration for Docker daemon and Docker client userspace configuration. Please consult with role's [README](./roles/pip/README.md)
 
 ### almaops.common.cron
 
