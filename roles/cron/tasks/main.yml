@@ -1,6 +1,6 @@
 ---
 - name: "{{ cron_task_prefix }} process jobs"
-  include_tasks: cronjob.yml
+  ansible.builtin.include_tasks: cronjob.yml
   loop: "{{ cron_jobs }}"
   loop_control:
     loop_var: job

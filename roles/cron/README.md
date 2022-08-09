@@ -15,7 +15,7 @@ Example Playbook
 ----------------
 
 ```
-- role: almaops.cron
+- role: almaops.common.cron
   cron_default_file: "backups"
   cron_jobs:
     - name: "backup database"
