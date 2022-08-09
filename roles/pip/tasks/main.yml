@@ -1,6 +1,6 @@
 ---
 - ansible.builtin.include_role:
-    name: almaops.common.pkg_install
+    name: almaops.common.pkg
   vars:
     pkg_install_packages:
       - python3-pip

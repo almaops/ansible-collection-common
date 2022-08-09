@@ -1,5 +1,5 @@
 ---
-pip_install_task_prefix: "=== PIP_INSTALL ==="
+pip_install_task_prefix: "=== PIP INSTALL ==="
 pip_install_enable_pkg_install: true
 pip_install_packages: []
 pip_install_state: present   # latest / absent

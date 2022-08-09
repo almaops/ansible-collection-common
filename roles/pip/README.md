@@ -21,7 +21,7 @@ Example
 - hosts: all
   become: true
   roles:
-    - role: almaops.pip_install
+    - role: almaops.common.pip
       pip_install_packages:
         - docker
       pip_install_state: "present"
@@ -30,9 +30,9 @@ Example
 Install
 -------
 
-This role can be installed from [Ansible Galaxy](https://galaxy.ansible.com/almaops/pip_install):
+This role is part of [Ansible Galaxy collection](https://galaxy.ansible.com/almaops/common):
 
-`ansible-galaxy install almaops.pip_install`
+`ansible-galaxy collection install almaops.common`
 
 License
 -------
