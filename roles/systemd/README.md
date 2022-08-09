@@ -13,8 +13,11 @@ This roles just wraps the systemd ansible module into the role.
 
 Example
 -------
-
-    - role: almaops.template
+```
+- name: Update nginx upstreams and reload
+  hosts: nginx
+  roles:
+    - role: almaops.common.template
       template_content: |
         upstream grafana {
             {% for host in groups["monitoring"] %}
@@ -22,19 +25,19 @@ Example
             {% endfor %}
         }
       template_dest: "/etc/nginx/conf.d/grafana_upstream.conf"
-    
-    - role: almaops.systemd
+    - role: almaops.common.systemd
       systemd_service_name: nginx
       systemd_service_state: reloaded
       systemd_daemon_reload: false
       when: template_result is changed
+```
 
 Install
 -------
 
-This role can be installed from [Ansible Galaxy](https://galaxy.ansible.com/almaops/systemd):
+This role is part of [Ansible Galaxy collection](https://galaxy.ansible.com/almaops/common):
 
-`ansible-galaxy install almaops.systemd`
+`ansible-galaxy collection install almaops.common`
 
 License
 -------

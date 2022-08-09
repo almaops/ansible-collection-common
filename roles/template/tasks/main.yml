@@ -1,8 +1,7 @@
 ---
-
 - block:
     - name: create file by template file
-      template:
+      ansible.builtin.template:
         src: "{{ template_src }}"
         dest: "{{ template_dest }}"
       register: template_result
@@ -10,10 +9,9 @@
 
 - block:
     - name: create file by inline template
-      copy:
+      ansible.builtin.copy:
         content: "{{ template_content }}"
         dest: "{{ template_dest }}"
       register: template_result
   when: template_content is defined
-
 ...

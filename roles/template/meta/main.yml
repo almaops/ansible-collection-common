@@ -4,9 +4,7 @@ galaxy_info:
   description: template module wrapped into the role
   role_name: template
   license: MIT
-
-  min_ansible_version: 2.4
-
+  min_ansible_version: 2.12
   platforms:
     - name: Ubuntu
       versions:
@@ -23,6 +21,6 @@ galaxy_info:
 
   galaxy_tags:
     - template
-
 allow_duplicates: true
 dependencies: []
+...

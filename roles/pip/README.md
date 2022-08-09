@@ -1,4 +1,4 @@
-almaops.pip_install
+almaops.common.pip
 =========
 
 Install pip packages.

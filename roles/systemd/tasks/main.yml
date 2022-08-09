@@ -1,10 +1,8 @@
 ---
-
 - name: "configure systemd service {{ systemd_service_name }}"
-  systemd:
+  ansible.builtin.systemd:
     name: "{{ systemd_service_name }}"
     state: "{{ systemd_service_state }}"
     daemon_reload: "{{ systemd_daemon_reload }}"
   register: systemd_result
-
 ...

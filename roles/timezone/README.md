@@ -10,10 +10,6 @@ Role variables
 
 Please refer to [defaults/main.yml](./defaults/main.yml) for full list of available variables. 
 
-Dependencies
-------------
-
- - [almaops.pkg_install](https://galaxy.ansible.com/almaops/pkg_install)
 
 Example playbook
 ----------------
@@ -23,7 +19,7 @@ Example playbook
     - servers
   become: true
   roles:
-    - role: almaops.timezone
+    - role: almaops.common.timezone
       vars:
         timezone_tz: "Etc/UTC"
 ```
@@ -31,11 +27,9 @@ Example playbook
 Install
 -------
 
-This role can be installed from [Ansible Galaxy](https://galaxy.ansible.com/almaops/timezone):
+This role is part of [Ansible Galaxy collection](https://galaxy.ansible.com/almaops/common):
 
-```
-ansible-galaxy install almaops.timezone
-```
+`ansible-galaxy collection install almaops.common`
 
 License
 -------

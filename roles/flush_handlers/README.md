@@ -1,4 +1,4 @@
-almaops.flush_handlers
+almaops.common.flush_handlers
 =========
 
 [![License](https://img.shields.io/badge/license-MIT%20License-brightgreen.svg)](https://opensource.org/licenses/MIT)
@@ -13,15 +13,19 @@ This role flushes ansible handlers. You can just insert it between other roles, 
 
 Example
 -------
-
-    - role: almaops.flush_handlers
+```
+- name: Flush handlers
+  hosts: all
+  roles:
+    - role: almaops.common.flush_handlers
+```
 
 Install
 -------
 
-This role can be installed from [Ansible Galaxy](https://galaxy.ansible.com/almaops/flush_handlers):
+This role is part of [Ansible Galaxy collection](https://galaxy.ansible.com/almaops/common):
 
-`ansible-galaxy install almaops.flush_handlers`
+`ansible-galaxy collection install almaops.common`
 
 License
 -------

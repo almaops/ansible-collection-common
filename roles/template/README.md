@@ -16,8 +16,11 @@ You can provide a template either by putting its content into `template_content`
 
 Example
 -------
-
-    - role: almaops.template
+```
+- name: Update nginx upstreams and reload
+  hosts: nginx
+  roles:
+    - role: almaops.common.template
       template_content: |
         upstream grafana {
             {% for host in groups["monitoring"] %}
@@ -25,24 +28,19 @@ Example
             {% endfor %}
         }
       template_dest: "/etc/nginx/conf.d/grafana_upstream.conf"
-      tags:
-        - upstream
-
-    - role: almaops.systemd
+    - role: almaops.common.systemd
       systemd_service_name: nginx
       systemd_service_state: reloaded
       systemd_daemon_reload: false
       when: template_result is changed
-      tags:
-        - upstream
-
+```
 
 Install
 -------
 
-This role can be installed from [Ansible Galaxy](https://galaxy.ansible.com/almaops/template):
+This role is part of [Ansible Galaxy collection](https://galaxy.ansible.com/almaops/common):
 
-`ansible-galaxy install almaops.template`
+`ansible-galaxy collection install almaops.common`
 
 License
 -------

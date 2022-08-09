@@ -1,26 +1,25 @@
 ---
-
-- include_role:
-    name: almaops.common.pkg_install
+- ansible.builtin.include_role:
+    name: almaops.common.pkg
   vars:
     pkg_install_packages: "{{ ['docker.io'] + (docker_enable_docker_compose | ternary(['docker-compose'], [])) }}"
   when:
     - docker_enable_pkg_install
     - ansible_distribution | default(undef(hint="you must gather facts before running this role")) in [ 'Ubuntu', 'Debian' ]
 
-- include_role:
-    name: almaops.common.pip_install
+- ansible.builtin.include_role:
+    name: almaops.common.pip
   vars:
     pip_install_packages:
       - docker
   when:
     - docker_enable_pip_install
 
-- include_tasks: configure-dockerd.yml
+- ansible.builtin.include_tasks: configure-dockerd.yml
   when:
     - docker_enable_configure
 
-- include_tasks: docker-login.yml
+- ansible.builtin.include_tasks: docker-login.yml
   loop: "{{ docker_registry_credentials }}"
   loop_control:
     loop_var: creds

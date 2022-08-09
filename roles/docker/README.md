@@ -1,4 +1,4 @@
-almaops.docker
+almaops.common.docker
 ==========
 
 This ansible role installs docker
@@ -25,7 +25,7 @@ Example Playbook
 ```
 - hosts: servers
   roles:
-    - role: almaops.docker
+    - role: almaops.common.docker
 
 ```
 

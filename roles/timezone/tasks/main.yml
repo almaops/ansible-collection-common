@@ -1,7 +1,6 @@
 ---
-
 - ansible.builtin.include_role:
-    name: almaops.pkg_install
+    name: almaops.common.pkg
   vars:
     pkg_install_packages:
       - "tzdata"
@@ -32,5 +31,4 @@
     dest: "/etc/localtime"
     state: link
     force: true
-
 ...
