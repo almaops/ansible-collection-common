@@ -1,5 +1,6 @@
 ---
-- ansible.builtin.include_role:
+- name: "{{ timezone_task_prefix }} Install packages"
+  ansible.builtin.include_role:
     name: almaops.common.pkg
   vars:
     pkg_install_packages:
