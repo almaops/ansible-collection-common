@@ -1,0 +1,56 @@
+---
+- name: "{{ clickhouse_backup_task_prefix }} Create directories"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  loop:
+    - "{{ clickhouse_backup_path_download_dir }}"
+    - "{{ clickhouse_backup_path_install_dir }}"
+    - "{{ clickhouse_backup_path_config_dir }}"
+
+- name: "{{ clickhouse_backup_task_prefix }} Download tarball"
+  ansible.builtin.get_url:
+    url: "{{ clickhouse_backup_url }}"
+    dest: "{{ clickhouse_backup_path_download_file }}"
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: "{{ clickhouse_backup_task_prefix }} Unpack tarball"
+  ansible.builtin.unarchive:
+    src: "{{ clickhouse_backup_path_download_file }}"
+    dest: "{{ clickhouse_backup_path_download_dir }}"
+    remote_src: true
+
+- name: "{{ clickhouse_backup_task_prefix }} Copy binary"
+  ansible.builtin.copy:
+    src: "{{ clickhouse_backup_path_download_dir }}/build/linux/amd64/clickhouse-backup"
+    dest: "{{ clickhouse_backup_path_install_file }}"
+    owner: root
+    group: root
+    mode: '0755'
+    remote_src: true
+
+- name: "{{ clickhouse_backup_task_prefix }} Symlink binary"
+  ansible.builtin.file:
+    src: "{{ clickhouse_backup_path_install_file }}"
+    dest: "{{ clickhouse_backup_path_install_symlink }}"
+    owner: root
+    group: root
+    state: link
+
+- name: "{{ clickhouse_backup_task_prefix }} Template config file"
+  ansible.builtin.template:
+    src: "{{ clickhouse_backup_template_config }}"
+    dest: "{{ clickhouse_backup_path_config_file }}"
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: "{{ clickhouse_backup_task_prefix }} clickhouse-backup to cron"
+  ansible.builtin.include_tasks: cron.yml
+  when: clickhouse_backup_cron_enable
+...

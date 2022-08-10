@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo "=== BEGIN BACKUP ===" >> {{ clickhouse_backup_cron_logfile }}
+{{ clickhouse_backup_cron_script }} {{ clickhouse_backup_cron_options }} 2>&1 >>{{ clickhouse_backup_cron_logfile }}
+echo "=== END BACKUP ===" >> {{ clickhouse_backup_cron_logfile }}

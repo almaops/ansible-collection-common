@@ -1,0 +1,22 @@
+---
+galaxy_info:
+  author: "Valentin Gostev"
+  description: "Install and manage clickhouse-backup tool"
+  role_name: clickhouse_backup
+  namespace: almaops
+  license: MIT
+  min_ansible_version: "2.12"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - all
+  galaxy_tags:
+    - clickhouse
+    - database
+    - backup
+allow_duplicates: true
+dependencies: []
+...

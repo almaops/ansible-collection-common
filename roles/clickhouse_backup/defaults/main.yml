@@ -1,0 +1,40 @@
+---
+clickhouse_backup_task_prefix: "=== CLICKHOUSE BACKUP ==="
+
+# Cron settings
+clickhouse_backup_cron_enable: false
+clickhouse_backup_cron_schedule: "35 23 * * *"
+clickhouse_backup_cron_options: "create_remote $(date -u +%Y-%m-%dT%H-%M-%S)"
+clickhouse_backup_cron_logfile: "/var/log/clickhouse-backup.log"
+clickhouse_backup_cron_script: "/opt/clickhouse-backup/clickhouse-backup.sh"
+
+clickhouse_backup_version: "1.5.0"
+clickhouse_backup_url: "https://github.com/AlexAkulov/clickhouse-backup/releases/download/v{{ clickhouse_backup_version }}/clickhouse-backup-linux-amd64.tar.gz"
+
+clickhouse_backup_template_config: "config.yml.j2"
+clickhouse_backup_template_cron_script: "clickhouse-backup.sh.j2"
+
+clickhouse_backup_path_download_dir: "/tmp/clickhouse-backup"
+clickhouse_backup_path_download_file: "{{ clickhouse_backup_path_download_dir }}/clickhouse-backup-linux-amd64.tar.gz"
+clickhouse_backup_path_install_dir: "/opt/clickhouse-backup"
+clickhouse_backup_path_install_file: "/opt/clickhouse-backup/clickhouse-backup"
+clickhouse_backup_path_install_symlink: "/usr/local/bin/clickhouse-backup"
+clickhouse_backup_path_config_dir: "/etc/clickhouse-backup" 
+clickhouse_backup_path_config_file: "{{ clickhouse_backup_path_config_dir }}/config.yml" 
+
+clickhouse_backup_config:
+  general:
+    remote_storage: none
+    disable_progress_bar: true
+    log_level: info
+    allow_empty_backups: false
+  clickhouse:
+    username: default
+    password: ""
+    host: localhost
+    port: 9000
+    skip_tables:
+      - system.*
+      - INFORMATION_SCHEMA.*
+      - information_schema.*
+...
