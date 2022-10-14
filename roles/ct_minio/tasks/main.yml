@@ -1,0 +1,42 @@
+---
+- name: "{{ ct_minio_task_prefix }} Enable admin port?"
+  ansible.builtin.include_vars: disable_admin.yml
+  when: not ct_minio_enable_admin
+
+- name: "{{ ct_minio_task_prefix }} Enable ports?"
+  ansible.builtin.include_vars: disable_ports.yml
+  when: not ct_minio_enable_ports
+
+- name: "{{ ct_minio_task_prefix }} Create config directory"
+  ansible.builtin.file:
+    path: "{{ ct_minio_path_config_base }}"
+    state: directory
+    mode: '0700'
+    owner: root
+    group: root
+  loop:
+    - "{{ ct_minio_path_config_base }}"
+    - "{{ ct_minio_path_data_volume }}"
+
+- name: "{{ ct_minio_task_prefix }} Create env file"
+  ansible.builtin.template:
+    src: "{{ ct_minio_template_env }}"
+    dest: "{{ ct_minio_path_config_file }}"
+    owner: root
+    group: root
+    mode: '0400'
+
+- name: "{{ ct_minio_task_prefix }} Provision container"
+  community.docker.docker_container:
+    env_file: "{{ ct_minio_path_config_file }}"
+    image: "{{ ct_minio_ct_image }}"
+    name: "{{ ct_minio_ct_name }}"
+    ports: "{{ ct_minio_ct_ports }}"
+    pull: "{{ ct_minio_ct_pull }}"
+    recreate: "{{ ct_minio_ct_recreate }}"
+    restart_policy: "{{ ct_minio_ct_restart_policy }}"
+    state: "{{ ct_minio_ct_state }}"
+    volumes: "{{ ct_minio_ct_volumes }}"
+    command: "{{ ct_minio_ct_command }}"
+    network_mode: "{{ ct_minio_ct_network_mode }}"
+...

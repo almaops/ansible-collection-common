@@ -1,0 +1,59 @@
+---
+ct_minio_task_prefix: "=== MINIO CT ==="
+
+# Common settings
+ct_minio_enable_ports: true
+ct_minio_enable_admin: true
+
+# Templates
+ct_minio_template_env: "minio.env.j2"
+
+# Path settings - Configuration file
+ct_minio_path_config_base: "/etc/ct_minio"
+ct_minio_path_config_file: "{{ ct_minio_path_config_base }}/{{ ct_minio_ct_name }}.env"
+# Path settings - Data directory
+ct_minio_path_data_base: "/srv/ct_minio"
+ct_minio_path_data_volume: "{{ ct_minio_path_data_base }}/{{ ct_minio_ct_name }}"
+ct_minio_path_ct_data: "/data"
+
+# Network settings
+ct_minio_bind_addr: "127.0.0.1"
+ct_minio_bind_addr_api: "{{ ct_minio_bind_addr }}"
+ct_minio_bind_addr_admin: "{{ ct_minio_bind_addr }}"
+ct_minio_bind_port_api: "9000"
+ct_minio_bind_port_admin: "9001"
+ct_minio_bind_ct_port_api: "9000"
+ct_minio_bind_ct_port_admin: "9001"
+
+# Container settings - general
+ct_minio_ct_name: "minio"
+ct_minio_ct_version: "latest"
+ct_minio_ct_image: "minio/minio:{{ ct_minio_ct_version }}"
+ct_minio_ct_state: "started"
+ct_minio_ct_restart_policy: "always"
+ct_minio_ct_restart: false
+ct_minio_ct_pull: false
+ct_minio_ct_recreate: false
+ct_minio_ct_network_mode: "default"
+ct_minio_ct_networks: []
+ct_minio_ct_ports_api:
+  - "{{ ct_minio_bind_addr_api }}:{{ ct_minio_bind_port_api }}:{{ ct_minio_bind_ct_port_api }}"
+ct_minio_ct_ports_admin:
+  - "{{ ct_minio_bind_addr_admin }}:{{ ct_minio_bind_port_admin }}:{{ ct_minio_bind_ct_port_admin }}"
+ct_minio_ct_ports: "{{ ct_minio_ct_ports_api + ct_minio_ct_ports_admin }}"
+ct_minio_ct_volume_extra: []
+ct_minio_ct_volume_data:
+  - "{{ ct_minio_path_data_volume }}:{{ ct_minio_path_ct_data }}"
+ct_minio_ct_volumes: "{{ ct_minio_ct_volume_data + ct_minio_ct_volume_extra }}"
+ct_minio_ct_command_admin:
+  - "--console-address {{ \":\"+ct_minio_bind_ct_port_admin | quote }}"
+ct_minio_ct_command_base:
+  - "server"
+  - "{{ ct_minio_path_ct_data }}"
+ct_minio_ct_command: "{{ ct_minio_ct_command_base + ct_minio_ct_command_admin }}"
+
+# Environment variables
+# ct_minio_env_minio_root_user: "root"
+# ct_minio_env_minio_root_password: "changeme"
+ct_minio_env_extra: {}
+...
