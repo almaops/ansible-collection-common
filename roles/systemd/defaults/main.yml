@@ -1,6 +1,9 @@
 ---
 # systemd_service_name: ""
-systemd_service_state: "started" # reloaded|restarted|stopped
-systemd_service_enabled: "true" # false
-systemd_daemon_reload: "true" # false
+# reloaded|restarted|stopped
+systemd_service_state: "started"
+# true|false
+systemd_service_enabled: "true"
+# true|false
+systemd_daemon_reload: "true"
 ...

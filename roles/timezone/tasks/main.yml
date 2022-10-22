@@ -11,7 +11,7 @@
     dest: "/etc/timezone"
     content: |
       {{ timezone_tz }}
-    mode: 0644
+    mode: '0644'
     owner: root
     group: root
   when: ansible_os_family == "Debian"
@@ -21,7 +21,7 @@
     dest: "/etc/sysconfig/clock"
     content: |
       ZONE="{{ timezone_tz }}"
-    mode: 0644
+    mode: '0644'
     owner: root
     group: root
   when: ansible_os_family == "RedHat"

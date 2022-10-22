@@ -49,7 +49,7 @@
         key_name: certbot_test
         instance_tags:
           Name: "certbot-standalone-nginx-test"
-        group: ['default', 'certbot_test_http']
+        group: [ 'default', 'certbot_test_http' ]
         instance_type: t2.micro
         # CentOS Linux 7 x86_64 HVM EBS
         image: ami-02e98f78
@@ -148,7 +148,7 @@
     - name: Destroy EC2 instance.
       ec2:
         profile: mm
-        instance_ids: ["{{ created_instance.tagged_instances.0.id }}"]
+        instance_ids: [ "{{ created_instance.tagged_instances.0.id }}" ]
         region: "us-east-1"
         state: absent
         wait: true

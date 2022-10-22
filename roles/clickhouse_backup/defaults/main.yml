@@ -19,8 +19,8 @@ clickhouse_backup_path_download_file: "{{ clickhouse_backup_path_download_dir }}
 clickhouse_backup_path_install_dir: "/opt/clickhouse-backup"
 clickhouse_backup_path_install_file: "/opt/clickhouse-backup/clickhouse-backup"
 clickhouse_backup_path_install_symlink: "/usr/local/bin/clickhouse-backup"
-clickhouse_backup_path_config_dir: "/etc/clickhouse-backup" 
-clickhouse_backup_path_config_file: "{{ clickhouse_backup_path_config_dir }}/config.yml" 
+clickhouse_backup_path_config_dir: "/etc/clickhouse-backup"
+clickhouse_backup_path_config_file: "{{ clickhouse_backup_path_config_dir }}/config.yml"
 
 clickhouse_backup_config:
   general:

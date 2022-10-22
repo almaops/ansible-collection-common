@@ -17,4 +17,4 @@
     name: "{{ nginx_package_name }}"
     state: absent
   when: nginx_ppa_added is changed
-  tags: ['skip_ansible_lint']
+  tags: [ 'skip_ansible_lint' ]
