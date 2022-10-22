@@ -1,4 +1,4 @@
-almaops.common.vars
+almaops.common.var
 =========
 
 This role includes variables from specific directory.
@@ -55,7 +55,7 @@ This snippet will include all the `*.yml` files from playbook_dir/vars/dev:
 
     - hosts: group-containing-all-hosts-for-dev-env
       roles:
-        - role: almaops.common.vars
+        - role: almaops.common.var
           vars_root: "{{ playbook_dir }}/vars"
           vars_group: "dev"
 
@@ -63,7 +63,7 @@ This snippet will include all the `*.yml` files from /home/user/my-env
 
     - hosts: group-containing-all-hosts-for-dev-env
       roles:
-        - role: almaops.common.vars
+        - role: almaops.common.var
           vars_source: "/home/user/my-env"
 
 This snippet will include all the `*.yml` files from: playbook_dir/creds/dev, playbook_dir/env-vars/dev, playbook_dir/common-vars/my-dev-env
@@ -72,15 +72,15 @@ This snippet will include all the `*.yml` files from: playbook_dir/creds/dev, pl
     - hosts: group-containing-all-hosts-for-dev-env
       roles:
         # load credentials
-        - role: almaops.common.vars
+        - role: almaops.common.var
           vars_root: "{{ playbook_dir }}/creds"
           vars_group: "{{ credentials_library }}"
         # load variables specific for this environment group (group of similar environments)
-        - role: almaops.common.vars
+        - role: almaops.common.var
           vars_root: "{{ playbook_dir }}/common-vars"
           vars_group: "{{ env_group_name }}"
         # load environment specific variables
-        - role: almaops.common.vars
+        - role: almaops.common.var
           vars_root: "{{ playbook_dir }}/env-vars"
           vars_group: "{{ env_name }}"
           
