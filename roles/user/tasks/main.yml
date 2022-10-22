@@ -1,0 +1,60 @@
+---
+- name: Check username
+  ansible.builtin.fail:
+    msg: 'no username provided'
+  when: username is undefined
+
+- name: Set facts
+  ansible.builtin.et_fact:
+    apply_to_this_host: false
+    user_host_list: []
+    host: {}
+    nologin_shell: >-
+      {%- if (ansible_os_family in [ 'Debian', 'Devuan GNU/Linux' ]) -%} /usr/sbin/nologin
+      {%- else -%} /bin/nologin
+      {%- endif -%}
+    sudo_group: >-
+      {%- if (ansible_os_family in [ 'Debian', 'Devuan GNU/Linux' ]) -%} sudo
+      {%- elif (ansible_os_family in [ 'RedHat' ]) -%} wheel
+      {%- else -%} sudo
+      {%- endif -%}
+
+- name: Lookup user definition for this host
+  ansible.builtin.set_fact: user_host_list={{ user_host_list|default([]) + hosts | selectattr('host', 'equalto', item) | list }}
+  with_items:
+    - "{{ inventory_hostname }}"
+    - "{{ ansible_nodename }}"
+    - "{{ group_names }}"
+    - all
+
+- name: Check if we shall apply user settings to this host
+  ansible.builtin.set_fact:
+    apply_to_this_host: true
+  when: user_host_list | length > 0
+
+- name: Gathering host configuration
+  ansible.builtin.set_fact:
+    host: "{{ user_host_list | first }}"
+  when: apply_to_this_host
+
+- name: Configure sudo group
+  ansible.builtin.include_tasks: configure-sudo-group.yml
+  when: not sudo_group_configured
+  tags:
+    - sudo_configuration
+
+- name: Delete user {{ username }}
+  ansible.builtin.user:
+    name: "{{ username }}"
+    state: absent
+    force: true
+  when:
+    - apply_to_this_host
+    - host.delete_user | default(delete_user)
+
+- name: Create user {{ username }}
+  ansible.builtin.include_tasks: create-user.yml
+  when:
+    - apply_to_this_host
+    - not (host.delete_user | default(delete_user))
+...

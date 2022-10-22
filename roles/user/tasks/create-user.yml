@@ -1,0 +1,73 @@
+---
+# user
+- name: Check user shell [{{ username }}]
+  ansible.builtin.set_fact:
+    new_shell: "{{ host.shell | default( shell | default(default_shell) ) }}"
+
+- name: Check if user is disabled [{{ username }}]
+  ansible.builtin.set_fact:
+    new_shell: "{{ nologin_shell }}"
+  when: host.disable_user | default(disable_user)
+
+- name: Check user password [{{ username }}]
+  ansible.builtin.set_fact:
+    new_password: "{{ host.password | default(password) | password_hash('sha512') }}"
+  when: host.password is defined or password is defined
+
+- name: Disable password login [{{ username }}]
+  ansible.builtin.set_fact:
+    new_password: '*'
+  when: lock_password or (host.password is undefined and password is undefined)
+
+- name: Check user groups [{{ username }}]
+  ansible.builtin.set_fact:
+    new_groups: |
+      {{ host.groups | default([]) +
+      common_groups | default([]) +
+      (host.give_sudo | default(give_sudo)) | ternary([sudo_group], []) }}
+
+- name: Create/configure user [{{ username }}]
+  ansible.builtin.user:
+    state: present
+    name: "{{ username }}"
+    shell: "{{ new_shell }}"
+    groups: "{{ new_groups }}"
+    password: "{{ new_password }}"
+    update_password: "{{ (host.force_set_password | default(force_set_password)) | ternary('always', 'on_create') }}"
+
+# sudo commands
+- name: Configure available sudo commands
+  ansible.builtin.template:
+    src: sudo-commands.j2
+    dest: /etc/sudoers.d/{{ username }}-sudo-commands
+    mode: '0600'
+    owner: root
+    group: root
+  when: sudo_commands is defined
+
+# access
+- name: Create .ssh directories [{{ username }}]
+  ansible.builtin.file:
+    path: "/home/{{ username }}/.ssh"
+    state: directory
+    mode: '0700'
+    owner: "{{ username }}"
+    group: "{{ username }}"
+
+- name: Fail if key not exist [{{ username }}]
+  ansible.builtin.fail:
+    msg: "Key not found"
+  when:
+    - ssh_public_keys is defined
+    - ssh_public_keys | selectattr('name', 'equalto', item) | list | length == 0
+  with_items: "{{ (host.authorized_keys | default(authorized_keys)) }}"
+
+- name: Set authorized ssh keys [{{ username }}]
+  ansible.builtin.template:
+    src: authorized_keys.j2
+    dest: "/home/{{ username }}/.ssh/authorized_keys"
+    mode: '0600'
+    owner: "{{ username }}"
+    group: "{{ username }}"
+  when: ssh_public_keys is defined
+...

@@ -1,0 +1,12 @@
+---
+- hosts: localhost
+  remote_user: root
+  roles:
+    - role: user
+      username: testuser
+      give_sudo: true
+      authorized_keys:
+        - testuser_key
+      hosts:
+        - host: all
+...

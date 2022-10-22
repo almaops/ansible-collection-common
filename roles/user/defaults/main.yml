@@ -1,0 +1,11 @@
+---
+force_set_password: false
+lock_password: false
+disable_user: false
+delete_user: false
+give_sudo: false
+default_shell: /bin/bash
+common_groups: []
+authorized_keys: []
+sudo_group_configured: false
+...

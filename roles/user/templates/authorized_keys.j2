@@ -1,0 +1,8 @@
+{% for person in (host.authorized_keys | default(authorized_keys)) %}
+{% for key_desc in ssh_public_keys -%}
+{%- if key_desc.name == person -%} {{key_desc.key}}
+{%- elif key_desc.fullname | default('') == person -%} {{key_desc.key}}
+{%- endif -%}
+{%- endfor %}
+
+{% endfor %}

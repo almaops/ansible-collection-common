@@ -1,0 +1,18 @@
+---
+- name: Create {{ sudo_group }} group
+  ansible.builtin.group:
+    name: "{{ sudo_group }}"
+    state: present
+
+- name: Add sudo configuration for group {{ sudo_group }}
+  ansible.builtin.template:
+    src: sudo-nopasswd.j2
+    dest: /etc/sudoers.d/sudo-group-nopasswd
+    owner: root
+    group: root
+    mode: '0440'
+
+- name: Remember that {{ sudo_group }} group is already configured on this host
+  ansible.builtin.set_fact:
+    sudo_group_configured: true
+...
