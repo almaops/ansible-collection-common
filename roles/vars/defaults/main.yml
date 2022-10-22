@@ -1,0 +1,7 @@
+---
+vars_task_prefix: "=== Loading variables ==="
+vars_source: "{{ vars_root }}/{{ vars_group }}"
+# These parameters must be set
+# vars_root: "{{ playbook_dir }}/vars"
+# vars_group: "dev"
+...

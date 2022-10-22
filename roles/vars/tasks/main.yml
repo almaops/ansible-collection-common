@@ -1,0 +1,6 @@
+---
+- name: "{{ vars_task_prefix }} from {{ vars_source }}"
+  ansible.builtin.include_vars:
+    dir: "{{ vars_source }}"
+    ignore_unknown_extensions: true
+...
