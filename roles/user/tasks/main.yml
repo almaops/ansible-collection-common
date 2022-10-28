@@ -5,7 +5,7 @@
   when: username is undefined
 
 - name: Set facts
-  ansible.builtin.et_fact:
+  ansible.builtin.set_fact:
     apply_to_this_host: false
     user_host_list: []
     host: {}
