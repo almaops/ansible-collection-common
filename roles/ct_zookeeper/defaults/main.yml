@@ -1,0 +1,59 @@
+---
+ct_zookeeper_task_prefix: "=== ZOOKEEPER CT ==="
+
+# File names
+ct_zookeeper_template_env: "zookeeper.env.j2"
+ct_zookeeper_file_env: "{{ ct_zookeeper_ct_name }}.env"
+
+# Path settings
+ct_zookeeper_path_config_base: "/etc/ct_zookeeper"
+ct_zookeeper_path_config_file: "{{ ct_zookeeper_path_config_base }}/{{ ct_zookeeper_file_env }}"
+ct_zookeeper_path_base: "/srv/ct_zookeeper"
+ct_zookeeper_path_zk_data: "{{ ct_zookeeper_path_base }}/{{ ct_zookeeper_ct_name }}/data"
+ct_zookeeper_path_zk_logs: "{{ ct_zookeeper_path_base }}/{{ ct_zookeeper_ct_name }}/logs"
+ct_zookeeper_path_ct_zk_data: "/var/lib/zookeeper/data"
+ct_zookeeper_path_ct_zk_logs: "/var/lib/zookeeper/log"
+
+# Network settings
+ct_zookeeper_bind_addr: "127.0.0.1"
+ct_zookeeper_bind_port_peer: "2888"
+ct_zookeeper_bind_port_leader: "3888"
+ct_zookeeper_bind_port_client: "2181"
+
+# Container settings
+ct_zookeeper_ct_name: "zookeeper-{{ ct_zookeeper_server_id }}"
+ct_zookeeper_ct_image: "confluentinc/cp-zookeeper"
+ct_zookeeper_ct_version: "latest"
+ct_zookeeper_ct_restart_policy: "always"
+ct_zookeeper_ct_state: "started"
+ct_zookeeper_ct_restart: "no"
+ct_zookeeper_ct_pull: "no"
+ct_zookeeper_ct_recreate: "no"
+ct_zookeeper_ct_volumes_data:
+  - "{{ ct_zookeeper_path_zk_data }}:{{ ct_zookeeper_path_ct_zk_data }}"
+  - "{{ ct_zookeeper_path_zk_logs }}:{{ ct_zookeeper_path_ct_zk_logs }}"
+ct_zookeeper_ct_volumes_extra: []
+ct_zookeeper_ct_volumes: "{{ ct_zookeeper_ct_volumes_data + ct_zookeeper_ct_volumes_extra }}"
+
+# Environment variables
+ct_zookeeper_env_zookeeper_tick_time: "2000"
+ct_zookeeper_env_zookeeper_init_limit: "5"
+ct_zookeeper_env_zookeeper_sync_limit: "2"
+ct_zookeeper_env_zookeeper_admin_enable_server: "false"
+# Example cluster definition
+# ct_zookeeper_zookeeper_nodes:
+#   - host: zk01 # Host's name in Ansible inventory
+#     bind_ip: "10.100.20.200" # IP address Zookeeper binds to
+#     id: 1 # Zookeeper server id
+#     peerport: "2888"
+#     leaderport: "3888"
+#   - host: zk01
+#     id: 2
+#     peerport: "12888"
+#     leaderport: "13888"
+#   - host: zk01
+#     id: 3
+#     peerport: "22888"
+#     leaderport: "23888"
+ct_zookeeper_server_id: "{{ ct_zookeeper_node.id }}"
+...

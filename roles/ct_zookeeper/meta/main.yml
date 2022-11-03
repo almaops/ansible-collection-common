@@ -1,0 +1,19 @@
+---
+galaxy_info:
+  author: Dmitrii Kashin
+  description: Ansible role deploys Zookeeper container
+  role_name: ct_zookeeper
+  license: MIT
+  min_ansible_version: 2.8
+  platforms:
+    - name: Ubuntu
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - all
+  galaxy_tags:
+    - zookeeper
+allow_duplicates: false
+dependencies: []
+...

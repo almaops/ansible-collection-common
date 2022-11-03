@@ -1,0 +1,8 @@
+---
+- name: "{{ ct_zookeeper_task_prefix }} Create Zookeeper node"
+  ansible.builtin.include_tasks: node.yml
+  loop: "{{ ct_zookeeper_zookeeper_nodes }}"
+  loop_control:
+    loop_var: ct_zookeeper_node
+  when: ct_zookeeper_node.host == inventory_hostname
+...

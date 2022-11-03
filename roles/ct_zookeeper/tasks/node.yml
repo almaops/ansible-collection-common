@@ -1,0 +1,42 @@
+---
+- name: "{{ ct_zookeeper_task_prefix }} Create config directory"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+    recurse: true
+  loop:
+    - "{{ ct_zookeeper_path_config_base }}"
+    - "{{ ct_zookeeper_path_base }}"
+
+- name: "{{ ct_zookeeper_task_prefix }} Create env file"
+  ansible.builtin.template:
+    src: "{{ ct_zookeeper_template_env }}"
+    dest: "{{ ct_zookeeper_path_config_file }}"
+    mode: '0644'
+
+- name: "{{ ct_zookeeper_task_prefix }} Create data directories"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+    recurse: true
+    owner: '1000'
+    group: '1000'
+  loop:
+    - "{{ ct_zookeeper_path_zk_data }}"
+    - "{{ ct_zookeeper_path_zk_logs }}"
+  when: ct_zookeeper_persist_data|bool
+
+- name: "{{ ct_zookeeper_task_prefix }} Create container"
+  community.docker.docker_container:
+    name: "{{ ct_zookeeper_ct_name }}"
+    image: "{{ ct_zookeeper_ct_image }}:{{ ct_zookeeper_ct_version }}"
+    env_file: "{{ ct_zookeeper_path_config_file }}"
+    restart_policy: "{{ ct_zookeeper_ct_restart_policy }}"
+    state: "{{ ct_zookeeper_ct_state }}"
+    restart: "{{ ct_zookeeper_ct_restart }}"
+    pull: "{{ ct_zookeeper_ct_pull }}"
+    recreate: "{{ ct_zookeeper_ct_recreate }}"
+    network_mode: host
+...

@@ -1,0 +1,22 @@
+---
+galaxy_info:
+  author: Valentin Gostev, Dmitrii Kashin
+  description: Ansible role deploys Kafka containers
+  role_name: ct_kafka
+  license: MIT
+  min_ansible_version: 2.8
+  platforms:
+    - name: Ubuntu
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - all
+  galaxy_tags:
+    - kafka
+    - broker
+    - container
+    - docker
+allow_duplicates: false
+dependencies: []
+...

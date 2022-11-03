@@ -1,0 +1,41 @@
+---
+- name: "{{ ct_kafka_task_prefix }} Create config directory"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+    recurse: true
+  loop:
+    - "{{ ct_kafka_path_config_base }}"
+
+- name: "{{ ct_kafka_task_prefix }} Create data directory"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+    owner: '1000'
+    group: '1000'
+    recurse: true
+  loop:
+    - "{{ ct_kafka_path_data }}"
+  when: ct_kafka_persist_data
+
+- name: "{{ ct_kafka_task_prefix }} Create env file"
+  ansible.builtin.template:
+    src: "{{ ct_kafka_template_env }}"
+    dest: "{{ ct_kafka_path_config_file }}"
+    mode: '0644'
+
+- name: "{{ ct_kafka_task_prefix }} Create container"
+  community.docker.docker_container:
+    name: "{{ ct_kafka_ct_name }}"
+    image: "{{ ct_kafka_ct_image }}:{{ ct_kafka_ct_version }}"
+    env_file: "{{ ct_kafka_path_config_file }}"
+    restart_policy: "{{ ct_kafka_ct_restart_policy }}"
+    state: "{{ ct_kafka_ct_state }}"
+    restart: "{{ ct_kafka_ct_restart }}"
+    pull: "{{ ct_kafka_ct_pull }}"
+    recreate: "{{ ct_kafka_ct_recreate }}"
+    volumes: "{{ ct_kafka_ct_volumes }}"
+    network_mode: "{{ ct_kafka_ct_network_mode }}"
+...
