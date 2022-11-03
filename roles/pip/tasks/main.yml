@@ -1,5 +1,6 @@
 ---
-- ansible.builtin.include_role:
+- name: "{{ pip_install_task_prefix }} Install pip"
+  ansible.builtin.include_role:
     name: almaops.common.pkg
   vars:
     pkg_install_packages:
