@@ -8,6 +8,9 @@
   file:
     path: "{{ cert_item.webroot | default(certbot_webroot) }}"
     state: directory
+    owner: root
+    group: root
+    mode: '0755'
 
 - name: Generate new certificate if one doesn't exist.
   command: "{{ certbot_create_command }}"
