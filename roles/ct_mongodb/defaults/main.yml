@@ -1,0 +1,32 @@
+
+# ct_mongodb
+
+
+
+# General settings
+ct_mongodb_task_prefix: "=== CT_MONGODB ==="
+
+# Path settings
+ct_mongodb_out_path_config: "/srv/{{ ct_mongodb_name }}"
+
+# Container settings
+ct_mongodb_image: "mongo"
+# ct_mongodb_version: "..."
+# Note: The name of the MongoDB container should be exactly like this. Otherwise the deployment will fail.
+ct_mongodb_name: "mongodb"
+ct_mongodb_volumes: "{{ ct_mongodb_out_path_config }}/data/db:/data/db"
+ct_mongodb_env:
+  MONGODB_INITDB_ROOT_USERNAME: "root"
+  MONGODB_INITDB_ROOT_PASSWORD: "{{ secret_ct_mongodb_env_MONGO_INITDB_ROOT_PASSWORD }}"
+  MONGODB_ADVERTISED_HOSTNAME: "{{ ct_mongodb_name }}"
+  MONGODB_PORT_NUMBER: "27017"
+  MONGODB_REPLICA_SET_MODE: "primary"
+  MONGODB_REPLICA_SET_NAME: "rs0"
+  MONGODB_INITIAL_PRIMARY_HOST: "{{ ct_mongodb_name }}"
+  MONGODB_INITIAL_PRIMARY_PORT_NUMBER: "27017"
+  MONGODB_ENABLE_JOURNAL: "true"
+  # The value of "ALLOW_EMPTY_PASSWORD" should be exactly "yes". Otherwise the deployment will fail.
+  ALLOW_EMPTY_PASSWORD: "yes"
+ct_mongodb_ports: "27017:27017"
+ct_mongodb_restart: "false"
+ct_mongodb_restart_policy: "unless-stopped"
