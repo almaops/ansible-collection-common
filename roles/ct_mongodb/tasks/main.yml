@@ -3,13 +3,13 @@
 
 
 
-- name: "{{ ct_mongodb_task_prefix }}. Creating a '{{ ct_mongodb_name }}' container"
+- name: "{{ ct_mongodb_task_prefix }}. Creating a '{{ ct_mongodb_ct_name }}' container"
   docker_container:
-    image: "{{ ct_mongodb_image }}:{{ ct_mongodb_version }}"
-    name: "{{ ct_mongodb_name }}"
-    volumes: "{{ ct_mongodb_volumes }}"
-    env: "{{ ct_mongodb_env }}"
-    ports: "{{ ct_mongodb_ports }}"
-    restart: "{{ ct_mongodb_restart | bool }}"
-    restart_policy: "{{ ct_mongodb_restart_policy }}"
+    image: "{{ ct_mongodb_ct_image }}:{{ ct_mongodb_ct_version }}"
+    name: "{{ ct_mongodb_ct_name }}"
+    volumes: "{{ ct_mongodb_ct_volumes }}"
+    env: "{{ ct_mongodb_ct_env }}"
+    ports: "{{ ct_mongodb_ct_ports }}"
+    restart: "{{ ct_mongodb_ct_restart | bool }}"
+    restart_policy: "{{ ct_mongodb_ct_restart_policy }}"
     state: "started"
