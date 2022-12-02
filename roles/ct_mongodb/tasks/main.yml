@@ -13,3 +13,9 @@
     restart: "{{ ct_mongodb_ct_restart | bool }}"
     restart_policy: "{{ ct_mongodb_ct_restart_policy }}"
     state: "started"
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo {{ ct_mongodb_ct_bind_addr }}:{{ ct_mongodb_ct_bind_port }}/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
