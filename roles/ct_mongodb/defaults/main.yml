@@ -1,36 +1,44 @@
-
-# ct_mongodb
-
-
-
+---
 # General settings
 ct_mongodb_task_prefix: "=== CT_MONGODB ==="
 
-# Path settings
-ct_mongodb_out_path_config: "/srv/{{ ct_mongodb_ct_name }}"
+# Templates
+ct_mongodb_template_env: "mongodb.env.j2"
 
-# Container settings
-ct_mongodb_ct_image: "bitnami/mongodb"
-# ct_mongodb_ct_version: "..."
-# Note: The name of the MongoDB container should be exactly like this. Otherwise the deployment will fail.
+# Path settings - Configuration file
+ct_mongodb_path_config_base: "/etc/ct_mongodb"
+ct_mongodb_path_config_file: "{{ ct_mongodb_path_config_base }}/{{ ct_mongodb_ct_name }}.env"
+# Path settings - Data directory
+ct_mongodb_path_data_base: "/srv/ct_mongodb"
+ct_mongodb_path_data_volume: "{{ ct_mongodb_path_data_base }}/{{ ct_mongodb_ct_name }}"
+ct_mongodb_path_ct_data: "/data/db"
+
+# Network settings
+ct_mongodb_bind_addr: "127.0.0.1"
+ct_mongodb_bind_port: "27017"
+ct_mongodb_bind_ct_port: "27017"
+
+# Container settings - general
 ct_mongodb_ct_name: "mongodb"
-ct_mongodb_ct_volumes: "{{ ct_mongodb_out_path_config }}:/bitnami/mongodb"
-ct_mongodb_ct_env:
-  MONGODB_INITDB_ROOT_USERNAME: "root"
-  MONGODB_INITDB_ROOT_PASSWORD: "{{ secret_ct_mongodb_ct_env_MONGO_INITDB_ROOT_PASSWORD }}"
-  MONGODB_ADVERTISED_HOSTNAME: "{{ ct_mongodb_ct_name }}"
-  MONGODB_PORT_NUMBER: "27017"
-  MONGODB_REPLICA_SET_MODE: "primary"
-  MONGODB_REPLICA_SET_NAME: "rs0"
-  MONGODB_INITIAL_PRIMARY_HOST: "{{ ct_mongodb_ct_name }}"
-  MONGODB_INITIAL_PRIMARY_PORT_NUMBER: "27017"
-  MONGODB_ENABLE_JOURNAL: "true"
-  # The value of "ALLOW_EMPTY_PASSWORD" should be exactly "yes". Otherwise the deployment will fail.
-  ALLOW_EMPTY_PASSWORD: "yes"
-# ct_mongodb_ct_bind_addr: "127.0.0.1"
-ct_mongodb_ct_bind_port: "27017"
-ct_mongodb_ct_ports: "{{ ct_mongodb_ct_bind_addr }}:{{ ct_mongodb_ct_bind_port }}:27017"
-ct_mongodb_ct_restart: "false"
-ct_mongodb_ct_restart_policy: "unless-stopped"
-# Network if necessary.
-# ct_mongodb_network: "..."
+ct_mongodb_ct_version: "latest"
+ct_mongodb_ct_image: "mongo:{{ ct_mongodb_ct_version }}"
+ct_mongodb_ct_state: "started"
+ct_mongodb_ct_restart_policy: "always"
+ct_mongodb_ct_restart: false
+ct_mongodb_ct_pull: false
+ct_mongodb_ct_recreate: false
+ct_mongodb_ct_network_mode: "default"
+ct_mongodb_ct_networks: []
+ct_mongodb_ct_ports:
+  - "{{ ct_mongodb_bind_addr }}:{{ ct_mongodb_bind_port }}:{{ ct_mongodb_bind_ct_port }}"
+ct_mongodb_ct_ports_extra: []
+ct_mongodb_ct_volume_extra: []
+ct_mongodb_ct_volume_data:
+  - "{{ ct_mongodb_path_data_volume }}:{{ ct_mongodb_path_ct_data }}"
+ct_mongodb_ct_volumes: "{{ ct_mongodb_ct_volume_data + ct_mongodb_ct_volume_extra }}"
+
+# Environment variables
+# ct_mongodb_env_mongodb_initdb_root_username: "root"
+# ct_mongodb_env_mongodb_initdb_root_password: "changeme"
+ct_mongodb_env_extra: {}
+...

@@ -1,8 +1,4 @@
-
-# ct_mongodb
-
-
-
+---
 galaxy_info:
   author: Aleksandr Vzhesnevskiy
   role_name: ct_mongodb
@@ -16,3 +12,4 @@ galaxy_info:
   galaxy_tags:
     - mongo
 dependencies: []
+...

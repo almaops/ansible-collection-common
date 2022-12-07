@@ -1,32 +1,38 @@
-
-# ct_mongodb
-
-
-
-- name: "{{ ct_mongodb_task_prefix }}. Creating the '{{ ct_mongodb_out_path_config }}' directory"
-  file:
-    path: "{{ ct_mongodb_out_path_config }}"
+---
+- name: "{{ ct_mongodb_task_prefix }} Create config directory"
+  ansible.builtin.file:
+    path: "{{ ct_mongodb_path_config_base }}"
     state: directory
-    owner: 1001
-    recurse: true
+    mode: '0700'
+    owner: root
+    group: root
 
+- name: "{{ ct_mongodb_task_prefix }} Create env file"
+  ansible.builtin.template:
+    src: "{{ ct_mongodb_template_env }}"
+    dest: "{{ ct_mongodb_path_config_file }}"
+    owner: root
+    group: root
+    mode: '0400'
 
+- name: "{{ ct_mongodb_task_prefix }} Create data directory"
+  ansible.builtin.file:
+    path: "{{ ct_mongodb_path_data_volume }}"
+    state: directory
+    mode: '0700'
+    owner: root
+    group: root
 
-- name: "{{ ct_mongodb_task_prefix }}. Creating a '{{ ct_mongodb_ct_name }}' container"
-  docker_container:
-    image: "{{ ct_mongodb_ct_image }}:{{ ct_mongodb_ct_version }}"
+- name: "{{ ct_mongodb_task_prefix }} Provision container"
+  community.docker.docker_container:
+    env_file: "{{ ct_mongodb_path_config_file }}"
+    image: "{{ ct_mongodb_ct_image }}"
     name: "{{ ct_mongodb_ct_name }}"
-    volumes: "{{ ct_mongodb_ct_volumes }}"
-    env: "{{ ct_mongodb_ct_env }}"
     ports: "{{ ct_mongodb_ct_ports }}"
-    restart: "{{ ct_mongodb_ct_restart | bool }}"
+    pull: "{{ ct_mongodb_ct_pull }}"
+    recreate: "{{ ct_mongodb_ct_recreate }}"
     restart_policy: "{{ ct_mongodb_ct_restart_policy }}"
-    state: "started"
-    networks:
-      - name: "{{ ct_mongodb_network }}"
-    healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongo {{ ct_mongodb_ct_bind_addr }}:{{ ct_mongodb_ct_bind_port }}/test --quiet
-      interval: 10s
-      timeout: 5s
-      retries: 3
-      start_period: 60s
+    state: "{{ ct_mongodb_ct_state }}"
+    volumes: "{{ ct_mongodb_ct_volumes }}"
+    network_mode: "{{ ct_mongodb_ct_network_mode }}"
+...
