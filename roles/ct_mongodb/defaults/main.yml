@@ -10,11 +10,11 @@ ct_mongodb_task_prefix: "=== CT_MONGODB ==="
 ct_mongodb_out_path_config: "/srv/{{ ct_mongodb_ct_name }}"
 
 # Container settings
-ct_mongodb_ct_image: "mongo"
+ct_mongodb_ct_image: "bitnami/mongodb"
 # ct_mongodb_ct_version: "..."
 # Note: The name of the MongoDB container should be exactly like this. Otherwise the deployment will fail.
 ct_mongodb_ct_name: "mongodb"
-ct_mongodb_ct_volumes: "{{ ct_mongodb_out_path_config }}/data/db:/data/db"
+ct_mongodb_ct_volumes: "{{ ct_mongodb_out_path_config }}:/bitnami/mongodb"
 ct_mongodb_ct_env:
   MONGODB_INITDB_ROOT_USERNAME: "root"
   MONGODB_INITDB_ROOT_PASSWORD: "{{ secret_ct_mongodb_ct_env_MONGO_INITDB_ROOT_PASSWORD }}"
@@ -32,3 +32,5 @@ ct_mongodb_ct_bind_port: "27017"
 ct_mongodb_ct_ports: "{{ ct_mongodb_ct_bind_addr }}:{{ ct_mongodb_ct_bind_port }}:27017"
 ct_mongodb_ct_restart: "false"
 ct_mongodb_ct_restart_policy: "unless-stopped"
+# Network if necessary.
+# ct_mongodb_network: "..."

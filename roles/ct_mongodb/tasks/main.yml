@@ -3,6 +3,15 @@
 
 
 
+- name: "{{ ct_mongodb_task_prefix }}. Creating the '{{ ct_mongodb_out_path_config }}' directory"
+  file:
+    path: "{{ ct_mongodb_out_path_config }}"
+    state: directory
+    owner: 1001
+    recurse: true
+
+
+
 - name: "{{ ct_mongodb_task_prefix }}. Creating a '{{ ct_mongodb_ct_name }}' container"
   docker_container:
     image: "{{ ct_mongodb_ct_image }}:{{ ct_mongodb_ct_version }}"
@@ -13,6 +22,8 @@
     restart: "{{ ct_mongodb_ct_restart | bool }}"
     restart_policy: "{{ ct_mongodb_ct_restart_policy }}"
     state: "started"
+    networks:
+      - name: "{{ ct_mongodb_network }}"
     healthcheck:
       test: echo 'db.runCommand("ping").ok' | mongo {{ ct_mongodb_ct_bind_addr }}:{{ ct_mongodb_ct_bind_port }}/test --quiet
       interval: 10s
