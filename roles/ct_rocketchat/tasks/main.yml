@@ -33,7 +33,7 @@
     pull: "{{ ct_rocketchat_ct_pull }}"
     recreate: "{{ ct_rocketchat_ct_recreate }}"
     restart_policy: "{{ ct_rocketchat_ct_restart_policy }}"
-    restart: "{{ ct_mongodb_ct_restart }}"
+    restart: "{{ ct_rocketchat_ct_restart }}"
     state: "{{ ct_rocketchat_ct_state }}"
     network_mode: "{{ ct_rocketchat_ct_network_mode }}"
     healthcheck:

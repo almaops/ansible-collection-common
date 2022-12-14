@@ -36,16 +36,16 @@ ct_rocketchat_ct_ports_extra: []
 ct_rocketchat_ct_pull: "false"
 ct_rocketchat_ct_recreate: "false"
 ct_rocketchat_ct_restart_policy: "always"
-ct_mongodb_ct_restart: "false"
+ct_rocketchat_ct_restart: "false"
 ct_rocketchat_ct_state: "started"
 # ct_rocketchat_ct_network_mode: "default"
-ct_mongodb_ct_networks: []
+ct_rocketchat_ct_networks: []
 
 # Environment variables
 # ct_rocketchat_env_port: "3000"
 # ct_rocketchat_env_root_url: "https://rocketchat.company.ru"
-ct_rocketchat_env_mongo_url: "mongodb://{{ ct_mongodb_ct_name }}:{{ ct_mongodb_bind_port }}/rocketchat?replicaSet=rs0"
-ct_rocketchat_env_mongo_oplog_url: "mongodb://{{ ct_mongodb_ct_name }}:{{ ct_mongodb_bind_port }}/local?replicaSet=rs0"
+ct_rocketchat_env_mongo_url: "mongodb://{{ ct_mongodb_ct_name }}:{{ ct_bitnami_mongodb_bind_port }}/rocketchat?replicaSet=rs0"
+ct_rocketchat_env_mongo_oplog_url: "mongodb://{{ ct_mongodb_ct_name }}:{{ ct_bitnami_mongodb_bind_port }}/local?replicaSet=rs0"
 ct_rocketchat_env_deploy_method: "docker"
 ct_rocketchat_env_accounts_usednsdomaincheck: "false"
 ct_rocketchat_env_extra: {}
