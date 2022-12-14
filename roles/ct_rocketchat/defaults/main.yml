@@ -13,6 +13,7 @@ ct_rocketchat_path_config_file: "{{ ct_rocketchat_path_config_base }}/{{ ct_rock
 # Path settings - Data directory
 ct_rocketchat_path_data_base: "/srv/ct_rocketchat"
 ct_rocketchat_path_data_volume: "{{ ct_rocketchat_path_data_base }}/{{ ct_rocketchat_ct_name }}"
+ct_rocketchat_path_data: "/app"
 ct_rocketchat_path_ct_data: "/app"
 
 # Network settings
@@ -25,8 +26,8 @@ ct_rocketchat_path_ct_data: "/app"
 ct_rocketchat_ct_image: "rocket.chat:{{ ct_rocketchat_ct_version }}"
 ct_rocketchat_ct_name: "rocket.chat-{{ ct_rocketchat_ct_version }}"
 ct_rocketchat_ct_volume_data:
-  - "{{ ct_rocketchat_path_data_volume }}/{{ ct_rocketchat_path_ct_data }}/marketplace:{{ ct_rocketchat_path_ct_data }}/marketplace"
-  - "{{ ct_rocketchat_path_data_volume }}/{{ ct_rocketchat_path_ct_data }}/uploads:{{ ct_rocketchat_path_ct_data }}/uploads"
+  - "{{ ct_rocketchat_path_data_volume }}/{{ ct_rocketchat_path_data }}/marketplace:{{ ct_rocketchat_path_ct_data }}/marketplace"
+  - "{{ ct_rocketchat_path_data_volume }}/{{ ct_rocketchat_path_data }}/uploads:{{ ct_rocketchat_path_ct_data }}/uploads"
 ct_rocketchat_ct_volume_extra: []
 ct_rocketchat_ct_volumes: "{{ ct_rocketchat_ct_volume_data + ct_rocketchat_ct_volume_extra }}"
 ct_rocketchat_ct_ports:
