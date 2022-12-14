@@ -44,8 +44,8 @@ ct_rocketchat_ct_networks: []
 # Environment variables
 # ct_rocketchat_env_port: "3000"
 # ct_rocketchat_env_root_url: "https://rocketchat.company.ru"
-ct_rocketchat_env_mongo_url: "mongodb://{{ ct_mongodb_ct_name }}:{{ ct_bitnami_mongodb_bind_port }}/rocketchat?replicaSet=rs0"
-ct_rocketchat_env_mongo_oplog_url: "mongodb://{{ ct_mongodb_ct_name }}:{{ ct_bitnami_mongodb_bind_port }}/local?replicaSet=rs0"
+ct_rocketchat_env_mongo_url: "mongodb://{{ ct_bitnami_mongodb_ct_name }}:{{ ct_bitnami_mongodb_bind_port }}/rocketchat?replicaSet=rs0"
+ct_rocketchat_env_mongo_oplog_url: "mongodb://{{ ct_bitnami_mongodb_ct_name }}:{{ ct_bitnami_mongodb_bind_port }}/local?replicaSet=rs0"
 ct_rocketchat_env_deploy_method: "docker"
 ct_rocketchat_env_accounts_usednsdomaincheck: "false"
 ct_rocketchat_env_extra: {}
