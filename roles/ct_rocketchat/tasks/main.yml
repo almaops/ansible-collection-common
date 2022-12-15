@@ -2,26 +2,26 @@
 - name: "{{ ct_rocketchat_task_prefix }} Create config directory"
   ansible.builtin.file:
     path: "{{ ct_rocketchat_path_config_base }}"
-    state: directory
-    mode: '0700'
-    owner: root
-    group: root
+    state: "directory"
+    owner: "root"
+    group: "root"
+    mode: "0700"
 
 - name: "{{ ct_rocketchat_task_prefix }} Create env file"
   ansible.builtin.template:
     src: "{{ ct_rocketchat_template_env }}"
     dest: "{{ ct_rocketchat_path_config_file }}"
-    owner: root
-    group: root
-    mode: '0400'
+    owner: "root"
+    group: "root"
+    mode: "0400"
 
 - name: "{{ ct_rocketchat_task_prefix }} Create data directory"
   ansible.builtin.file:
     path: "{{ ct_rocketchat_path_data_volume }}"
-    state: directory
-    mode: '0700'
-    owner: root
-    group: root
+    state: "directory"
+    owner: "root"
+    group: "root"
+    mode: "0700"
 
 - name: "{{ ct_rocketchat_task_prefix }} Provision container"
   community.docker.docker_container:
