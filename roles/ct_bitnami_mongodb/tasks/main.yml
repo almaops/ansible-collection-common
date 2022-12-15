@@ -1,0 +1,40 @@
+---
+- name: "{{ ct_bitnami_mongodb_task_prefix }} Create config directory"
+  ansible.builtin.file:
+    path: "{{ ct_bitnami_mongodb_path_config_base }}"
+    state: "directory"
+    owner: "root"
+    group: "root"
+    mode: "0700"
+
+- name: "{{ ct_bitnami_mongodb_task_prefix }} Create env file"
+  ansible.builtin.template:
+    src: "{{ ct_bitnami_mongodb_template_env }}"
+    dest: "{{ ct_bitnami_mongodb_path_config_file }}"
+    owner: "root"
+    group: "root"
+    mode: "0400"
+
+- name: "{{ ct_bitnami_mongodb_task_prefix }} Create data directory"
+  ansible.builtin.file:
+    path: "{{ ct_bitnami_mongodb_path_data_volume }}"
+    state: "directory"
+    owner: "{{ ct_bitnami_mongodb_path_data_volume_owner }}"
+    group: "root"
+    mode: "0700"
+    recurse: "true"
+
+- name: "{{ ct_bitnami_mongodb_task_prefix }} Provision container"
+  community.docker.docker_container:
+    image: "{{ ct_bitnami_mongodb_ct_image }}"
+    name: "{{ ct_bitnami_mongodb_ct_name }}"
+    volumes: "{{ ct_bitnami_mongodb_ct_volumes }}"
+    env_file: "{{ ct_bitnami_mongodb_path_config_file }}"
+    ports: "{{ ct_bitnami_mongodb_ct_ports }}"
+    pull: "{{ ct_bitnami_mongodb_ct_pull }}"
+    recreate: "{{ ct_bitnami_mongodb_ct_recreate }}"
+    restart_policy: "{{ ct_bitnami_mongodb_ct_restart_policy }}"
+    restart: "{{ ct_bitnami_mongodb_ct_restart }}"
+    state: "{{ ct_bitnami_mongodb_ct_state }}"
+    network_mode: "{{ ct_bitnami_mongodb_ct_network_mode }}"
+...
