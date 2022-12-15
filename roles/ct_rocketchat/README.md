@@ -13,6 +13,7 @@ Please refer to [defaults/main.yml](./defaults/main.yml) for full list of availa
 - nginx.
 
 # Example playbook
+
 ```
 - name: Deployment of the Rocket.Chat
   hosts: almaops.common.ct_rocketchat
