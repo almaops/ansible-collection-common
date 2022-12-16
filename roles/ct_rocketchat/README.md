@@ -9,8 +9,7 @@ Docker and docker-py must be installed on the target host.
 Please refer to [defaults/main.yml](./defaults/main.yml) for full list of available variables. 
 
 # Dependencies
-- almaops.common.ct_bitnami_mongodb;
-- nginx.
+None
 
 # Example playbook
 

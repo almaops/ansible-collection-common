@@ -13,21 +13,26 @@ ct_rocketchat_path_config_file: "{{ ct_rocketchat_path_config_base }}/{{ ct_rock
 # Path settings - Data directory
 ct_rocketchat_path_data_base: "/srv/ct_rocketchat"
 ct_rocketchat_path_data_volume: "{{ ct_rocketchat_path_data_base }}/{{ ct_rocketchat_ct_name }}"
-ct_rocketchat_path_data: "/app"
-ct_rocketchat_path_ct_data: "/app"
+ct_rocketchat_path_data_marketplace: "{{ ct_rocketchat_path_data_volume }}/app/marketplace"
+ct_rocketchat_path_data_uploads: "{{ ct_rocketchat_path_data_volume }}/app/uploads"
+ct_rocketchat_path_ct_data_marketplace: "/app/marketplace"
+ct_rocketchat_path_ct_data_uploads: "/app/uploads"
+ct_rocketchat_path_data_base_owner: "999"
+ct_rocketchat_path_data_base_group: "999"
 
 # Network settings
-# ct_rocketchat_bind_addr: "127.0.0.1"
-# ct_rocketchat_bind_port: "3000"
-# ct_rocketchat_bind_ct_port: "3000"
+ct_rocketchat_bind_addr: "127.0.0.1"
+ct_rocketchat_bind_port: "3000"
+ct_rocketchat_bind_ct_port: "3000"
 
 # Container settings - general
 # ct_rocketchat_ct_version: "latest"
 ct_rocketchat_ct_image: "rocket.chat:{{ ct_rocketchat_ct_version }}"
-ct_rocketchat_ct_name: "rocket.chat-{{ ct_rocketchat_ct_version }}"
+ct_rocketchat_ct_name: "rocket.chat"
 ct_rocketchat_ct_volume_data:
-  - "{{ ct_rocketchat_path_data_volume }}/{{ ct_rocketchat_path_data }}/marketplace:{{ ct_rocketchat_path_ct_data }}/marketplace"
-  - "{{ ct_rocketchat_path_data_volume }}/{{ ct_rocketchat_path_data }}/uploads:{{ ct_rocketchat_path_ct_data }}/uploads"
+  - "{{ ct_rocketchat_path_data_marketplace }}:{{ ct_rocketchat_path_ct_data_marketplace }}"
+  - "{{ ct_rocketchat_path_data_uploads }}/{{ ct_rocketchat_path_ct_data_uploads }}"
+
 ct_rocketchat_ct_volume_extra: []
 ct_rocketchat_ct_volumes: "{{ ct_rocketchat_ct_volume_data + ct_rocketchat_ct_volume_extra }}"
 ct_rocketchat_ct_ports:
@@ -40,12 +45,15 @@ ct_rocketchat_ct_restart: "false"
 ct_rocketchat_ct_state: "started"
 # ct_rocketchat_ct_network_mode: "default"
 ct_rocketchat_ct_networks: []
+# ct_rocketchat_mongodb_addr: "{{ ct_bitnami_mongodb_ct_name }}"
+# ct_rocketchat_mongodb_bind_port: "{{ ct_bitnami_mongodb_bind_port }}"
+# ct_rocketchat_mongodb_replica_set_name: "{{ ct_bitnami_mongodb_env_mongodb_replica_set_name }}"
 
 # Environment variables
 # ct_rocketchat_env_port: "3000"
 # ct_rocketchat_env_root_url: "https://rocketchat.company.ru"
-ct_rocketchat_env_mongo_url: "mongodb://{{ ct_bitnami_mongodb_ct_name }}:{{ ct_bitnami_mongodb_bind_port }}/rocketchat?replicaSet={{ ct_bitnami_mongodb_env_mongodb_replica_set_name }}"
-ct_rocketchat_env_mongo_oplog_url: "mongodb://{{ ct_bitnami_mongodb_ct_name }}:{{ ct_bitnami_mongodb_bind_port }}/local?replicaSet={{ ct_bitnami_mongodb_env_mongodb_replica_set_name }}"
+ct_rocketchat_env_mongo_url: "mongodb://{{ ct_rocketchat_mongodb_addr }}:{{ ct_rocketchat_mongodb_bind_port }}/rocketchat?replicaSet={{ ct_rocketchat_mongodb_replica_set_name }}"
+ct_rocketchat_env_mongo_oplog_url: "mongodb://{{ ct_rocketchat_mongodb_addr }}:{{ ct_rocketchat_mongodb_bind_port }}/local?replicaSet={{ ct_rocketchat_mongodb_replica_set_name }}"
 ct_rocketchat_env_deploy_method: "docker"
 ct_rocketchat_env_accounts_usednsdomaincheck: "false"
 ct_rocketchat_env_extra: {}

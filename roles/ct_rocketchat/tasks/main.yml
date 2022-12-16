@@ -68,8 +68,8 @@
   file:
     path: "{{ ct_rocketchat_path_data_base }}"
     state: directory
-    recurse: yes
-    mode: 0744
-    owner: 999
-    group: 999
+    recurse: "yes"
+    mode: "0744"
+    owner: "{{ ct_rocketchat_path_data_base_owner }}"
+    group: "{{ ct_rocketchat_path_data_base_group }}"
 ...
