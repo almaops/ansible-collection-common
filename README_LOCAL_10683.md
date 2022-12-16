@@ -31,12 +31,9 @@ Configuration of cron jobs. Please consult with role's [README](./roles/cron/REA
 
 ### almaops.common.ct_mongodb
 Deployment a MongoDB container based on the official docker image (https://hub.docker.com/_/mongo). Please consult with role's [README](./roles/ct_mongodb/README.md)
-<<<<<<< HEAD
 
 ### almaops.common.ct_rocketchat
 Deployment a Rocket.Chat container based on the official docker image (https://hub.docker.com/_/rocket-chat). Please consult with role's [README](./roles/ct_rocketchat/README.md)
-=======
->>>>>>> origin/master
 
 ### almaops.common.docker
 Installation/configuration for Docker daemon and Docker client userspace configuration. Please consult with role's [README](./roles/pip/README.md)
@@ -46,17 +43,10 @@ Flushing Ansible handlers between other roles. Please consult with role's [READM
 
 ### almaops.common.pip
 Python pip packages installation. Please consult with role's [README](./roles/pip/README.md)
-<<<<<<< HEAD
 
 ### almaops.common.pkg
 Packages installation. Please consult with role's [README](./roles/pkg/README.md)
 
-=======
-
-### almaops.common.pkg
-Packages installation. Please consult with role's [README](./roles/pkg/README.md)
-
->>>>>>> origin/master
 ### almaops.common.systemd
 Manipulating systemd services between other roles. Please consult with role's [README](./roles/systemd/README.md)
 

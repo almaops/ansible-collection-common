@@ -1,0 +1,15 @@
+---
+galaxy_info:
+  author: Aleksandr Vzhesnevskiy
+  role_name: ct_mongodb
+  description: The role was created based on the "mongo" docker image from https://hub.docker.com
+  license: MIT
+  min_ansible_version: "2.12"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - jammy
+  galaxy_tags:
+    - mongo
+dependencies: []
+...
