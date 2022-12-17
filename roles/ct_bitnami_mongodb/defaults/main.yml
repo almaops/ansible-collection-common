@@ -16,14 +16,13 @@ ct_bitnami_mongodb_path_data_volume_owner: "1001"
 ct_bitnami_mongodb_path_ct_data: "/bitnami/mongodb"
 
 # Network settings
-# ct_bitnami_mongodb_bind_addr: "127.0.0.1"
-# ct_bitnami_mongodb_bind_port: "27017"
-# ct_bitnami_mongodb_bind_ct_port: "27017"
+ct_bitnami_mongodb_bind_addr: "127.0.0.1"
+ct_bitnami_mongodb_bind_port: "27017"
+ct_bitnami_mongodb_bind_ct_port: "27017"
 
 # Container settings - general
 # ct_bitnami_mongodb_ct_version: "latest"
 ct_bitnami_mongodb_ct_image: "bitnami/mongodb:{{ ct_bitnami_mongodb_ct_version }}"
-# Note: The name of the MongoDB container should be exactly like this. Otherwise the deployment will fail.
 ct_bitnami_mongodb_ct_name: "mongodb"
 ct_bitnami_mongodb_ct_volume_data:
   - "{{ ct_bitnami_mongodb_path_data_volume }}:{{ ct_bitnami_mongodb_path_ct_data }}"
@@ -37,7 +36,7 @@ ct_bitnami_mongodb_ct_recreate: "false"
 ct_bitnami_mongodb_ct_restart_policy: "always"
 ct_bitnami_mongodb_ct_restart: "false"
 ct_bitnami_mongodb_ct_state: "started"
-# ct_bitnami_mongodb_ct_network_mode: "default"
+ct_bitnami_mongodb_ct_network_mode: "default"
 ct_mongodb_ct_networks: []
 
 # Environment variables
@@ -50,7 +49,6 @@ ct_bitnami_mongodb_env_mongodb_replica_set_name: "rs0"
 ct_bitnami_mongodb_env_mongodb_initial_primary_host: "{{ ct_bitnami_mongodb_ct_name }}"
 ct_bitnami_mongodb_env_mongodb_initial_primary_port_number: "{{ ct_bitnami_mongodb_bind_ct_port }}"
 ct_bitnami_mongodb_env_mongodb_enable_journal: "true"
-# The value of "ct_bitnami_mongodb_env_allow_empty_password" should be exactly "yes". Otherwise the deployment will fail.
 ct_bitnami_mongodb_env_allow_empty_password: "yes"
 ct_bitnami_mongodb_env_extra: {}
 ...
