@@ -29,6 +29,9 @@ collections:
 ### almaops.common.cron
 Configuration of cron jobs. Please consult with role's [README](./roles/cron/README.md)
 
+### almaops.common.ct_bitnami_mongodb
+Deployment of the "MongoDB" container based on the "bitnami/mongodb" docker image from VMWare (https://hub.docker.com/r/bitnami/mongodb). Please consult with role's [README](./roles/ct_bitnami_mongodb/README.md)
+
 ### almaops.common.ct_mongodb
 Deployment a MongoDB container based on the official docker image (https://hub.docker.com/_/mongo). Please consult with role's [README](./roles/ct_mongodb/README.md)
 
