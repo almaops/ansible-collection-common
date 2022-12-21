@@ -55,7 +55,7 @@ ct_rocketchat_env_mongo_url: "mongodb://{{ ct_rocketchat_mongodb_addr }}:{{ ct_r
 ct_rocketchat_env_mongo_oplog_url: "mongodb://{{ ct_rocketchat_mongodb_addr }}:{{ ct_rocketchat_mongodb_bind_port }}/local?replicaSet={{ ct_rocketchat_mongodb_replica_set_name }}"
 ct_rocketchat_env_deploy_method: "docker"
 ct_rocketchat_env_accounts_usednsdomaincheck: "false"
-# ct_rocketchat_env_overwrite_setting_ldap_enable: "true"
+ct_rocketchat_env_overwrite_setting_ldap_enable: "false"
 # ct_rocketchat_env_overwrite_setting_ldap_host: "192.168.50.5"
 # ct_rocketchat_env_overwrite_setting_ldap_port: "389"
 # ct_rocketchat_env_overwrite_setting_ldap_reconnect: "true"
