@@ -31,7 +31,7 @@ ct_rocketchat_ct_image: "rocket.chat:{{ ct_rocketchat_ct_version }}"
 ct_rocketchat_ct_name: "rocket.chat"
 ct_rocketchat_ct_volume_data:
   - "{{ ct_rocketchat_path_data_marketplace }}:{{ ct_rocketchat_path_ct_data_marketplace }}"
-  - "{{ ct_rocketchat_path_data_uploads }}/{{ ct_rocketchat_path_ct_data_uploads }}"
+  - "{{ ct_rocketchat_path_data_uploads }}:{{ ct_rocketchat_path_ct_data_uploads }}"
 
 ct_rocketchat_ct_volume_extra: []
 ct_rocketchat_ct_volumes: "{{ ct_rocketchat_ct_volume_data + ct_rocketchat_ct_volume_extra }}"
@@ -45,16 +45,29 @@ ct_rocketchat_ct_restart: "false"
 ct_rocketchat_ct_state: "started"
 # ct_rocketchat_ct_network_mode: "default"
 ct_rocketchat_ct_networks: []
-# ct_rocketchat_mongodb_addr: "{{ ct_bitnami_mongodb_ct_name }}"
-# ct_rocketchat_mongodb_bind_port: "{{ ct_bitnami_mongodb_bind_port }}"
-# ct_rocketchat_mongodb_replica_set_name: "{{ ct_bitnami_mongodb_env_mongodb_replica_set_name }}"
+ct_rocketchat_mongodb_addr: "mongodb"
+ct_rocketchat_mongodb_bind_port: "27017"
+ct_rocketchat_mongodb_replica_set_name: "rs0"
 
 # Environment variables
 # ct_rocketchat_env_port: "3000"
-# ct_rocketchat_env_root_url: "https://rocketchat.company.ru"
+# ct_rocketchat_env_root_url: "https://rocketchat.example.com"
 ct_rocketchat_env_mongo_url: "mongodb://{{ ct_rocketchat_mongodb_addr }}:{{ ct_rocketchat_mongodb_bind_port }}/rocketchat?replicaSet={{ ct_rocketchat_mongodb_replica_set_name }}"
 ct_rocketchat_env_mongo_oplog_url: "mongodb://{{ ct_rocketchat_mongodb_addr }}:{{ ct_rocketchat_mongodb_bind_port }}/local?replicaSet={{ ct_rocketchat_mongodb_replica_set_name }}"
 ct_rocketchat_env_deploy_method: "docker"
 ct_rocketchat_env_accounts_usednsdomaincheck: "false"
+# ct_rocketchat_env_overwrite_setting_ldap_enable: "true"
+# ct_rocketchat_env_overwrite_setting_ldap_host: "192.168.50.5"
+# ct_rocketchat_env_overwrite_setting_ldap_port: "389"
+# ct_rocketchat_env_overwrite_setting_ldap_reconnect: "true"
+# ct_rocketchat_env_overwrite_setting_ldap_authentication: "true"
+# ct_rocketchat_env_overwrite_setting_ldap_authentication_userdn: "CN=CNname,OU=OUname,DC=example,DC=com"
+# ct_rocketchat_env_overwrite_setting_ldap_authentication_password: "changeme"
+# ct_rocketchat_env_overwrite_setting_ldap_basedn: "OU=OUname,DC=example,DC=com"
+# ct_rocketchat_env_overwrite_setting_ldap_user_search_filter: "(objectclass=*)"
+# ct_rocketchat_env_overwrite_setting_ldap_user_search_scope: "sub"
+# ct_rocketchat_env_overwrite_setting_ldap_user_search_field: "sAMAccountName"
+# ct_rocketchat_env_overwrite_setting_ldap_default_domain: "example.com"
+# ct_rocketchat_env_overwrite_setting_ldap_username_field: "sAMAccountName"
 ct_rocketchat_env_extra: {}
 ...

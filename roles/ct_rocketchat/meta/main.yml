@@ -2,7 +2,7 @@
 galaxy_info:
   author: Aleksandr Vzhesnevskiy
   role_name: ct_rocketchat
-  description: Corporate chat of the company "{{ ct_rocketchat_company_name }}". The role was created based on the "rocket.chat" docker image from https://hub.docker.com
+  description: Role deploys a Rocket.Chat container from official Docker Hub image
   license: MIT
   min_ansible_version: "2.12"
   platforms:
