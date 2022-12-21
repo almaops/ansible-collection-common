@@ -1,6 +1,5 @@
 ---
 # General settings
-# ct_rocketchat_company_name: "..."
 ct_rocketchat_task_prefix: "=== CT_ROCKETCHAT ==="
 
 # Templates
