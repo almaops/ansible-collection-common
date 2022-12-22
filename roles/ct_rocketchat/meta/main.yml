@@ -1,0 +1,15 @@
+---
+galaxy_info:
+  author: Aleksandr Vzhesnevskiy
+  role_name: ct_rocketchat
+  description: Role deploys a Rocket.Chat container from official Docker Hub image
+  license: MIT
+  min_ansible_version: "2.12"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - jammy
+  galaxy_tags:
+    - rocket.chat
+dependencies: []
+...
