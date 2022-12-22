@@ -1,0 +1,75 @@
+---
+- name: "{{ ct_rocketchat_task_prefix }} Create config directory"
+  ansible.builtin.file:
+    path: "{{ ct_rocketchat_path_config_base }}"
+    state: "directory"
+    owner: "root"
+    group: "root"
+    mode: "0700"
+
+- name: "{{ ct_rocketchat_task_prefix }} Create env file"
+  ansible.builtin.template:
+    src: "{{ ct_rocketchat_template_env }}"
+    dest: "{{ ct_rocketchat_path_config_file }}"
+    owner: "root"
+    group: "root"
+    mode: "0400"
+
+- name: "{{ ct_rocketchat_task_prefix }} Create data directory"
+  ansible.builtin.file:
+    path: "{{ ct_rocketchat_path_data_volume }}"
+    state: "directory"
+    owner: "root"
+    group: "root"
+    mode: "0700"
+
+- name: "{{ ct_rocketchat_task_prefix }} Provision container"
+  community.docker.docker_container:
+    image: "{{ ct_rocketchat_ct_image }}"
+    name: "{{ ct_rocketchat_ct_name }}"
+    volumes: "{{ ct_rocketchat_ct_volumes }}"
+    env_file: "{{ ct_rocketchat_path_config_file }}"
+    ports: "{{ ct_rocketchat_ct_ports }}"
+    pull: "{{ ct_rocketchat_ct_pull }}"
+    recreate: "{{ ct_rocketchat_ct_recreate }}"
+    restart_policy: "{{ ct_rocketchat_ct_restart_policy }}"
+    restart: "{{ ct_rocketchat_ct_restart }}"
+    state: "{{ ct_rocketchat_ct_state }}"
+    network_mode: "{{ ct_rocketchat_ct_network_mode }}"
+    healthcheck:
+      test: >
+         /usr/local/bin/node -e '
+         const http = require("http");
+         const options = {
+           host: "localhost",
+           port: "{{ ct_rocketchat_bind_port }}",
+           path: "/api/info",
+           timeout: 2000
+         };
+         const healthCheck = http.request(options, (res) => {
+           console.log(`HEALTHCHECK STATUS: $${res.statusCode}`);
+           if (res.statusCode == 200) {
+             process.exit(0);
+           } else {
+             process.exit(1);
+           }
+         });
+         healthCheck.on("error", function (err) {
+           console.error("ERROR");
+           process.exit(1);
+         });
+         healthCheck.end();'
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+
+- name: "{{ ct_rocketchat_task_prefix }}. Recursively change ownership and mode for the '{{ ct_rocketchat_path_data_base }}' directory"
+  file:
+    path: "{{ ct_rocketchat_path_data_base }}"
+    state: directory
+    recurse: "yes"
+    mode: "0744"
+    owner: "{{ ct_rocketchat_path_data_base_owner }}"
+    group: "{{ ct_rocketchat_path_data_base_group }}"
+...
