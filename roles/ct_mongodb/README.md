@@ -12,7 +12,10 @@ Please refer to [defaults/main.yml](./defaults/main.yml) for full list of availa
 None
 
 # Example playbook
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
 ```
 - name: Deployment of the MongoDB
   hosts: almaops.common.ct_mongodb

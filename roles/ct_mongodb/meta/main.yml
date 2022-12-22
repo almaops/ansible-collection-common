@@ -2,7 +2,11 @@
 galaxy_info:
   author: Aleksandr Vzhesnevskiy
   role_name: ct_mongodb
+<<<<<<< HEAD
   description: Role deploys a MongoDB container from Docker Hub image
+=======
+  description: The role was created based on the "mongo" docker image from https://hub.docker.com
+>>>>>>> origin/master
   license: MIT
   min_ansible_version: "2.12"
   platforms:
@@ -10,6 +14,10 @@ galaxy_info:
       versions:
         - jammy
   galaxy_tags:
+<<<<<<< HEAD
     - mongodb
+=======
+    - mongo
+>>>>>>> origin/master
 dependencies: []
 ...

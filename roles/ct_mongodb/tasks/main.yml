@@ -2,22 +2,36 @@
 - name: "{{ ct_mongodb_task_prefix }} Create config directory"
   ansible.builtin.file:
     path: "{{ ct_mongodb_path_config_base }}"
+<<<<<<< HEAD
     state: "directory"
     owner: "root"
     group: "root"
     mode: "0700"
+=======
+    state: directory
+    mode: '0700'
+    owner: root
+    group: root
+>>>>>>> origin/master
 
 - name: "{{ ct_mongodb_task_prefix }} Create env file"
   ansible.builtin.template:
     src: "{{ ct_mongodb_template_env }}"
     dest: "{{ ct_mongodb_path_config_file }}"
+<<<<<<< HEAD
     owner: "root"
     group: "root"
     mode: "0400"
+=======
+    owner: root
+    group: root
+    mode: '0400'
+>>>>>>> origin/master
 
 - name: "{{ ct_mongodb_task_prefix }} Create data directory"
   ansible.builtin.file:
     path: "{{ ct_mongodb_path_data_volume }}"
+<<<<<<< HEAD
     state: "directory"
     owner: "{{ ct_mongodb_path_data_volume_owner }}"
     group: "root"
@@ -30,11 +44,28 @@
     name: "{{ ct_mongodb_ct_name }}"
     volumes: "{{ ct_mongodb_ct_volumes }}"
     env_file: "{{ ct_mongodb_path_config_file }}"
+=======
+    state: directory
+    mode: '0700'
+    owner: root
+    group: root
+
+- name: "{{ ct_mongodb_task_prefix }} Provision container"
+  community.docker.docker_container:
+    env_file: "{{ ct_mongodb_path_config_file }}"
+    image: "{{ ct_mongodb_ct_image }}"
+    name: "{{ ct_mongodb_ct_name }}"
+>>>>>>> origin/master
     ports: "{{ ct_mongodb_ct_ports }}"
     pull: "{{ ct_mongodb_ct_pull }}"
     recreate: "{{ ct_mongodb_ct_recreate }}"
     restart_policy: "{{ ct_mongodb_ct_restart_policy }}"
+<<<<<<< HEAD
     restart: "{{ ct_mongodb_ct_restart }}"
     state: "{{ ct_mongodb_ct_state }}"
+=======
+    state: "{{ ct_mongodb_ct_state }}"
+    volumes: "{{ ct_mongodb_ct_volumes }}"
+>>>>>>> origin/master
     network_mode: "{{ ct_mongodb_ct_network_mode }}"
 ...
