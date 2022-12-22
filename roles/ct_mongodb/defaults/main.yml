@@ -12,8 +12,8 @@ ct_mongodb_path_config_file: "{{ ct_mongodb_path_config_base }}/{{ ct_mongodb_ct
 # Path settings - Data directory
 ct_mongodb_path_data_base: "/srv/ct_mongodb"
 ct_mongodb_path_data_volume: "{{ ct_mongodb_path_data_base }}/{{ ct_mongodb_ct_name }}"
-#ct_mongodb_path_data_volume_owner: "1001"
-#ct_mongodb_path_ct_data_dbms_dir: "/bitnami/mongodb"
+# ct_mongodb_path_data_volume_owner: "1001"
+# ct_mongodb_path_ct_data_dbms_dir: "/bitnami/mongodb"
 ct_mongodb_path_ct_data: "{{ ct_mongodb_path_ct_data_dbms_dir }}"
 
 # Network settings
@@ -23,7 +23,7 @@ ct_mongodb_bind_ct_port: "27017"
 
 # Container settings - general
 # ct_mongodb_ct_version: "latest"
-#ct_mongodb_ct_image: "bitnami/mongodb:{{ ct_mongodb_ct_version }}"
+# ct_mongodb_ct_image: "bitnami/mongodb:{{ ct_mongodb_ct_version }}"
 ct_mongodb_ct_name: "mongodb"
 ct_mongodb_ct_volume_data:
   - "{{ ct_mongodb_path_data_volume }}:{{ ct_mongodb_path_ct_data }}"
