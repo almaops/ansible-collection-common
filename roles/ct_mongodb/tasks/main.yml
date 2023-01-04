@@ -5,7 +5,7 @@
     state: "directory"
     owner: "root"
     group: "root"
-    mode: "0700"
+    mode: "0400"
 
 - name: "{{ ct_mongodb_task_prefix }} Create env file"
   ansible.builtin.template:
