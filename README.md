@@ -30,7 +30,13 @@ collections:
 Configuration of cron jobs. Please consult with role's [README](./roles/cron/README.md)
 
 ### almaops.common.ct_mongodb
-Deployment a MongoDB container based on the official docker image (https://hub.docker.com/_/mongo). Please consult with role's [README](./roles/ct_mongodb/README.md)
+Role deploys a MongoDB container from Docker Hub image. Please consult with role's [README](./roles/ct_mongodb/README.md)
+
+### almaops.common.ct_rocketchat
+Deployment a Rocket.Chat container based on the official docker image (https://hub.docker.com/_/rocket-chat). Please consult with role's [README](./roles/ct_rocketchat/README.md)
+
+### almaops.common.ct_kafka_ui
+Deployment for Kafka UI container. [README](./roles/ct_kafka_ui/README.md)
 
 ### almaops.common.ct_rocketchat
 Deployment a Rocket.Chat container based on the official docker image (https://hub.docker.com/_/rocket-chat). Please consult with role's [README](./roles/ct_rocketchat/README.md)

@@ -1,0 +1,14 @@
+---
+- name: "{{ ct_kafka_ui_task_prefix }} Provision container"
+  community.docker.docker_container:
+    env: "{{ ct_kafka_ui_ct_env }}"
+    image: "{{ ct_kafka_ui_ct_image }}"
+    name: "{{ ct_kafka_ui_ct_name }}"
+    ports: "{{ ct_kafka_ui_ct_ports }}"
+    pull: "{{ ct_kafka_ui_ct_pull }}"
+    recreate: "{{ ct_kafka_ui_ct_recreate }}"
+    restart_policy: "{{ ct_kafka_ui_ct_restart_policy }}"
+    state: "{{ ct_kafka_ui_ct_state }}"
+    volumes: "{{ ct_kafka_ui_ct_volumes }}"
+    network_mode: "{{ ct_kafka_ui_ct_network_mode }}"
+...
