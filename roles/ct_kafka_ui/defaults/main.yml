@@ -1,0 +1,24 @@
+---
+ct_kafka_ui_task_prefix: "=== KAFKA UI CT ==="
+
+# Network settings
+ct_kafka_ui_bind_addr: "127.0.0.1"
+ct_kafka_ui_bind_port: "8080"
+ct_kafka_ui_bind_ct_port: "8080"
+
+# Container settings
+ct_kafka_ui_ct_name: "kafka-ui"
+ct_kafka_ui_ct_version: "latest"
+ct_kafka_ui_ct_image: "provectuslabs/kafka-ui:{{ ct_kafka_ui_ct_version }}"
+ct_kafka_ui_ct_state: "started"
+ct_kafka_ui_ct_restart_policy: "always"
+ct_kafka_ui_ct_restart: false
+ct_kafka_ui_ct_pull: false
+ct_kafka_ui_ct_recreate: false
+ct_kafka_ui_ct_network_mode: "default"
+ct_kafka_ui_ct_networks: []
+ct_kafka_ui_ct_ports:
+  - "{{ ct_kafka_ui_bind_addr }}:{{ ct_kafka_ui_bind_port }}:{{ ct_kafka_ui_bind_ct_port }}"
+ct_kafka_ui_ct_volumes: []
+ct_kafka_ui_ct_env: {}
+...
