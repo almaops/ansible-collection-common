@@ -6,7 +6,7 @@
     pkg_install_packages: "{{ ['docker.io'] + (docker_enable_docker_compose | ternary(['docker-compose'], [])) }}"
   when:
     - docker_enable_pkg_install
-    - ansible_distribution | default(undef(hint="you must gather facts before running this role")) in [ 'Ubuntu', 'Debian' ]
+    - ansible_distribution | default(undef(hint="you must gather facts before running this role")) in [ 'Ubuntu', 'Debian', 'Astra Linux' ]
 
 - name: "{{ docker_task_prefix }} Install PIP library"
   ansible.builtin.include_role:
