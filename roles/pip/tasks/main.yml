@@ -5,8 +5,9 @@
   vars:
     pkg_install_packages:
       - python3-pip
+      - python3-setuptools
   when:
-    - ansible_distribution | default('none') in [ 'Ubuntu', 'Debian' ]
+    - ansible_distribution | default('none') in [ 'Ubuntu', 'Debian', 'Astra Linux' ]
     - pip_install_enable_pkg_install
 
 - name: "{{ pip_install_task_prefix }} install pip packages: {{ pip_install_packages | join(' ') }}"
