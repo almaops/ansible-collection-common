@@ -1,0 +1,20 @@
+---
+galaxy_info:
+  author: Valentin Gostev
+  description: Role for installing and configuring VirtualBox software
+  role_name: virtualbox
+  namespace: almaops
+  license: MIT
+  min_ansible_version: 2.12
+  platforms:
+  - name: Ubuntu
+    versions:
+      - jammy
+      - bionic
+      - xenial
+  galaxy_tags:
+    - virtulization
+    - virtualbox
+    - vm
+dependencies: []
+...

@@ -1,0 +1,19 @@
+---
+virtualbox_task_prefix: "=== VIRTUALBOX ==="
+virtualbox_version: 7.0
+virtualbox_version_minor: 8
+virtualbox_version_full: "{{ virtualbox_version }}.{{ virtualbox_version_minor }}"
+virtualbox_download_site: https://download.virtualbox.org/virtualbox
+virtualbox_apt_repo_link: "{{ virtualbox_download_site }}/debian"
+virtualbox_apt_key_link: https://www.virtualbox.org/download/oracle_vbox_2016.asc
+virtualbox_apt_repo_type: contrib
+virtualbox_user: vbox
+virtualbox_home: "/home/{{ virtualbox_user }}"
+virtualbox_vmdir: "{{ virtualbox_home }}/vms"
+virtualbox_group: vboxusers
+
+virtualbox_create_user: true
+virtualbox_extpack_install: true
+virtualbox_extpack_key: "33d7284dc4a0ece381196fda3cfe2ed0e1e8e7ed7f27b9a9ebc4ee22e24bd23c"
+virtualbox_extpack_file: "Oracle_VM_VirtualBox_Extension_Pack-{{ virtualbox_version_full }}.vbox-extpack"
+...

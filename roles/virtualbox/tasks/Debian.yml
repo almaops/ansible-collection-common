@@ -1,0 +1,30 @@
+---
+- name: "{{ virtualbox_task_prefix }} Adding Virtualbox APT repository signature"
+  ansible.builtin.apt_key:
+    url: "{{ virtualbox_apt_key_link }}"
+    state: present
+
+- name: "{{ virtualbox_task_prefix }} Install dependencies"
+  ansible.builtin.import_role:
+    name: almaops.common.pkg
+  vars:
+    pkg_install_packages:
+      - gcc
+      - make
+      - perl
+      - apt-transport-https
+
+- name: "{{ virtualbox_task_prefix }} Adding Virtualbox APT repository"
+  ansible.builtin.apt_repository:
+    repo: deb {{ virtualbox_apt_repo_link }} {{ ansible_distribution_release }} {{ virtualbox_apt_repo_type }}
+    filename: virtualbox
+    state: present
+    update_cache: yes
+
+- name: "{{ virtualbox_task_prefix }} install VirtualBox package"
+  ansible.builtin.import_role:
+    name: almaops.common.pkg
+  vars:
+    pkg_install_packages:
+      - "virtualbox-{{ virtualbox_version }}"
+...
