@@ -1,0 +1,41 @@
+---
+ct_youtrack_task_prefix: "=== CT YOUTRACK ==="
+
+# Path settings
+ct_youtrack_path_base: "/srv/ct_youtrack/{{ ct_youtrack_ct_name }}"
+ct_youtrack_path_data: "{{ ct_youtrack_path_base }}/data"
+ct_youtrack_path_conf: "{{ ct_youtrack_path_base }}/conf"
+ct_youtrack_path_logs: "{{ ct_youtrack_path_base }}/logs"
+ct_youtrack_path_backups: "{{ ct_youtrack_path_base }}/backups"
+ct_youtrack_path_ct_data: "/opt/youtrack/data"
+ct_youtrack_path_ct_conf: "/opt/youtrack/conf"
+ct_youtrack_path_ct_logs: "/opt/youtrack/logs"
+ct_youtrack_path_ct_backups: "/opt/youtrack/backups"
+
+# Network settings
+ct_youtrack_bind_addr: "127.0.0.1"
+ct_youtrack_bind_port: "8080"
+ct_youtrack_bind_ct_port: "8080"
+
+# Container settings
+ct_youtrack_ct_name: "vmire-youtrack"
+ct_youtrack_ct_version: "2023.1.9689"
+ct_youtrack_ct_image: "jetbrains/youtrack:{{ ct_youtrack_ct_version }}"
+ct_youtrack_ct_pull: false
+ct_youtrack_ct_recreate: false
+ct_youtrack_ct_restart_policy: "always"
+ct_youtrack_ct_state: "started"
+ct_youtrack_ct_network_mode: "default"
+ct_youtrack_ct_networks: []
+ct_youtrack_ct_ports_www:
+  - "{{ ct_youtrack_bind_addr }}:{{ ct_youtrack_bind_port }}:{{ ct_youtrack_bind_ct_port }}"
+ct_youtrack_ct_ports_extra: []
+ct_youtrack_ct_ports: "{{ ct_youtrack_ct_ports_www + ct_youtrack_ct_ports_extra }}"
+ct_youtrack_ct_volumes_data:
+  - "{{ ct_youtrack_path_data }}:{{ ct_youtrack_path_ct_data }}"
+  - "{{ ct_youtrack_path_conf }}:{{ ct_youtrack_path_ct_conf }}"
+  - "{{ ct_youtrack_path_logs }}:{{ ct_youtrack_path_ct_logs }}"
+  - "{{ ct_youtrack_path_backups }}:{{ct_youtrack_path_ct_backups }}"
+ct_youtrack_ct_volumes_extra: []
+ct_youtrack_ct_volumes: "{{ ct_youtrack_ct_volumes_data + ct_youtrack_ct_volumes_extra }}"
+...

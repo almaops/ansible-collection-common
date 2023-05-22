@@ -1,0 +1,34 @@
+---
+- name: "{{ ct_youtrack_task_prefix }} Create base directory"
+  ansible.builtin.file:
+    path: "{{ ct_youtrack_path_base }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0750'
+
+- name: "{{ ct_youtrack_task_prefix }} Create data directories"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: '{{ youtrack_uid }}'
+    group: '{{ youtrack_gid }}'
+    mode: '0750'
+  loop:
+    - "{{ youtrack_path_data }}"
+    - "{{ youtrack_path_conf }}"
+    - "{{ youtrack_path_logs }}"
+    - "{{ youtrack_path_backups }}"
+
+- name: "{{ ct_youtrack_task_prefix }} Provision container"
+  community.docker.docker_container:
+    image: "{{ ct_youtrack_ct_image }}"
+    name: "{{ ct_youtrack_ct_name }}"
+    pull: "{{ ct_youtrack_ct_pull }}"
+    recreate: "{{ ct_youtrack_ct_recreate }}"
+    restart_policy: "{{ ct_youtrack_ct_restart_policy }}"
+    state: "{{ ct_youtrack_ct_state }}"
+    network_mode: "{{ ct_youtrack_ct_network_mode }}"
+    ports: "{{ ct_youtrack_ct_ports }}"
+    volumes: "{{ ct_youtrack_ct_volumes }}"
+...

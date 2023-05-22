@@ -41,6 +41,9 @@ Deployment for Kafka UI container. [README](./roles/ct_kafka_ui/README.md)
 ### almaops.common.ct_rocketchat
 Deployment a Rocket.Chat container based on the official docker image (https://hub.docker.com/_/rocket-chat). Please consult with role's [README](./roles/ct_rocketchat/README.md)
 
+### almaops.common.ct_youtrack
+Runs YouTrack [official container](https://hub.docker.com/r/jetbrains/youtrack/), no configuration/customization.
+
 ### almaops.common.docker
 Installation/configuration for Docker daemon and Docker client userspace configuration. Please consult with role's [README](./roles/pip/README.md)
 

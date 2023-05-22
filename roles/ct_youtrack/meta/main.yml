@@ -1,0 +1,20 @@
+---
+galaxy_info:
+  author: Valentin Gostev
+  description: Ansible role deploys YouTrack container
+  role_name: ct_youtrack
+  namespace: almaops
+  license: MIT
+  min_ansible_version: 2.12
+  platforms:
+    - name: Ubuntu
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - all
+  galaxy_tags:
+    - youtrack
+    - jetbrains
+dependencies: []
+...
