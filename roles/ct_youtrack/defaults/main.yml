@@ -18,7 +18,7 @@ ct_youtrack_bind_port: "8080"
 ct_youtrack_bind_ct_port: "8080"
 
 # Container settings
-ct_youtrack_ct_name: "vmire-youtrack"
+ct_youtrack_ct_name: "youtrack"
 ct_youtrack_ct_version: "2023.1.9689"
 ct_youtrack_ct_image: "jetbrains/youtrack:{{ ct_youtrack_ct_version }}"
 ct_youtrack_ct_pull: false
