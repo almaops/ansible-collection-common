@@ -46,11 +46,13 @@ ct_minio_ct_volume_data:
   - "{{ ct_minio_path_data_volume }}:{{ ct_minio_path_ct_data }}"
 ct_minio_ct_volumes: "{{ ct_minio_ct_volume_data + ct_minio_ct_volume_extra }}"
 ct_minio_ct_command_admin:
-  - "--console-address {{ \":\"+ct_minio_bind_ct_port_admin | quote }}"
+  - "--console-address"
+  - "{{ \":\"+ct_minio_bind_ct_port_admin}}"
+ct_minio_ct_command_data:
+  - "{{ ct_minio_path_ct_data }}"
 ct_minio_ct_command_base:
   - "server"
-  - "{{ ct_minio_path_ct_data }}"
-ct_minio_ct_command: "{{ ct_minio_ct_command_base + ct_minio_ct_command_admin }}"
+ct_minio_ct_command: "{{ ct_minio_ct_command_base + ct_minio_ct_command_admin + ct_minio_ct_command_data}}"
 
 # Environment variables
 # ct_minio_env_minio_root_user: "root"
