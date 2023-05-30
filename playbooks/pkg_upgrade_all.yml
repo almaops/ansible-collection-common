@@ -1,0 +1,20 @@
+---
+- name: Assert inventory group name
+  hosts: localhost
+  become: false
+  tasks:
+    - name: Assert inventory group name
+      ansible.builtin.assert:
+        that:
+          - almaops_target_pkg_upgrade_all is defined
+        quiet: true
+        fail_msg: "'almaops_target_pkg_upgrade_all' must be set to a valid inventory group name"
+  
+- name: Upgrade all packages
+  hosts: "{{ almaops_target_pkg_upgrade_all|default([]) }}"
+  become: true
+  roles:
+    - role: almaops.common.pkg
+      pkg_install_packages: "*"
+      pkg_install_state: latest
+...
