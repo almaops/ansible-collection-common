@@ -26,44 +26,81 @@ collections:
 
 ## Roles
 
+### almaops.common.certbot
+
+### almaops.common.clickhouse_backup
+
 ### almaops.common.cron
-Configuration of cron jobs. Please consult with role's [README](./roles/cron/README.md)
+Configure of cron jobs. [README](./roles/cron/README.md)
 
-### almaops.common.ct_mongodb
-Role deploys a MongoDB container from Docker Hub image. Please consult with role's [README](./roles/ct_mongodb/README.md)
-
-### almaops.common.ct_rocketchat
-Deployment a Rocket.Chat container based on the official docker image (https://hub.docker.com/_/rocket-chat). Please consult with role's [README](./roles/ct_rocketchat/README.md)
+### almaops.common.ct_kafka
+Deploy Kafka cluster in containers. [README](./roles/ct_kafka/README.md)
 
 ### almaops.common.ct_kafka_ui
-Deployment for Kafka UI container. [README](./roles/ct_kafka_ui/README.md)
+Deploy Kafka UI container. [README](./roles/ct_kafka_ui/README.md)
+
+### almaops.common.ct_minio
+Deploy Minio container. [README](./roles/ct_minio/README.md)
+
+### almaops.common.ct_mongodb
+Deploy MongoDB container. [README](./roles/ct_mongodb/README.md)
+
+### almaops.common.ct_redis
+Deploy Redis container. [README](./roles/ct_redis/README.md)
 
 ### almaops.common.ct_rocketchat
-Deployment a Rocket.Chat container based on the official docker image (https://hub.docker.com/_/rocket-chat). Please consult with role's [README](./roles/ct_rocketchat/README.md)
+Deploy [Rocket.Chat](https://www.rocket.chat) container. [README](./roles/ct_rocketchat/README.md)
 
 ### almaops.common.ct_youtrack
-Runs YouTrack [official container](https://hub.docker.com/r/jetbrains/youtrack/), no configuration/customization.
+Deploy [YouTrack container](https://hub.docker.com/r/jetbrains/youtrack/), no configuration/customization.
+
+### almaops.common.ct_zookeeper
+Deploy Zookeeper cluster in containers. [README](./roles/ct_zookeeper/README.md)
 
 ### almaops.common.docker
-Installation/configuration for Docker daemon and Docker client userspace configuration. Please consult with role's [README](./roles/pip/README.md)
+Installation/configuration for Docker daemon and Docker client userspace configuration. [README](./roles/pip/README.md)
 
 ### almaops.common.flush_handlers
-Flushing Ansible handlers between other roles. Please consult with role's [README](./roles/flush_handlers/README.md)
+Flushing Ansible handlers between other roles. [README](./roles/flush_handlers/README.md)
+
+### almaops.common.gitlab
+Deploy Gitlab CI/CD. Forked from [Jeff Geerling](https://github.com/geerlingguy/ansible-role-gitlab)
+
+### almaops.common.htpasswd
+Install and configure htpasswd. Forked from [Jeff Geerling](https://github.com/geerlingguy/ansible-role-htpasswd)
+
+### almaops.common.nginx
+Install and configure nginx. Forked from [Jeff Geerling](https://github.com/geerlingguy/ansible-role-nginx)
 
 ### almaops.common.pip
-Python pip packages installation. Please consult with role's [README](./roles/pip/README.md)
+Install Python PIP packages. [README](./roles/pip/README.md)
 
 ### almaops.common.pkg
-Packages installation. Please consult with role's [README](./roles/pkg/README.md)
-
-### almaops.common.pkg
-Packages installation. Please consult with role's [README](./roles/pkg/README.md)
+Install OS packages. [README](./roles/pkg/README.md)
 
 ### almaops.common.systemd
-Manipulating systemd services between other roles. Please consult with role's [README](./roles/systemd/README.md)
+Setup and configure systemd units. [README](./roles/systemd/README.md)
 
 ### almaops.common.template
-Templating from file or in-place. Please consult with role's [README](./roles/template/README.md)
+Templating from file or in-place. [README](./roles/template/README.md)
 
 ### almaops.common.timezone
-Setup host's time zone. Please consult with role's [README](./roles/timezone/README.md)
+Setup host's time zone. [README](./roles/timezone/README.md)
+
+### almaops.common.user
+Manage OS users. [README](./roles/user/README.md)
+
+### almaops.common.var_loader
+Load Ansible variables files from directory. [README](./roles/var_loader/README.md)
+
+### almaops.common.virtualbox
+Install and configure VirtualBox. [README](./roles/virtualbox/README.md)
+
+## Playbooks
+
+### almaops.common.pkg_upgrade_all
+Upgrade all packages on target host.
+```
+# Upgrades all packages on all inventory hosts
+~$ ansible-playbook almaops.common.pkg_upgrade_all -e almaops_target_pkg_upgrade_all=all
+```

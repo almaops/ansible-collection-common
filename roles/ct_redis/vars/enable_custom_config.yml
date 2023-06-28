@@ -1,0 +1,6 @@
+---
+ct_redis_ct_volumes_config:
+  - "{{ ct_redis_path_config_file }}:{{ ct_redis_path_ct_config_file }}:ro"
+ct_redis_ct_command_custom_config:
+  - "{{ ct_redis_path_ct_config_file }}"
+...

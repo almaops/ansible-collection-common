@@ -1,0 +1,49 @@
+---
+ct_redis_task_prefix: "=== REDIS CT ==="
+# Common settings
+ct_redis_enable_ports: true
+ct_redis_enable_custom_config: false
+# Templates
+ct_redis_template_config: "redis.conf.j2"
+# Path settings - Config file
+ct_redis_path_config_base: "/etc/ct_redis"
+ct_redis_path_config_file: "{{ ct_redis_path_config_base }}/{{ ct_redis_ct_name }}.conf"
+ct_redis_path_ct_config_file: "/usr/local/etc/redis/redis.conf"
+# Path settings - Data directory
+ct_redis_path_data_base: "/srv/ct_redis/"
+ct_redis_path_data_volume: "{{ ct_redis_path_data_base }}/{{ ct_redis_ct_name }}"
+ct_redis_path_ct_data: "/data"
+# Network settings
+ct_redis_bind_addr: "127.0.0.1"
+ct_redis_bind_port: "6379"
+ct_redis_bind_ct_port: "6379"
+# Container settings - General
+ct_redis_ct_name: "redis"
+ct_redis_ct_image: "redis"
+ct_redis_ct_version: "latest"
+ct_redis_ct_state: "started"
+ct_redis_ct_restart_policy: "always"
+ct_redis_ct_restart: "no"
+ct_redis_ct_pull: "no"
+ct_redis_ct_recreate: "no"
+# Container settings - Ports
+ct_redis_ct_ports_default: []
+ct_redis_ct_ports_extra: []
+ct_redis_ct_ports: "{{ ct_redis_ct_ports_default + ct_redis_ct_ports_extra }}"
+# Container settings - Volumes
+ct_redis_ct_volumes_data:
+  - "{{ ct_redis_path_data_volume }}:{{ ct_redis_path_ct_data }}"
+ct_redis_ct_volumes_config: []
+ct_redis_ct_volumes_extra: []
+ct_redis_ct_volumes: "{{ ct_redis_ct_volumes_data + ct_redis_ct_volumes_config + ct_redis_ct_volumes_extra }}"
+# Container settings - Command
+ct_redis_ct_command_custom_config: []
+ct_redis_ct_command_options: []
+ct_redis_ct_command: "{{ [\"redis-server\"] + ct_redis_ct_command_custom_config + ct_redis_ct_command_options }}"
+# Parameters for Redis custom configuration file
+ct_redis_cfg_extra: {}
+# Example:
+# ct_redis_cfg_extra:
+#   tcp-backlog: "511"
+#   tcp-keepalive: "300"
+...

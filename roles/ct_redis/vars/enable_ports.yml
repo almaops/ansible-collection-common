@@ -1,0 +1,4 @@
+---
+ct_redis_ct_ports_default:
+  - "{{ ct_redis_bind_addr }}:{{ ct_redis_bind_port }}:{{ ct_redis_bind_ct_port }}"
+...

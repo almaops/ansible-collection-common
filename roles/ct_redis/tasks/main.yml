@@ -1,0 +1,39 @@
+---
+- name: "{{ ct_redis_task_prefix }} Enable ports"
+  include_vars: "enable_ports.yml"
+  when: ct_redis_enable_ports|bool
+- name: "{{ ct_redis_task_prefix }} Enable custom config"
+  include_vars: "enable_custom_config.yml"
+  when: ct_redis_enable_custom_config|bool
+- name: "{{ ct_redis_task_prefix }} Create directories"
+  file:
+    state: directory
+    path: "{{ item }}"
+    owner: root
+    group: root
+    mode: '0755'
+  loop:
+    - "{{ ct_redis_path_config_base }}"
+    - "{{ ct_redis_path_data_base }}"
+    - "{{ ct_redis_path_data_volume }}"
+- name: "{{ ct_redis_task_prefix }} Create custom config"
+  template:
+    src: "{{ ct_redis_template_config }}"
+    dest: "{{ ct_redis_path_config_file }}"
+    owner: root
+    group: root
+    mode: '0644'
+  when: ct_redis_enable_custom_config|bool
+- name: "{{ ct_redis_task_prefix }} Create Redis container"
+  docker_container:
+    name: "{{ ct_redis_ct_name }}"
+    image: "{{ ct_redis_ct_image }}:{{ ct_redis_ct_version }}"
+    state: "{{ ct_redis_ct_state }}"
+    restart_policy: "{{ ct_redis_ct_restart_policy }}"
+    restart: "{{ ct_redis_ct_restart }}"
+    pull: "{{ ct_redis_ct_pull }}"
+    ports: "{{ ct_redis_ct_ports }}"
+    volumes: "{{ ct_redis_ct_volumes }}"
+    recreate: "{{ ct_redis_ct_recreate }}"
+    command: "{{ ct_redis_ct_command }}"
+...
