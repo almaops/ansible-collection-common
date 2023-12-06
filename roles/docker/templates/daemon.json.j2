@@ -18,6 +18,14 @@
   },
 {% endif %}
 
+{% if docker_default_address_pools != {} %}
+   "default-address-pools": [
+  { {% for key,val in docker_default_address_pools.items() %}
+"{{ key }}": {{ val }}{% if not loop.last %},{% endif %}
+{% endfor %}}
+   ],
+{% endif %}
+
   "dns": [
 {% for dns in docker_dns_servers %}
     "{{ dns }}"{% if not loop.last %},{% endif %}

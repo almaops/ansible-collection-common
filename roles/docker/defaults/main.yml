@@ -27,3 +27,5 @@ docker_registry_credentials: []
 #  - registry: "docker.io"
 #    username: "almaops"
 #    password: "password"
+
+docker_default_address_pools: {}
