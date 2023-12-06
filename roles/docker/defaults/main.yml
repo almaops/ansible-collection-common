@@ -28,4 +28,9 @@ docker_registry_credentials: []
 #    username: "almaops"
 #    password: "password"
 
-docker_default_address_pools: {}
+docker_default_address_pools_base: "172.17.0.0/16"
+docker_default_address_pools_size: "24"
+
+docker_default_address_pools:
+  - base: "{{ docker_default_address_pools_base }}"
+    size: "{{ docker_default_address_pools_size }}"
