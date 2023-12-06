@@ -105,8 +105,8 @@ Upgrade all packages on target host.
 ~$ ansible-playbook almaops.common.pkg_upgrade_all -e almaops_target_pkg_upgrade_all=all
 ```
 
-### HowTo's
-## HowTo: manual collection upload
+## HowTo's
+### HowTo: manual collection upload
 
 1. take [Galaxy API token](https://galaxy.ansible.com/ui/token/) and set the appropriate env var:
 ```
