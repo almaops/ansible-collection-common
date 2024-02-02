@@ -1,4 +1,10 @@
 ---
+- fail:
+    msg: "template_src or template_src must be defined, if they are defined but you see this message, check their content with debug"
+  when:
+    - template_src is not defined
+    - template_content is not defined
+
 - block:
     - name: create file by template file
       ansible.builtin.template:
