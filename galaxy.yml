@@ -1,7 +1,7 @@
 ---
 namespace: almaops
 name: common
-version: 1.0.24
+version: 1.0.25
 readme: README.md
 authors:
   - Valentin Gostev <val@almaops.ru>
@@ -19,4 +19,3 @@ issues: 'https://github.com/almaops/ansible-collection-common/issues'
 build_ignore:
   - .gitignore
   - .yamllint
-...
