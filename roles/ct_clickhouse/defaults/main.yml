@@ -37,7 +37,7 @@ ct_clickhouse_ct_ports_extra: []
 ct_clickhouse_ct_ports: "{{ ct_clickhouse_ct_ports_http + ct_clickhouse_ct_ports_extra }}"
 ct_clickhouse_ct_volumes_data:
   - "{{ ct_clickhouse_path_data }}:{{ ct_clickhouse_path_ct_data }}"
-  - "{{ ct_clickhouse_path_conf }}:{{ ct_clickhouse_path_ct_conf }}"
+  - "{{ ct_clickhouse_path_logs }}:{{ ct_clickhouse_path_ct_logs }}"
 ct_clickhouse_ct_volumes_extra: []
 ct_clickhouse_ct_volumes: "{{ ct_clickhouse_ct_volumes_data + ct_clickhouse_ct_volumes_extra }}"
 ...
