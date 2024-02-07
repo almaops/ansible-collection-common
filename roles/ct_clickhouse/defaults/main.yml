@@ -1,0 +1,43 @@
+---
+ct_clickhouse_task_prefix: "=== CT CLICKHOUSE ==="
+
+# Path settings
+ct_clickhouse_path_base: "/srv/ct_clickhouse/{{ ct_clickhouse_ct_name }}"
+ct_clickhouse_path_data: "{{ ct_clickhouse_path_base }}/data"
+ct_clickhouse_path_logs: "{{ ct_clickhouse_path_base }}/logs"
+ct_clickhouse_path_ct_data: "/var/lib/clickhouse"
+ct_clickhouse_path_ct_logs: "/var/log/clickhouse-server"
+
+# Network settings
+ct_clickhouse_bind_addr: "127.0.0.1"
+ct_clickhouse_bind_port_http: "8123"
+ct_clickhouse_bind_port_native: "9000"
+ct_clickhouse_bind_port_grpc: "9100"
+ct_clickhouse_bind_ct_port_http: "8123"
+ct_clickhouse_bind_ct_port_native: "9000"
+ct_clickhouse_bind_ct_port_grpc: "9100"
+
+# Container settings
+ct_clickhouse_ct_name: "clickhouse"
+ct_clickhouse_ct_version: "latest"
+ct_clickhouse_ct_image: "clickhouse/clickhouse-server:{{ ct_clickhouse_ct_version }}"
+ct_clickhouse_ct_pull: false
+ct_clickhouse_ct_recreate: false
+ct_clickhouse_ct_restart_policy: "always"
+ct_clickhouse_ct_state: "started"
+ct_clickhouse_ct_network_mode: "default"
+ct_clickhouse_ct_networks: []
+ct_clickhouse_ct_ports_http:
+  - "{{ ct_clickhouse_bind_addr }}:{{ ct_clickhouse_bind_port_http }}:{{ ct_clickhouse_bind_ct_port_http }}"
+ct_clickhouse_ct_ports_native:
+  - "{{ ct_clickhouse_bind_addr }}:{{ ct_clickhouse_bind_port_native }}:{{ ct_clickhouse_bind_ct_port_native }}"
+ct_clickhouse_ct_ports_grpc:
+  - "{{ ct_clickhouse_bind_addr }}:{{ ct_clickhouse_bind_port_grpc }}:{{ ct_clickhouse_bind_ct_port_grpc }}"
+ct_clickhouse_ct_ports_extra: []
+ct_clickhouse_ct_ports: "{{ ct_clickhouse_ct_ports_http + ct_clickhouse_ct_ports_extra }}"
+ct_clickhouse_ct_volumes_data:
+  - "{{ ct_clickhouse_path_data }}:{{ ct_clickhouse_path_ct_data }}"
+  - "{{ ct_clickhouse_path_conf }}:{{ ct_clickhouse_path_ct_conf }}"
+ct_clickhouse_ct_volumes_extra: []
+ct_clickhouse_ct_volumes: "{{ ct_clickhouse_ct_volumes_data + ct_clickhouse_ct_volumes_extra }}"
+...

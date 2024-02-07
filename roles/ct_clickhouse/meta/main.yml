@@ -1,0 +1,22 @@
+---
+galaxy_info:
+  author: Valentin Gostev, Dmitrii Kashin
+  description: Ansible role deploys Clickhouse container
+  role_name: ct_clickhouse
+  license: MIT
+  min_ansible_version: 2.12
+  platforms:
+    - name: Ubuntu
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - all
+  galaxy_tags:
+    - clickhouse
+    - database
+    - container
+    - docker
+allow_duplicates: false
+dependencies: []
+...

@@ -1,0 +1,33 @@
+---
+- name: "{{ ct_clickhouse_task_prefix }} Create base directory"
+  ansible.builtin.file:
+    path: "{{ ct_clickhouse_path_base }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0750'
+
+- name: "{{ ct_clickhouse_task_prefix }} Create data directories"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0750'
+  loop:
+    - "{{ ct_clickhouse_path_data }}"
+    - "{{ ct_clickhouse_path_logs }}"
+
+- name: "{{ ct_clickhouse_task_prefix }} Provision container"
+  community.docker.docker_container:
+    name: "{{ ct_clickhouse_ct_name }}"
+    image: "{{ ct_clickhouse_ct_image }}"
+    pull: "{{ ct_clickhouse_ct_pull }}"
+    recreate: "{{ ct_clickhouse_ct_recreate }}"
+    restart_policy: "{{ ct_clickhouse_ct_restart_policy }}"
+    state: "{{ ct_clickhouse_ct_state }}"
+    network_mode: "{{ ct_clickhouse_ct_network_mode }}"
+    networks: "{{ ct_clickhouse_ct_networks }}"
+    ports: "{{ ct_clickhouse_ct_ports }}"
+    volumes: "{{ ct_clickhouse_ct_volumes }}"
+...
