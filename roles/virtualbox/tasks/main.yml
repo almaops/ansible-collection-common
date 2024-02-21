@@ -2,7 +2,7 @@
 - name: "{{ virtualbox_task_prefix }} Distro specific tasks"
   ansible.builtin.include_tasks: "{{ ansible_os_family }}.yml"
 
-- name:"{{ virtualbox_task_prefix }} Download Oracle Extension Pack for VirtualBox"
+- name: "{{ virtualbox_task_prefix }} Download Oracle Extension Pack for VirtualBox"
   ansible.builtin.get_url:
     url: "{{ virtualbox_download_site }}/{{ virtualbox_version_full }}/{{ virtualbox_extpack_file }}"
     dest: "/root/{{ virtualbox_extpack_file }}"

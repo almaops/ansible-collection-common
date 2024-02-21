@@ -9,7 +9,7 @@
           - almaops_target_pkg_upgrade_all is defined
         quiet: true
         fail_msg: "'almaops_target_pkg_upgrade_all' must be set to a valid inventory group name"
-  
+
 - name: Upgrade all packages
   hosts: "{{ almaops_target_pkg_upgrade_all|default([]) }}"
   become: true

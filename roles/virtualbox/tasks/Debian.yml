@@ -19,7 +19,7 @@
     repo: deb {{ virtualbox_apt_repo_link }} {{ ansible_distribution_release }} {{ virtualbox_apt_repo_type }}
     filename: virtualbox
     state: present
-    update_cache: yes
+    update_cache: true
 
 - name: "{{ virtualbox_task_prefix }} install VirtualBox package"
   ansible.builtin.import_role:
