@@ -1,0 +1,31 @@
+---
+- name: "{{ ct_postgres_task_prefix }} Create directories"
+  ansible.builtin.file:
+    path: "{{ ct_postgres_path_data }}"
+    state: directory
+    mode: '0755'
+    recurse: true
+
+- name: "{{ ct_postgres_task_prefix }} Create env file"
+  template:
+    src: "{{ ct_postgres_template_env }}"
+    dest: "{{ ct_postgres_path_env }}"
+    mode: '0640'
+
+- name: "{{ ct_postgres_task_prefix }} Create container"
+  community.docker.docker_container:
+    name: "{{ ct_postgres_ct_name }}"
+    image: "{{ ct_postgres_ct_image }}"
+    env_file: "{{ ct_postgres_path_env }}"
+    restart_policy: "{{ ct_postgres_ct_restart_policy }}"
+    state: "{{ ct_postgres_ct_state }}"
+    restart: "{{ ct_postgres_ct_restart }}"
+    pull: "{{ ct_postgres_ct_pull }}"
+    recreate: "{{ ct_postgres_ct_recreate }}"
+    network_mode: "{{ ct_postgres_ct_network_mode }}"
+    networks: "{{ ct_postgres_ct_networks }}"
+    ports: "{{ ct_postgres_enable_ports | ternary(ct_postgres_ct_ports, omit) }}"
+    volumes: "{{ ct_postgres_ct_mounts }}"
+    shm_size: "{{ ct_postgres_ct_shm_size }}"
+    command: "{{ ct_postgres_ct_command }}"
+...

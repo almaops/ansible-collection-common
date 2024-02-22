@@ -1,0 +1,53 @@
+---
+ct_postgres_task_prefix: "=== CT POSTGRESQL ==="
+
+# Common settings
+ct_postgres_enable_ports: true    # Allow to control port forwarding to container, reasonable to disable if you connect to postgres only via its docker networks
+
+# Templates
+ct_postgres_template_env: "ct_postgres.env.j2"
+
+# Path settings
+ct_postgres_path_base: "/srv/ct_postgres"
+ct_postgres_path_data: "{{ ct_postgres_path_base }}/{{ ct_postgres_ct_name }}/data"
+ct_postgres_path_env: "{{ ct_postgres_path_base }}/{{ ct_postgres_ct_name }}/.env"
+ct_postgres_path_ct_data: "/var/lib/postgresql/data"
+
+# Network settings
+ct_postgres_bind_addr: "127.0.0.1"
+ct_postgres_bind_port: "5432"
+ct_postgres_bind_ct_port: "5432"
+
+# Container settings
+ct_postgres_ct_name: "postgres"
+ct_postgres_ct_version: "latest"
+ct_postgres_ct_image: "postgres:{{ ct_postgres_ct_version }}"
+ct_postgres_ct_restart_policy: "always"
+ct_postgres_ct_state: "started"
+ct_postgres_ct_restart: false
+ct_postgres_ct_pull: false
+ct_postgres_ct_recreate: false
+ct_postgres_ct_network_mode: "default"
+ct_postgres_ct_networks: []
+ct_postgres_ct_ports_psql:
+  - "{{ ct_postgres_bind_addr }}:{{ ct_postgres_bind_port }}:{{ ct_postgres_bind_ct_port }}"
+ct_postgres_ct_ports_extra: []
+ct_postgres_ct_ports: "{{ ct_postgres_ct_ports_psql + ct_postgres_ct_ports_extra }}"
+ct_postgres_ct_mount_data:
+  - "{{ ct_postgres_path_data }}:{{ ct_postgres_path_ct_data }}"
+ct_postgres_ct_mount_extra: []
+ct_postgres_ct_mounts: "{{ ct_postgres_ct_mount_data + ct_postgres_ct_mount_extra }}"
+ct_postgres_ct_command:
+  - "postgres"
+ct_postgres_ct_shm_size: "2g"     # Default size of /dev/shm is 64m, too low for PostgreSQL
+
+# Environment variables
+ct_postgres_env_postgres_user: "postgres"
+ct_postgres_env_postgres_db: "postgres"
+ct_postgres_env_postgres_password: "{{ undef(hint='You have to set initial password in ct_postgres_env_postgres_password variable') }}"
+ct_postgres_env_extra: {}
+# Arbitrary environment variables
+# ct_postgres_env_extra:
+#   POSTGRES_AUTH_METHOD: "md5"
+#   PGDATA: "/var/lib/postgresql/data"
+...
