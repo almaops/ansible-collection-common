@@ -1,6 +1,9 @@
 ---
 ct_zookeeper_task_prefix: "=== ZOOKEEPER CT ==="
 
+# Common settings
+ct_zookeeper_persist_data: true
+
 # File names
 ct_zookeeper_template_env: "zookeeper.env.j2"
 ct_zookeeper_file_env: "{{ ct_zookeeper_ct_name }}.env"
@@ -23,12 +26,12 @@ ct_zookeeper_bind_port_client: "2181"
 # Container settings
 ct_zookeeper_ct_name: "zookeeper-{{ ct_zookeeper_server_id }}"
 ct_zookeeper_ct_image: "confluentinc/cp-zookeeper"
-ct_zookeeper_ct_version: "latest"
-ct_zookeeper_ct_restart_policy: "always"
+ct_zookeeper_ct_version: "7.2.1"
+ct_zookeeper_ct_restart_policy: "False"
 ct_zookeeper_ct_state: "started"
-ct_zookeeper_ct_restart: "no"
-ct_zookeeper_ct_pull: "no"
-ct_zookeeper_ct_recreate: "no"
+ct_zookeeper_ct_restart: "False"
+ct_zookeeper_ct_pull: "False"
+ct_zookeeper_ct_recreate: "False"
 ct_zookeeper_ct_volumes_data:
   - "{{ ct_zookeeper_path_zk_data }}:{{ ct_zookeeper_path_ct_zk_data }}"
   - "{{ ct_zookeeper_path_zk_logs }}:{{ ct_zookeeper_path_ct_zk_logs }}"
