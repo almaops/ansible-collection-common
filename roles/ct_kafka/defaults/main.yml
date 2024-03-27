@@ -23,12 +23,12 @@ ct_kafka_ct_bind_port: "9092"
 # Container settings
 ct_kafka_ct_name: "kafka-{{ ct_kafka_node.id }}"
 ct_kafka_ct_image: "confluentinc/cp-kafka"
-ct_kafka_ct_version: "latest"
+ct_kafka_ct_version: "7.2.1"
 ct_kafka_ct_restart_policy: "always"
 ct_kafka_ct_state: "started"
-ct_kafka_ct_restart: "no"
-ct_kafka_ct_pull: "no"
-ct_kafka_ct_recreate: "no"
+ct_kafka_ct_restart: "False"
+ct_kafka_ct_pull: "False"
+ct_kafka_ct_recreate: "False"
 ct_kafka_ct_volumes:
   - "{{ ct_kafka_path_data }}:{{ ct_kafka_path_ct_data }}"
 ct_kafka_ct_network_mode: "host"
@@ -38,6 +38,7 @@ ct_kafka_env_kafka_broker_id: "{{ ct_kafka_node.id }}"
 # You will need to specify your zookeeper servers
 # ct_kafka_env_kafka_zookeeper_connect: ""
 ct_kafka_env_kafka_advertised_host_name: "{{ ct_kafka_bind_addr }}"
+ct_kafka_env_kafka_offests_topic_replication_factor: "1"
 # This variable is built from {{ ct_kafka_nodes }} variable
 # ct_kafka_env_advertised_listeners: "k01://10.100.20.200:9092,k02://10.100.20.201:9092"
 # ct_kafka_nodes:
