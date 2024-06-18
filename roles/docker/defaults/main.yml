@@ -13,6 +13,10 @@ docker_file_daemon_json: "daemon.json"
 
 docker_systemd_service: "docker"
 
+docker_pip_packages:
+  - docker
+  - requests==2.31.0 # due to bug: https://github.com/jenkinsci/packaging/pull/466/files
+
 docker_registry_mirror_urls: []
 docker_dns_servers:
   - "8.8.8.8"
