@@ -15,7 +15,8 @@ docker_systemd_service: "docker"
 
 docker_pip_packages:
   - docker
-  - requests==2.31.0 # due to bug: https://github.com/jenkinsci/packaging/pull/466/files
+  # due to bug: https://github.com/jenkinsci/packaging/pull/466/files
+  - requests==2.31.0
 
 docker_registry_mirror_urls: []
 docker_dns_servers:
