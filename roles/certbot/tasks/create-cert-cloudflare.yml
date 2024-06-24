@@ -1,0 +1,25 @@
+---
+- name: Check if certificate already exists.
+  stat:
+    path: /etc/letsencrypt/live/{{ cert_item.domains | first }}/cert.pem
+  register: letsencrypt_cert
+
+- name: Create directory for secrets
+  ansible.builtin.file:
+    path: "{{ certbot_cloudflare_credentials_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0700'
+
+- name: Create credentials file
+  ansible.builtin.copy:
+    dest: "{{ certbot_cloudflare_credentials_file }}"
+    content: "dns_cloudflare_api_token = {{ certbot_cloudflare_api_token }}"
+    owner: root
+    group: root
+    mode: '0600'
+
+- name: Generate new certificate if one doesn't exist.
+  command: "{{ certbot_create_command }}"
+  when: not letsencrypt_cert.stat.exists

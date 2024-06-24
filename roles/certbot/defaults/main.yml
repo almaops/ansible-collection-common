@@ -12,8 +12,15 @@ certbot_hsts: false
 
 # Parameters used when creating new Certbot certs.
 certbot_create_if_missing: false
+# Possible methods: webroot, standalone, dns-cloudflare
 certbot_create_method: standalone
 certbot_admin_email: email@example.com
+
+# Cloudflare credentials file
+certbot_cloudflare_credentials_dir: "/root/.secrets"
+certbot_cloudflare_credentials_file: "{{ certbot_cloudflare_credentials_dir }}/cloudflare.ini"
+certbot_cloudflare_api_token: "{{ undef(hint='You must set your Cloudflare API token in variable certbot_cloudflare_api_token') }}"
+certbot_cloudflare_propagation_seconds: 10
 
 # Default webroot, overwritten by individual per-cert webroot directories
 certbot_webroot: /var/www/letsencrypt
@@ -29,6 +36,10 @@ certbot_certs: []
 
 certbot_create_command: >-
   {{ certbot_script }} certonly --{{ certbot_create_method  }}
+  {{ '--dns-cloudflare-credentials' if certbot_create_method == 'dns-cloudflare'  else '' }}
+  {{ certbot_cloudflare_credentials_file if certbot_create_method == 'dns-cloudflare'  else '' }}
+  {{ '--dns-cloudflare-propagation-seconds' if certbot_create_method == 'dns-cloudflare'  else '' }}
+  {{ certbot_cloudflare_propagation_seconds if certbot_create_method == 'dns-cloudflare'  else '' }}
   {{ '--hsts' if certbot_hsts else '' }}
   {{ '--test-cert' if certbot_testmode else '' }}
   --noninteractive --agree-tos
