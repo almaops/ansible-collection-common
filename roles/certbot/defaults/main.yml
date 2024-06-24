@@ -62,6 +62,10 @@ certbot_create_standalone_stop_services:
 # Available options: 'package', 'snap', 'source'.
 certbot_install_method: 'package'
 
+# Extra certbot packages, eg Cloudflare plugin
+certbot_packages:
+  - python3-certbot-dns-cloudflare
+
 # Source install configuration.
 certbot_repo: https://github.com/certbot/certbot.git
 certbot_version: master
