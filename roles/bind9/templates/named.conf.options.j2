@@ -1,0 +1,30 @@
+options {
+    version "not currently available";
+{% if bind9_config_options_listen_on|length != 0 %}
+{% for listen_v4 in bind9_config_options_listen_on %}
+    listen-on {{ listen_v4.options|default('') }} { {{ listen_v4.addresses|join('; ') }}; };
+{% endfor %}
+{% endif %}
+{% if bind9_config_options_listen_on_v6|length != 0 %}
+{% for listen_v6 in bind9_config_options_listen_on_v6 %}
+    listen-on-v6 {{ listen_v6.options|default('') }} { {{ listen_v6.addresses|join('; ') }}; };
+{% endfor %}
+{% endif %}
+    directory "{{ bind9_config_options_directory }}";
+    recursion {{ bind9_config_options_recursion }};
+{% if bind9_config_options_allow_query|length != 0 %}
+    allow-query { {{ bind9_config_options_allow_query|join('; ') }}; };
+{% endif %}
+{% if bind9_config_options_allow_recursion|length != 0 %}
+    allow-recursion { {{ bind9_config_options_allow_recursion|join('; ') }}; };
+{% endif %}
+    // User-defined arbitrary text block
+{% if bind9_config_options_response_policy|length != 0 %}
+    response-policy {
+{% for rpz in bind9_config_options_response_policy %}
+        zone "{{ rpz.zone }}" {{ rpz.options|default('') }};
+{% endfor %}
+    };
+{% endif %}
+    {{ bind9_config_options_raw }}
+};

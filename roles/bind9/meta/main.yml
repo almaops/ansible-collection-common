@@ -1,0 +1,22 @@
+---
+galaxy_info:
+  author: "Valentin Gostev"
+  description: "Install and configure Bind9"
+  role_name: bind9
+  namespace: almaops
+  license: MIT
+  min_ansible_version: "2.12"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - all
+  galaxy_tags:
+    - bind9
+    - named
+    - dns
+allow_duplicates: true
+dependencies: []
+...

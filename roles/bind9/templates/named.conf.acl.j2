@@ -1,0 +1,7 @@
+{% for acl in bind9_config_acl %}
+acl {{ acl.name }} {
+{% for item in acl.cidr %}
+    {{ item }};
+{% endfor %}
+};
+{% endfor %}

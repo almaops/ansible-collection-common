@@ -1,0 +1,53 @@
+---
+- name: "=== BIND9 === Install packages"
+  ansible.builtin.package:
+    pkg: "{{ item }}"
+    state: present
+  loop: "{{ bind9_packages }}"
+
+- name: "=== BIND9 === Download root hint"
+  ansible.builtin.get_url:
+    url: "{{ bind9_url_root_hint }}"
+    dest: "{{ bind9_path_root_hint }}"
+    mode: '0644'
+    owner: root
+    group: bind
+  when: bind9_enable_root_hint
+
+- name: "=== BIND9 === Create zone files"
+  ansible.builtin.include_tasks:
+    file: zone.yml
+  loop: "{{ bind9_zones }}"
+  loop_control:
+    loop_var: bind9_zone
+    label: "{{ bind9_zone.name }}"
+
+- name: "=== BIND9 === Template bind configs"
+  ansible.builtin.template:
+    src: "{{ item.template }}"
+    dest: "{{ item.config }}"
+    mode: '0644'
+    owner: root
+    group: bind
+  loop:
+    - template: "{{ bind9_template_config_acl }}"
+      config: "{{ bind9_path_config_acl }}"
+    - template: "{{ bind9_template_config_local }}"
+      config: "{{ bind9_path_config_local }}"
+    - template: "{{ bind9_template_config_options }}"
+      config: "{{ bind9_path_config_options }}"
+    - template: "{{ bind9_template_config_default_zones }}"
+      config: "{{ bind9_path_config_default_zones }}"
+  notify:
+    - bind9_handler_reload
+
+- name: "=== BIND9 === Copy {{ bind9_path_config_main }}"
+  ansible.builtin.copy:
+    src: named.conf
+    dest: "{{ bind9_path_config_main }}"
+    mode: '0644'
+    owner: root
+    group: bind
+  notify:
+    - bind9_handler_reload
+...

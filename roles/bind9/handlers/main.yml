@@ -1,0 +1,11 @@
+---
+- name: bind9_handler_reload
+  ansible.builtin.systemd:
+    name: "{{ bind9_systemd_unit }}"
+    state: reloaded
+
+- name: bind9_handler_restart
+  ansible.builtin.systemd:
+    name: "{{ bind9_systemd_unit }}"
+    state: restarted
+...

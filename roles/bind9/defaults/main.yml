@@ -1,0 +1,47 @@
+---
+# Common
+bind9_systemd_unit: "named"
+
+# Feature flags
+bind9_enable_root_hint: true
+
+# URL settings
+bind9_url_root_hint: https://www.internic.net/domain/named.root
+
+# Templates
+bind9_template_config_acl: named.conf.acl.j2
+bind9_template_config_options: named.conf.options.j2
+bind9_template_config_local: named.conf.local.j2
+bind9_template_config_default_zones: named.conf.default-zones.j2
+
+# Path settings
+bind9_path_root_hint: /etc/bind/named.root
+bind9_path_config_main: /etc/bind/named.conf
+bind9_path_config_acl: /etc/bind/named.conf.acl
+bind9_path_config_options: /etc/bind/named.conf.options
+bind9_path_config_local: /etc/bind/named.conf.local
+bind9_path_config_default_zones: /etc/bind/named.conf.default-zones
+
+# Packages
+bind9_packages:
+  - bind9
+  - bind9-dnsutils
+  - bind9-host
+  - bind9-utils
+
+# Bind9 config options
+bind9_config_acl: []
+bind9_config_options_listen_on: []
+bind9_config_options_listen_on_v6:
+  - addresses:
+      - none
+bind9_config_options_directory: "/var/cache/bind"
+bind9_config_options_recursion: "yes"
+bind9_config_options_allow_query: []
+bind9_config_options_allow_recursion: []
+bind9_config_options_forwarders: []
+bind9_config_options_response_policy: []
+bind9_config_options_raw: ""
+bind9_config_local_raw: ""
+bind9_zones: []
+...

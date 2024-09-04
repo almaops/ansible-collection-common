@@ -1,0 +1,23 @@
+---
+- name: "=== BIND9 === Create zone from template {{ bind9_zone.name }}"
+  ansible.builtin.template:
+    src: "{{ bind9_zone.source }}"
+    dest: "{{ bind9_zone.file }}"
+    mode: '0644'
+    owner: root
+    group: bind
+  when:
+    - bind9_zone.create|default(true)
+    - bind9_zone.source_type == "template"
+
+- name: "=== BIND9 === Copy zone from file {{ bind9_zone.name }}"
+  ansible.builtin.copy:
+    src: "{{ bind9_zone.source }}"
+    dest: "{{ bind9_zone.file }}"
+    mode: '0644'
+    owner: root
+    group: bind
+  when:
+    - bind9_zone.create|default(true)
+    - bind9_zone.source_type == "copy"
+...
