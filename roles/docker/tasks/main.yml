@@ -3,7 +3,11 @@
   ansible.builtin.include_role:
     name: almaops.common.pkg
   vars:
-    pkg_install_packages: "{{ ['docker.io'] + (docker_enable_docker_compose | ternary(['docker-compose'], [])) }}"
+    pkg_install_packages: "{{
+      docker_package_engine +
+      (docker_enable_docker_compose | ternary(docker_package_compose_v1, [])) +
+      (docker_enable_docker_compose_v2 | ternary(docker_package_compose_v2, [])) +
+      (docker_enable_docker_python | ternary(docker_package_python_docker, [])) }}"
   when:
     - docker_enable_pkg_install
     - ansible_distribution | default(undef(hint="you must gather facts before running this role")) in [ 'Ubuntu', 'Debian', 'Astra Linux' ]
@@ -16,10 +20,14 @@
   when:
     - docker_enable_pip_install
 
-- name: "=== DOCKER === Customize Docker config"
-  ansible.builtin.include_tasks: configure-dockerd.yml
-  when:
-    - docker_enable_configure
+- name: "=== DOCKER === create {{ docker_path_daemon_json }}"
+  ansible.builtin.template:
+    src: "{{ docker_template_daemon_json }}"
+    dest: "{{ docker_path_daemon_json }}"
+    mode: '0600'
+  notify:
+    - docker_handler_restart
+  when: docker_enable_configure
 
 - name: "=== DOCKER === Login to registries"
   ansible.builtin.include_tasks: docker-login.yml
