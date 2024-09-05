@@ -1,10 +1,8 @@
-almaops.common.docker
-==========
+# almaops.common.docker
 
-This ansible role installs docker
+This ansible role installs docker engine on target host
 
-Requirements
-------------
+## Requirements
 
 This role installs docker from your distro's repository, not an omnibus daemon from upstream.
 
@@ -29,12 +27,8 @@ Example Playbook
 
 ```
 
-License
--------
-
+## License
 [MIT License](./LICENSE)
 
-
-Author Information
-------------------
+## Author Information
 Dmitrii Kashin, <freehck@freehck.com>
