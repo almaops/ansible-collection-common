@@ -1,12 +1,12 @@
 ---
-- name: "{{ docker_task_prefix }} create {{ docker_path_daemon_json }}/{{ docker_file_daemon_json }}"
+- name: "=== DOCKER === create {{ docker_path_daemon_json }}/{{ docker_file_daemon_json }}"
   ansible.builtin.template:
     src: "{{ docker_template_daemon_json }}"
     dest: "{{ docker_path_daemon_json }}/{{ docker_file_daemon_json }}"
     mode: '0600'
   register: docker_task_configure
 
-- name: "{{ docker_task_prefix }} restart docker"
+- name: "=== DOCKER === restart docker"
   ansible.builtin.systemd:
     name: "{{ docker_systemd_service }}"
     state: "restarted"

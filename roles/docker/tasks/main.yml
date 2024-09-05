@@ -1,5 +1,5 @@
 ---
-- name: "{{ docker_task_prefix }} Install packages"
+- name: "=== DOCKER === Install packages"
   ansible.builtin.include_role:
     name: almaops.common.pkg
   vars:
@@ -8,7 +8,7 @@
     - docker_enable_pkg_install
     - ansible_distribution | default(undef(hint="you must gather facts before running this role")) in [ 'Ubuntu', 'Debian', 'Astra Linux' ]
 
-- name: "{{ docker_task_prefix }} Install PIP library"
+- name: "=== DOCKER === Install PIP library"
   ansible.builtin.include_role:
     name: almaops.common.pip
   vars:
@@ -16,12 +16,12 @@
   when:
     - docker_enable_pip_install
 
-- name: "{{ docker_task_prefix }} Customize Docker config"
+- name: "=== DOCKER === Customize Docker config"
   ansible.builtin.include_tasks: configure-dockerd.yml
   when:
     - docker_enable_configure
 
-- name: "{{ docker_task_prefix }} Login to registries"
+- name: "=== DOCKER === Login to registries"
   ansible.builtin.include_tasks: docker-login.yml
   loop: "{{ docker_registry_credentials }}"
   loop_control:

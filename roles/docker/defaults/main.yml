@@ -1,7 +1,4 @@
 ---
-
-docker_task_prefix: "=== DOCKER ==="
-
 docker_enable_pkg_install: true
 docker_enable_pip_install: true
 docker_enable_configure: true
