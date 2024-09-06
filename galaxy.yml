@@ -1,7 +1,7 @@
 ---
 namespace: almaops
 name: common
-version: 1.0.34
+version: 1.0.35
 readme: README.md
 authors:
   - Valentin Gostev <val@almaops.ru>
