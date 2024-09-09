@@ -9,6 +9,8 @@
   when:
     - bind9_zone.create|default(true)
     - bind9_zone.source_type == "template"
+  notify:
+    - bind9_handler_reload
 
 - name: "=== BIND9 === Copy zone from file {{ bind9_zone.name }}"
   ansible.builtin.copy:
@@ -20,4 +22,6 @@
   when:
     - bind9_zone.create|default(true)
     - bind9_zone.source_type == "copy"
+  notify:
+    - bind9_handler_reload
 ...

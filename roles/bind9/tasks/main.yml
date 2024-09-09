@@ -21,8 +21,6 @@
   loop_control:
     loop_var: bind9_zone
     label: "{{ bind9_zone.name }}"
-  notify:
-    - bind9_handler_reload
 
 - name: "=== BIND9 === Template bind configs"
   ansible.builtin.template:
