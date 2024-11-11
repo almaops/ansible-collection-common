@@ -29,6 +29,10 @@
     - docker_handler_restart
   when: docker_enable_configure
 
+- name: "=== DOCKER === Flush handlers to reload docker after adding config"
+  meta: flush_handlers
+  when: docker_enable_configure
+
 - name: "=== DOCKER === Login to registries"
   ansible.builtin.include_tasks: docker-login.yml
   loop: "{{ docker_registry_credentials }}"
