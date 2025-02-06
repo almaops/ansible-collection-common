@@ -86,6 +86,9 @@ def main():
     if client.bucket_exists(name):
         if state == "present":
             pass
+        if state == "absent":
+            client.remove_bucket(name)
+            changed = True
     else:
         if state == "present":
             client.make_bucket(name)
