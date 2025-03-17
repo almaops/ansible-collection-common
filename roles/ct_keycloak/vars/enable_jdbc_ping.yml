@@ -1,0 +1,2 @@
+ct_keycloak_ct_volumes_jdbc_ping:
+  - "{{ ct_keycloak_path_config }}/{{ ct_keycloak_file_config }}:/opt/keycloak/conf/{{ ct_keycloak_file_config }}"

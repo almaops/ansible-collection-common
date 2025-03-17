@@ -1,0 +1,60 @@
+---
+
+- name: "{{ ct_keycloak_task_prefix }} Fail if admin name is not defined"
+  fail:
+    msg: "WARNING! You are required to set ct_keycloak_env.KC_BOOTSTRAP_ADMIN_USERNAME for this role"
+  when: ct_keycloak_env.KC_BOOTSTRAP_ADMIN_USERNAME is not defined
+
+- name: "{{ ct_keycloak_task_prefix }} Fail if admin password is not defined"
+  fail:
+    msg: "WARNING! You are required to set ct_keycloak_env.KC_BOOTSTRAP_ADMIN_PASSWORD for this role"
+  when: ct_keycloak_env.KC_BOOTSTRAP_ADMIN_PASSWORD is not defined
+
+- name: "{{ ct_keycloak_task_prefix }} Enable JDBC PING"
+  ansible.builtin.include_vars: "enable_jdbc_ping.yml"
+  when: ct_keycloak_enable_jdbc_ping | bool
+  
+- name: "{{ ct_keycloak_task_prefix }} Directories"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+    recurse: true
+  loop:
+    - "{{ ct_keycloak_path_env }}"
+    - "{{ ct_keycloak_path_config }}"
+  changed_when: false
+
+- name: "{{ ct_keycloak_task_prefix }} Templates"
+  ansible.builtin.template:
+    src: "{{ tmpl.src }}"
+    dest: "{{ tmpl.dest }}"
+    mode: "{{ tmpl.mode | default(omit) }}"
+    owner: "{{ tmpl.owner | default(omit) }}"
+    group: "{{ tmpl.group | default(omit) }}"
+  loop_control:
+    loop_var: tmpl
+  loop:
+    - src: "{{ ct_keycloak_template_env }}"
+      dest: "{{ ct_keycloak_path_env }}/{{ ct_keycloak_file_env }}"
+    - src: "{{ ct_keycloak_template_config }}"
+      dest: "{{ ct_keycloak_path_config }}/{{ ct_keycloak_file_config }}"
+      mode: "0600"
+      owner: "1000"
+      group: "0"
+
+- name: "{{ ct_keycloak_task_prefix }} Provision container {{ ct_keycloak_ct_name }}"
+  docker_container:
+    name: "{{ ct_keycloak_ct_name }}"
+    image: "{{ ct_keycloak_ct_image }}"
+    ports: "{{ ct_keycloak_ct_ports }}"
+    network_mode: "{{ ct_keycloak_network_mode }}"
+    restart_policy: "{{ ct_keycloak_ct_restart_policy }}"
+    state: "{{ ct_keycloak_ct_state }}"
+    recreate: "{{ ct_keycloak_ct_recreate | bool }}"
+    restart: "{{ ct_keycloak_ct_restart | bool }}"
+    pull: "{{ ct_keycloak_ct_pull | bool }}"
+    volumes: "{{ ct_keycloak_ct_volumes }}"
+    env_file: "{{ ct_keycloak_path_env }}/{{ ct_keycloak_file_env }}"
+    hostname: "{{ ct_keycloak_hostname }}"
+    command: "{{ ct_keycloak_ct_command }}"
