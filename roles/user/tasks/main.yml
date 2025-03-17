@@ -1,10 +1,10 @@
 ---
-- name: Check username
+- name: "=== ALMAOPS USER === Check username"
   ansible.builtin.fail:
     msg: 'no username provided'
   when: username is undefined
 
-- name: Set facts
+- name: "=== ALMAOPS USER === Set facts"
   ansible.builtin.set_fact:
     apply_to_this_host: false
     user_host_list: []
@@ -19,7 +19,7 @@
       {%- else -%} sudo
       {%- endif -%}
 
-- name: Lookup user definition for this host
+- name: "=== ALMAOPS USER === Lookup user definition for this host"
   ansible.builtin.set_fact: user_host_list={{ user_host_list|default([]) + hosts | selectattr('host', 'equalto', item) | list }}
   with_items:
     - "{{ inventory_hostname }}"
@@ -27,23 +27,23 @@
     - "{{ group_names }}"
     - all
 
-- name: Check if we shall apply user settings to this host
+- name: "=== ALMAOPS USER === Check if we shall apply user settings to this host"
   ansible.builtin.set_fact:
     apply_to_this_host: true
   when: user_host_list | length > 0
 
-- name: Gathering host configuration
+- name: "=== ALMAOPS USER === Gathering host configuration"
   ansible.builtin.set_fact:
     host: "{{ user_host_list | first }}"
   when: apply_to_this_host
 
-- name: Configure sudo group
+- name: "=== ALMAOPS USER === Configure sudo group"
   ansible.builtin.include_tasks: configure-sudo-group.yml
   when: not sudo_group_configured
   tags:
     - sudo_configuration
 
-- name: Delete user {{ username }}
+- name: "=== ALMAOPS USER === Delete user {{ username }}"
   ansible.builtin.user:
     name: "{{ username }}"
     state: absent
@@ -52,7 +52,7 @@
     - apply_to_this_host
     - host.delete_user | default(delete_user)
 
-- name: Create user {{ username }}
+- name: "=== ALMAOPS USER === Create user {{ username }}"
   ansible.builtin.include_tasks: create-user.yml
   when:
     - apply_to_this_host

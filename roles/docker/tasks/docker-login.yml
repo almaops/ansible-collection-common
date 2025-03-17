@@ -1,5 +1,5 @@
 ---
-- name: "=== DOCKER === login for registry: {{ creds.registry }}"
+- name: "=== ALMAOPS DOCKER === login for registry: {{ creds.registry }}"
   community.docker.docker_login:
     registry_url: "{{ creds.registry }}"
     username: "{{ creds.username }}"

@@ -1,5 +1,5 @@
 ---
-- name: "=== DOCKER === Install packages"
+- name: "=== ALMAOPS DOCKER === Install packages"
   ansible.builtin.include_role:
     name: almaops.common.pkg
   vars:
@@ -12,7 +12,7 @@
     - docker_enable_pkg_install
     - ansible_distribution | default(undef(hint="you must gather facts before running this role")) in [ 'Ubuntu', 'Debian', 'Astra Linux' ]
 
-- name: "=== DOCKER === Install PIP library"
+- name: "=== ALMAOPS DOCKER === Install PIP library"
   ansible.builtin.include_role:
     name: almaops.common.pip
   vars:
@@ -20,7 +20,7 @@
   when:
     - docker_enable_pip_install
 
-- name: "=== DOCKER === create {{ docker_path_daemon_json }}"
+- name: "=== ALMAOPS DOCKER === create {{ docker_path_daemon_json }}"
   ansible.builtin.template:
     src: "{{ docker_template_daemon_json }}"
     dest: "{{ docker_path_daemon_json }}"
@@ -29,11 +29,11 @@
     - docker_handler_restart
   when: docker_enable_configure
 
-- name: "=== DOCKER === Flush handlers to reload docker after adding config"
+- name: "=== ALMAOPS DOCKER === Flush handlers to reload docker after adding config"
   meta: flush_handlers
   when: docker_enable_configure
 
-- name: "=== DOCKER === Login to registries"
+- name: "=== ALMAOPS DOCKER === Login to registries"
   ansible.builtin.include_tasks: docker-login.yml
   loop: "{{ docker_registry_credentials }}"
   loop_control:
