@@ -1,7 +1,7 @@
 ---
 
 ## tags: certbot nginx
-#- ansible.builtin.import_playbook: almaops.common.80_nginx
+#- ansible.builtin.import_playbook: almaops.common.90_nginx
 
 - hosts:
     - "{{ lookup('env', 'CLIENT_LABEL') | default('CLIENT_LABEL', true) }}_env_{{ deploy_target }}_nginx"
