@@ -1,5 +1,5 @@
 ---
-ct_redis_task_prefix: "=== REDIS CT ==="
+ct_redis_task_prefix: "=== ALMAOPS CT_REDIS ==="
 # Common settings
 ct_redis_enable_ports: true
 ct_redis_enable_custom_config: false
@@ -23,9 +23,9 @@ ct_redis_ct_image: "redis"
 ct_redis_ct_version: "latest"
 ct_redis_ct_state: "started"
 ct_redis_ct_restart_policy: "always"
-ct_redis_ct_restart: "no"
-ct_redis_ct_pull: "no"
-ct_redis_ct_recreate: "no"
+ct_redis_ct_restart: "false"
+ct_redis_ct_pull: "false"
+ct_redis_ct_recreate: "false"
 # Container settings - Ports
 ct_redis_ct_ports_default: []
 ct_redis_ct_ports_extra: []

@@ -16,6 +16,9 @@ ct_keycloak_path_config: "{{ ct_keycloak_path_base }}/cfg"
 ct_keycloak_file_config: "cache-ispn-jdbc-ping.xml"
 ct_keycloak_template_config: "cache-ispn-jdbc-ping.xml.j2"
 
+ct_keycloak_path_data: "{{ ct_keycloak_path_base }}/data"
+ct_keycloak_path_ct_data: "/opt/keycloak/data"
+
 # Network settings
 ct_keycloak_bind_addr: "127.0.0.1"
 ct_keycloak_bind_port: "8080"
@@ -38,9 +41,11 @@ ct_keycloak_ct_ports: "{{ ct_keycloak_ct_ports_main + ct_keycloak_ct_ports_extra
 
 ct_keycloak_network_mode: "default" # for jdbc ping it feels sane to use "host" network
 
+ct_keycloak_ct_volumes_main:
+  - "{{ ct_keycloak_path_data }}:{{ ct_keycloak_path_ct_data }}"
 ct_keycloak_ct_volumes_jdbc_ping: []
 ct_keycloak_ct_volumes_extra: []
-ct_keycloak_ct_volumes: "{{ ct_keycloak_ct_volumes_jdbc_ping + ct_keycloak_ct_volumes_extra }}"
+ct_keycloak_ct_volumes: "{{ ct_keycloak_ct_volumes_main + ct_keycloak_ct_volumes_jdbc_ping + ct_keycloak_ct_volumes_extra }}"
 
 ct_keycloak_ct_command: [ "start-dev" ]
 

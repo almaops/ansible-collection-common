@@ -16,13 +16,21 @@
   
 - name: "{{ ct_keycloak_task_prefix }} Directories"
   ansible.builtin.file:
-    path: "{{ item }}"
+    path: "{{ dir.path }}"
     state: directory
-    mode: '0755'
+    mode: "{{ dir.mode | default('0755') }}"
+    owner: "{{ dir.owner | default(omit) }}"
+    group: "{{ dir.group | default(omit) }}"
     recurse: true
+  loop_control:
+    loop_var: dir
   loop:
-    - "{{ ct_keycloak_path_env }}"
-    - "{{ ct_keycloak_path_config }}"
+    - path: "{{ ct_keycloak_path_env }}"
+    - path: "{{ ct_keycloak_path_config }}"
+    - path: "{{ ct_keycloak_path_data }}"
+      mode: "0700"
+      owner: "1000"
+      group: "0"
   changed_when: false
 
 - name: "{{ ct_keycloak_task_prefix }} Templates"
