@@ -1,0 +1,40 @@
+---
+
+- name: "{{ ct_mysql_task_prefix }} Fail if root password is not defined"
+  fail:
+    msg: "WARNING! You are required to set ct_mysql_env.MYSQL_ROOT_PASSWORD for this role"
+  when: ct_mysql_env.MYSQL_ROOT_PASSWORD is not defined
+
+- name: "{{ ct_mysql_task_prefix }} Directories"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+    recurse: true
+  loop:
+    - "{{ ct_mysql_path_env }}"
+    - "{{ ct_mysql_path_data }}"
+  changed_when: false
+
+- name: "{{ ct_mysql_task_prefix }} Templates"
+  ansible.builtin.template:
+    src: "{{ tmpl.src }}"
+    dest: "{{ tmpl.dest }}"
+  loop_control:
+    loop_var: tmpl
+  loop:
+    - src: "{{ ct_mysql_template_env }}"
+      dest: "{{ ct_mysql_path_env }}/{{ ct_mysql_file_env }}"
+
+- name: "{{ ct_mysql_task_prefix }} Provision container {{ ct_mysql_ct_name }}"
+  community.docker.docker_container:
+    name: "{{ ct_mysql_ct_name }}"
+    image: "{{ ct_mysql_ct_image }}"
+    ports: "{{ ct_mysql_ct_ports }}"
+    restart_policy: "{{ ct_mysql_ct_restart_policy }}"
+    state: "{{ ct_mysql_ct_state }}"
+    recreate: "{{ ct_mysql_ct_recreate | bool }}"
+    restart: "{{ ct_mysql_ct_restart | bool }}"
+    pull: "{{ ct_mysql_ct_pull | bool }}"
+    volumes: "{{ ct_mysql_ct_volumes }}"
+    env_file: "{{ ct_mysql_path_env }}/{{ ct_mysql_file_env }}"

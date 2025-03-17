@@ -1,0 +1,49 @@
+---
+# Genaral settings
+ct_mysql_task_prefix: "=== ALMAOPS CT_MYSQL ==="
+
+# Path settings
+ct_mysql_path_base: "/srv/{{ ct_mysql_ct_name }}"
+
+ct_mysql_path_env: "{{ ct_mysql_path_base }}"
+ct_mysql_file_env: "env"
+ct_mysql_template_env: "env.j2"
+
+ct_mysql_path_data: "{{ ct_mysql_path_base }}/data"
+ct_mysql_path_ct_data: "/var/lib/mysql"
+
+# Network settings
+ct_mysql_bind_addr: "127.0.0.1"
+ct_mysql_bind_port: "3306"
+ct_mysql_bind_ct_port: "3306"
+
+# Container settings
+ct_mysql_ct_image: "mysql:latest"
+
+ct_mysql_ct_name: "mysql"
+ct_mysql_ct_restart_policy: "always"
+ct_mysql_ct_state: "started"
+ct_mysql_ct_recreate: "false"
+ct_mysql_ct_restart: "false"
+ct_mysql_ct_pull: "false"
+
+ct_mysql_ct_ports_main:
+  - "{{ ct_mysql_bind_addr }}:{{ ct_mysql_bind_port }}:{{ ct_mysql_bind_ct_port }}"
+ct_mysql_ct_ports_extra: []
+ct_mysql_ct_ports: "{{ ct_mysql_ct_ports_main + ct_mysql_ct_ports_extra }}"
+
+ct_mysql_ct_volumes_main:
+  - "{{ ct_mysql_path_data }}:{{ ct_mysql_path_ct_data }}"
+ct_mysql_ct_volumes_extra: []
+ct_mysql_ct_volumes: "{{ ct_mysql_ct_volumes_main + ct_mysql_ct_volumes_extra }}"
+  
+# Environment variables
+ct_mysql_env:
+  MYSQL_ROOT_PASSWORD: "AlmaOps112"
+ct_mysql_env_extra: {}
+
+# Service configuration variables
+ct_mysql_conf: {}
+ct_mysql_conf_extra: {}
+
+...
