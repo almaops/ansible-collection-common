@@ -1,0 +1,72 @@
+---
+
+- name: "{{ ct_gitlab_runner_task_prefix }} Load dond volumes"
+  include_vars: "dond_volumes.yml"
+  when: ct_gitlab_runner_dond_enabled | bool
+
+- name: "{{ ct_gitlab_runner_task_prefix }} Create directory {{ ct_gitlab_runner_path_cfg_dir }}"
+  file:
+    path: "{{ ct_gitlab_runner_path_cfg_dir }}"
+    state: directory
+    mode: 0755
+    recurse: true
+  changed_when: false
+
+- name: "{{ ct_gitlab_runner_task_prefix }} Provision container {{ ct_gitlab_runner_ct_name }}"
+  docker_container:
+    name: "{{ ct_gitlab_runner_ct_name }}"
+    image: "{{ ct_gitlab_runner_ct_image }}"
+    ports: "{{ ct_gitlab_runner_ct_ports }}"
+    volumes: "{{ ct_gitlab_runner_ct_volumes }}"
+    env: "{{ ct_gitlab_runner_ct_env }}"
+    restart_policy: "{{ ct_gitlab_runner_ct_restart_policy }}"
+    state: "{{ ct_gitlab_runner_ct_state }}"
+    restart: "{{ ct_gitlab_runner_ct_restart | bool }}"
+    pull: "{{ ct_gitlab_runner_ct_pull | bool }}"
+    recreate: "{{ ct_gitlab_runner_ct_recreate | bool }}"
+    etc_hosts: "{{ ct_docker_runner_ct_etc_hosts }}"
+
+- name: "{{ ct_gitlab_runner_task_prefix }} Check if runner {{ ct_gitlab_runner_name }} is already registered"
+  stat:
+    path: "{{ ct_gitlab_runner_path_cfg }}"
+  register: ct_gitlab_runner_path_cfg_file
+
+- name: "{{ ct_gitlab_runner_task_prefix }} Register runner {{ ct_gitlab_runner_name }}"
+  shell: >
+    docker exec {{ ct_gitlab_runner_ct_name }} gitlab-runner unregister --all-runners;
+    docker exec {{ ct_gitlab_runner_ct_name }} gitlab-runner register
+    --non-interactive
+    --url '{{ ct_gitlab_runner_coordinator_url }}'
+    --registration-token '{{ ct_gitlab_runner_registration_token }}'
+    --description '{{ ct_gitlab_runner_name }}'
+    --tag-list '{{ ct_gitlab_runner_tags | join(",") }}'
+    --executor '{{ ct_gitlab_runner_executor }}'
+    --limit '{{ ct_gitlab_runner_parallel_builds_number }}'
+    --docker-image '{{ ct_gitlab_runner_docker_image }}'
+    --run-untagged='{{ ct_gitlab_runner_run_untagged }}'
+    {% if ct_gitlab_runner_cache_s3_enabled %}
+    --cache-s3-server-address '{{ ct_gitlab_runner_cache_s3_server_address }}'
+    --cache-s3-access-key '{{ ct_gitlab_runner_cache_s3_access_key }}'
+    --cache-s3-secret-key '{{ ct_gitlab_runner_cache_s3_secret_key }}'
+    {% endif %}
+    {% if ct_gitlab_runner_dind_enabled %}
+    --docker-privileged
+    {% endif %}
+    {% for volume in ct_gitlab_runner_docker_volumes %}
+    --docker-volumes "{{ volume }}"
+    {% endfor %}
+  when: (not ct_gitlab_runner_path_cfg_file.stat.exists) or ct_gitlab_runner_force_reg
+  changed_when: false
+
+- name: "{{ ct_gitlab_runner_task_prefix }} Set runner concurrency to {{ ct_gitlab_runner_parallel_builds_number }}"
+  lineinfile:
+    path: "{{ ct_gitlab_runner_path_cfg }}"
+    regexp: '^concurrent'
+    line: 'concurrent = {{ ct_gitlab_runner_parallel_builds_number }}'
+  register: ct_gitlab_runner_path_cfg_file_status
+
+- name: "{{ ct_gitlab_runner_task_prefix }} Restart runner to apply concurrency settings"
+  docker_container:
+    name: "{{ ct_gitlab_runner_ct_name }}"
+    restart: true
+  when: ct_gitlab_runner_path_cfg_file_status is changed

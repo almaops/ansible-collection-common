@@ -1,0 +1,49 @@
+---
+# General Settings
+ct_gitlab_runner_task_prefix: "=== ALMAOPS CT_GITLAB_RUNNER ==="
+
+# Common settings
+ct_gitlab_runner_cache_s3_enabled: false
+ct_gitlab_runner_force_reg: false
+ct_gitlab_runner_dind_enabled: false
+ct_gitlab_runner_dond_enabled: true
+
+# Path settings
+ct_gitlab_runner_path_srv_dir: "/srv"
+ct_gitlab_runner_path_cfg_dir: "{{ ct_gitlab_runner_path_srv_dir }}/{{ ct_gitlab_runner_ct_name }}/config"
+ct_gitlab_runner_path_cfg: "{{ ct_gitlab_runner_path_cfg_dir }}/config.toml"
+
+# Network settings
+# none
+
+# Container settings
+ct_gitlab_runner_ct_name: "gitlab-runner"
+ct_gitlab_runner_ct_image: "gitlab/gitlab-runner:{{ ct_gitlab_runner_ct_image_tag }}"
+ct_gitlab_runner_ct_image_tag: "alpine"
+ct_gitlab_runner_ct_restart_policy: "always"
+ct_gitlab_runner_ct_pull: "false"
+ct_gitlab_runner_ct_recreate: "false"
+ct_gitlab_runner_ct_restart: "false"
+ct_gitlab_runner_ct_state: "started"
+
+ct_gitlab_runner_ct_volumes_cfg: [ "{{ ct_gitlab_runner_path_cfg_dir }}:/etc/gitlab-runner:rw" ]
+ct_gitlab_runner_ct_volumes_dond: []
+ct_gitlab_runner_ct_volumes: "{{ ct_gitlab_runner_ct_volumes_cfg + ct_gitlab_runner_ct_volumes_dond }}"
+
+ct_gitlab_runner_ct_ports: []
+ct_docker_runner_ct_etc_hosts: {}
+ct_gitlab_runner_ct_env: {}
+
+# Configuration settings
+ct_gitlab_runner_name: "{{ inventory_hostname }}"
+#ct_gitlab_runner_registration_token: ""
+ct_gitlab_runner_coordinator_url: "https://gitlab.com/ci"
+ct_gitlab_runner_tags: []
+ct_gitlab_runner_executor: "docker"
+ct_gitlab_runner_parallel_builds_number: "1"
+ct_gitlab_runner_docker_image: "alpine"
+ct_gitlab_runner_run_untagged: "true"
+# ct_gitlab_runner_cache_s3_server_address: ""
+# ct_gitlab_runner_cache_s3_access_key: ""
+# ct_gitlab_runner_cache_s3_secret_key: ""
+ct_gitlab_runner_docker_volumes: []
