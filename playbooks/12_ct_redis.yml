@@ -1,0 +1,14 @@
+---
+
+## tags: init-ct-redis
+#- ansible.builtin.import_playbook: almaops.common.12_ct_redis
+
+- hosts:
+    - "{{ lookup('env', 'CLIENT_LABEL') | default('CLIENT_LABEL', true) }}_env_{{ deploy_target }}_ct_redis"
+  tags:
+    - init-ct-redis
+  become: true
+  roles:
+    - role: almaops.common.ct_redis
+
+...
