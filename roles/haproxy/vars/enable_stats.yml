@@ -1,0 +1,10 @@
+---
+
+haproxy_cfg_stats: |
+  listen stats
+    bind {{ haproxy_bind_addr_stats }}:{{ haproxy_bind_port_stats }}
+    mode http
+    stats enable
+    stats show-desc
+    stats show-legends
+    stats uri /

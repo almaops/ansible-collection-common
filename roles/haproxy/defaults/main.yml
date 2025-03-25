@@ -1,0 +1,38 @@
+---
+haproxy_task_prefix: "=== ALMAOPS HAPROXY ==="
+
+haproxy_path_config: "/etc/haproxy"
+haproxy_file_config: "haproxy.cfg"
+haproxy_template_config: "haproxy.cfg.j2"
+
+haproxy_pkg: "haproxy" # or "haproxy=version"
+haproxy_service: "haproxy"
+
+haproxy_enable_stats: false
+haproxy_bind_addr_stats: "127.0.0.1"
+haproxy_bind_port_stats: "7000"
+
+haproxy_timeout_connect_ms: "5000"
+haproxy_timeout_client_ms: "50000"
+haproxy_timeout_server_ms: "50000"
+haproxy_retries: "3"
+haproxy_maxconn: "2000"
+
+haproxy_cfg_defaults: |
+  defaults
+    log     global
+    mode    tcp
+    option  tcplog
+    retries {{ haproxy_retries }}
+    option redispatch
+    maxconn {{ haproxy_maxconn }}
+    timeout connect {{ haproxy_timeout_connect_ms }}
+    timeout client {{ haproxy_timeout_client_ms }}
+    timeout server {{ haproxy_timeout_server_ms }}
+
+haproxy_cfg_stats: ""
+
+## put here your custom haproxy configuration
+# haproxy_cfg: ""
+
+...
