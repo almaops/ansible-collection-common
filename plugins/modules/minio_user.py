@@ -60,7 +60,6 @@ seealso:
   - name: mc mb
     description: Documentation for the B(mc mb) command.
     link: https://min.io/docs/minio/linux/reference/minio-mc/mc-mb.html
-extends_documentation_fragment: almaops.common.minio_auth
 """
 
 EXAMPLES = """
