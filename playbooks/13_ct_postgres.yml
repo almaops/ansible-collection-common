@@ -1,0 +1,11 @@
+---
+## tags: init-ct-postgres
+#- ansible.builtin.import_playbook: almaops.common.13_ct_postgres
+
+- hosts:
+    - "{{ lookup('env', 'CLIENT_LABEL') | default('CLIENT_LABEL', true) }}_env_{{ deploy_target }}_ct_postgres"
+  tags:
+    - init-ct-postgres
+  become: true
+  roles:
+    - role: almaops.common.ct_postgres
