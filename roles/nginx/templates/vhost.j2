@@ -51,3 +51,7 @@ server {
     {{ item.extra_parameters|indent(4) }}
 {% endif %}
 }
+
+{% if item.other_directives is defined %}
+    {{item.other_directives}}
+{% endif %}

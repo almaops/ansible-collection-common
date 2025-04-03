@@ -75,6 +75,7 @@ nginx_vhosts: []
 #   access_log: ""
 #   error_log: ""
 #   extra_parameters: "" # Can be used to add extra config blocks (multiline).
+#   other_directives: "" # Other directives blocs (multiline)
 #   template: "" # Can be used to override the `nginx_vhost_template` per host.
 #   state: "absent" # To remove the vhost configuration.
 
