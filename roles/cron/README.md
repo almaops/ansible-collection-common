@@ -1,7 +1,10 @@
+[![License](https://img.shields.io/badge/license-MIT%20License-brightgreen.svg)](https://opensource.org/licenses/MIT)
+[![ansible-lint](https://github.com/almaops/ansible-collection-common/actions/workflows/ansible-lint.yml/badge.svg)](https://github.com/almaops/ansible-collection-common/actions/workflows/ansible-lint.yml)
+[![REUSE status](https://api.reuse.software/badge/github.com/almaops/ansible-collection-common)](https://api.reuse.software/info/github.com/almaops/ansible-collection-common)
+
 almaops.common.cron
 =========
 
-[![License](https://img.shields.io/badge/license-MIT%20License-brightgreen.svg)](https://opensource.org/licenses/MIT)
 
 Manage cron jobs
 
