@@ -1,6 +1,4 @@
 ---
-ct_clickhouse_task_prefix: "=== CT CLICKHOUSE ==="
-
 # Path settings
 ct_clickhouse_path_base: "/srv/ct_clickhouse/{{ ct_clickhouse_ct_name }}"
 ct_clickhouse_path_data: "{{ ct_clickhouse_path_base }}/data"

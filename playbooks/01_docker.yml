@@ -1,15 +1,15 @@
 ---
 
 ## tags: init-docker
-#- ansible.builtin.import_playbook: 01_docker
+# - ansible.builtin.import_playbook: 01_docker
 
-- hosts:
-    - "{{ lookup('env', 'CLIENT_LABEL') | default('CLIENT_LABEL', true) }}_env_{{ deploy_target }}_docker"
+- name: Install DOcker engine
+  hosts:
+    - "{{ lookup('env', 'CLIENT_LABEL') | default('CLIENT_LABEL', true) }}_env_{{ deploy_target | default('') }}_docker"
   tags:
     - init-docker
   become: true
   gather_facts: true
   roles:
     - role: almaops.common.docker
-
 ...

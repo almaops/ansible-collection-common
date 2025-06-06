@@ -39,7 +39,7 @@
     - template: "{{ bind9_template_config_default_zones }}"
       config: "{{ bind9_path_config_default_zones }}"
   notify:
-    - bind9_handler_reload
+    - Bind9_handler_reload
 
 - name: "=== BIND9 === Copy {{ bind9_path_config_main }}"
   ansible.builtin.copy:
@@ -49,5 +49,5 @@
     owner: root
     group: bind
   notify:
-    - bind9_handler_reload
+    - Bind9_handler_reload
 ...

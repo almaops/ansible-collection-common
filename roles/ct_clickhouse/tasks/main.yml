@@ -1,5 +1,5 @@
 ---
-- name: "{{ ct_clickhouse_task_prefix }} Create base directory"
+- name: "=== CT CLICKHOUSE === Create base directory"
   ansible.builtin.file:
     path: "{{ ct_clickhouse_path_base }}"
     state: directory
@@ -7,7 +7,7 @@
     group: root
     mode: '0750'
 
-- name: "{{ ct_clickhouse_task_prefix }} Create data directories"
+- name: "=== CT CLICKHOUSE === Create data directories"
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
@@ -18,7 +18,7 @@
     - "{{ ct_clickhouse_path_data }}"
     - "{{ ct_clickhouse_path_logs }}"
 
-- name: "{{ ct_clickhouse_task_prefix }} Provision container"
+- name: "=== CT CLICKHOUSE === Provision container"
   community.docker.docker_container:
     name: "{{ ct_clickhouse_ct_name }}"
     image: "{{ ct_clickhouse_ct_image }}"

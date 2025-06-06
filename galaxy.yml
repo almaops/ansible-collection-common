@@ -12,6 +12,11 @@ license:
 tags:
   - almaops
   - common
+  - application
+  - tools
+  - database
+  - linux
+  - storage
 dependencies: {}
 repository: 'https://github.com/almaops/ansible-collection-common'
 homepage: 'https://almaops.com'

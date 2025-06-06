@@ -1,12 +1,14 @@
 ---
-- name: Install Certbot.
-  package: "name={{ certbot_package }} state=present"
+- name: Install Certbot
+  ansible.builtin.package:
+    name: "{{ certbot_package }}"
+    state: present
 
 - name: Install extra packages
-  package:
+  ansible.builtin.package:
     name: "{{ certbot_packages }}"
     state: present
 
 - name: Set Certbot script variable.
-  set_fact:
+  ansible.builtin.set_fact:
     certbot_script: "{{ certbot_package }}"

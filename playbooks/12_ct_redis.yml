@@ -1,10 +1,11 @@
 ---
 
 ## tags: init-ct-redis
-#- ansible.builtin.import_playbook: almaops.common.12_ct_redis
+# - ansible.builtin.import_playbook: almaops.common.12_ct_redis
 
-- hosts:
-    - "{{ lookup('env', 'CLIENT_LABEL') | default('CLIENT_LABEL', true) }}_env_{{ deploy_target }}_ct_redis"
+- name: Deploy Redis container
+  hosts:
+    - "{{ lookup('env', 'CLIENT_LABEL') | default('CLIENT_LABEL', true) }}_env_{{ deploy_target | default('') }}_ct_redis"
   tags:
     - init-ct-redis
   become: true

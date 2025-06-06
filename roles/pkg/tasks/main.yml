@@ -5,7 +5,7 @@
 # ansible_distribution_version -> 18.06
 # ansible_distribution_release -> bionic
 
-- name: "{{ pkg_install_task_prefix }} check package manager"
+- name: "=== PKG INSTALL === check package manager"
   ansible.builtin.include_vars: "{{ item }}"
   with_first_found:
     - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"

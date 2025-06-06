@@ -20,7 +20,8 @@
       {%- endif -%}
 
 - name: "=== ALMAOPS USER === Lookup user definition for this host"
-  ansible.builtin.set_fact: user_host_list={{ user_host_list | default([]) + hosts | selectattr('host', 'equalto', item) | list }}
+  ansible.builtin.set_fact:
+    user_host_list: "{{ user_host_list | default([]) + hosts | selectattr('host', 'equalto', item) | list }}"
   with_items:
     - "{{ inventory_hostname }}"
     - "{{ ansible_nodename }}"

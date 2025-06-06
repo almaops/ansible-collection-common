@@ -14,7 +14,7 @@
     state: present
 
 - name: Ensure htpasswd credentials are configured.
-  ansible.builtin.htpasswd:
+  community.general.htpasswd:
     path: "{{ item.path }}"
     name: "{{ item.name }}"
     password: "{{ item.password }}"

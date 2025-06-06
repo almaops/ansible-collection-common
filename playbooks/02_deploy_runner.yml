@@ -1,10 +1,11 @@
 ---
 
 ## tags: init-deploy-runner
-#- ansible.builtin.import_playbook: almaops.common.02_deploy_runner
+# - ansible.builtin.import_playbook: almaops.common.02_deploy_runner
 
-- hosts:
-    - "{{ lookup('env', 'CLIENT_LABEL') | default('CLIENT_LABEL', true) }}_env_{{ deploy_target }}_deploy_runner"
+- name: Deploy Gitlab Runner
+  hosts:
+    - "{{ lookup('env', 'CLIENT_LABEL') | default('CLIENT_LABEL', true) }}_env_{{ deploy_target | default('') }}_deploy_runner"
   tags:
     - init-deploy-runner
   become: true

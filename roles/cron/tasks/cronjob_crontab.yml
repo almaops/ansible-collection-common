@@ -1,5 +1,5 @@
 ---
-- name: "{{ cron_task_prefix }} create cronjob '{{ job.name }}'"
+- name: "=== CRON === create cronjob - {{ job.name }}"
   ansible.builtin.cron:
     name: "{{ job.name }}"
     cron_file: "{{ (job.file is defined) | ternary(job.file, cron_default_file) }}"
@@ -12,7 +12,7 @@
     user: "{{ (job.user is defined) | ternary(job.user, cron_default_user) }}"
     disabled: "{{ (job.skip is defined) | ternary(job.skip, false) | bool }}"
     job: "{{ job.command }}"
-  loop: "{{ [ (job.schedule.split(' ') | select('!=', '') | list) ] }}"
+  loop: "{{ [(job.schedule.split(' ') | select('!=', '') | list)] }}"
   loop_control:
     loop_var: schedule
     label: '{{ job.schedule }}'

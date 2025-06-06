@@ -1,6 +1,6 @@
 ---
 
-- name: "{{ haproxy_task_prefix }} restart haproxy"
+- name: "=== HAPROXY === restart haproxy"
   ansible.builtin.systemd:
     name: "{{ haproxy_service }}"
     state: "restarted"

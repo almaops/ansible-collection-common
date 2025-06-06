@@ -1,6 +1,6 @@
 ---
 - name: Check if certificate already exists.
-  stat:
+  ansible.builtin.stat:
     path: /etc/letsencrypt/live/{{ cert_item.domains | first }}/cert.pem
   register: letsencrypt_cert
 
@@ -21,5 +21,5 @@
     mode: '0600'
 
 - name: Generate new certificate if one doesn't exist.
-  command: "{{ certbot_create_command }}"
+  ansible.builtin.command: "{{ certbot_create_command }}"
   when: not letsencrypt_cert.stat.exists

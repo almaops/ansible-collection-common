@@ -4,10 +4,10 @@
   remote_user: root
   roles:
     - role: user
-      username: testuser
-      give_sudo: true
-      authorized_keys:
+      user_name: testuser
+      user_give_sudo: true
+      user_authorized_keys:
         - testuser_key
-      hosts:
+      user_hosts:
         - host: all
 ...

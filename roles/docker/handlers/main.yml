@@ -1,5 +1,5 @@
 ---
-- name: docker_handler_restart
+- name: Docker_handler_restart
   ansible.builtin.systemd:
     name: "{{ docker_systemd_service }}"
     state: restarted

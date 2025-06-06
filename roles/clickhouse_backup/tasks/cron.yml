@@ -1,5 +1,5 @@
 ---
-- name: "{{ clickhouse_backup_task_prefix }} Backup script"
+- name: "=== CLICKHOUSE BACKUP === Backup script"
   ansible.builtin.template:
     src: "{{ clickhouse_backup_template_cron_script }}"
     dest: "{{ clickhouse_backup_cron_script }}"
@@ -7,7 +7,7 @@
     group: root
     mode: '0755'
 
-- name: "{{ clickhouse_backup_task_prefix }} Create cron"
+- name: "=== CLICKHOUSE BACKUP === Create cron"
   ansible.builtin.include_role:
     name: almaops.common.cron
   vars:

@@ -20,6 +20,9 @@
   ansible.builtin.template:
     src: "{{ tmpl.src }}"
     dest: "{{ tmpl.dest }}"
+    owner: "{{ tmpl.owner | default(omit) }}"
+    group: "{{ tmpl.group | default(omit) }}"
+    mode: "{{ tmpl.mode | default(omit) }}"
   loop_control:
     loop_var: tmpl
   loop:

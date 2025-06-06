@@ -1,11 +1,29 @@
 ---
-force_set_password: false
-lock_password: false
-disable_user: false
-delete_user: false
-give_sudo: false
-default_shell: /bin/bash
-common_groups: []
-authorized_keys: []
-sudo_group_configured: false
+# Inheriting values from old variable names for backward compatibility
+
+user_force_set_password: "{{ force_set_password | default(false) }}"
+# force_set_password: false
+
+user_lock_password: "{{ forcelock_password_set_password | default(false) }}"
+# lock_password: false
+user_disable_user: "{{ disable_user | default(false) }}"
+# disable_user: false
+
+user_delete: "{{ delete_user | default(false) }}"
+# delete_user: false
+
+user_give_sudo: "{{ give_sudo | default(false) }}"
+# give_sudo: false
+
+user_default_shell: "{{ default_shell | default('/bin/bash') }}"
+# default_shell: /bin/bash
+
+user_common_groups: "{{ common_groups | default([]) }}"
+# common_groups: []
+
+user_authorized_keys: "{{ authorized_keys | default([]) }}"
+# authorized_keys: []
+
+user_sudo_group_configured: "{{ sudo_group_configured | default(false) }}"
+# sudo_group_configured: false
 ...

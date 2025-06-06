@@ -1,6 +1,6 @@
 ---
-- name: "=== LOAD VARS === from {{ vars_source }}"
+- name: "=== LOAD VARS === from {{ var_loader_source }}"
   ansible.builtin.include_vars:
-    dir: "{{ vars_source }}"
+    dir: "{{ var_loader_source }}"
     ignore_unknown_extensions: true
 ...

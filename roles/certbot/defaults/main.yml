@@ -9,6 +9,7 @@ certbot_auto_renew_options: "--quiet --no-self-upgrade"
 certbot_testmode: false
 certbot_hsts: false
 
+certbot_package: certbot
 
 # Parameters used when creating new Certbot certs.
 certbot_create_if_missing: false

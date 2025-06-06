@@ -1,6 +1,10 @@
 ---
-vars_task_prefix: "=== LOAD VARS ==="
-vars_source: "{{ vars_root }}/{{ vars_group }}"
+var_loader_root: "{{ vars_root }}"
+var_loader_group: "{{ vars_group }}"
+var_loader_source: "{{ vars_root }}/{{ vars_group }}"
+# vars_source: "{{ vars_root }}/{{ vars_group }}"
+
+
 # These parameters must be set
 # vars_root: "{{ playbook_dir }}/vars"
 # vars_group: "dev"

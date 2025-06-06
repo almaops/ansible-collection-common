@@ -1,21 +1,22 @@
 ---
 
 ## tags: init-deploy-user
-#- ansible.builtin.import_playbook: almaops.common.03_deploy_user
+# - ansible.builtin.import_playbook: almaops.common.03_deploy_user
 
-- hosts:
-    -  "{{ lookup('env', 'CLIENT_LABEL') | default('CLIENT_LABEL', true) }}_env_{{ deploy_target }}_gitlab_deployable"
+- name: Create deploy user used by Gitlab Runner
+  hosts:
+    - "{{ lookup('env', 'CLIENT_LABEL') | default('CLIENT_LABEL', true) }}_env_{{ deploy_target | default('') }}_gitlab_deployable"
   tags:
     - init-deploy-user
   become: true
   roles:
     - role: almaops.common.user
       vars:
-        username: gitlab-deploy
-        give_sudo: true
-        authorized_keys:
+        user_name: gitlab-deploy
+        user_give_sudo: true
+        user_authorized_keys:
           - gitlab-deploy
-        hosts:
+        user_hosts:
           - host: "{{ lookup('env', 'CLIENT_LABEL') | default('CLIENT_LABEL', true) }}_env_{{ deploy_target }}_gitlab_deployable"
 
 ...

@@ -1,12 +1,13 @@
 ---
 
 ## tags: init-ct-keycloak
-#- ansible.builtin.import_playbook: almaops.common.11_ct_keycloak
+# - ansible.builtin.import_playbook: almaops.common.11_ct_keycloak
 
-- hosts:
-    - "{{ lookup('env', 'CLIENT_LABEL') | default('CLIENT_LABEL', true) }}_env_{{ deploy_target }}_ct_keycloak"
+- name: Deploy Keycloak container
+  hosts:
+    - "{{ lookup('env', 'CLIENT_LABEL') | default('CLIENT_LABEL', true) }}_env_{{ deploy_target | default('') }}_ct_keycloak"
   tags:
-    - init-ct-keycloak                  
+    - init-ct-keycloak
   become: true
   roles:
     - role: almaops.common.ct_keycloak

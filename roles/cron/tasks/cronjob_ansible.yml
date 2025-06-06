@@ -1,5 +1,5 @@
 ---
-- name: "{{ cron_task_prefix }} create cronjob '{{ job.name }}'"
+- name: "=== CRON === create cronjob - {{ job.name }}"
   ansible.builtin.cron:
     name: "{{ job.name }}"
     cron_file: "{{ (job.file is defined) | ternary(job.file, cron_default_file) }}"

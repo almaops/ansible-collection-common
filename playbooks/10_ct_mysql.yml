@@ -1,10 +1,11 @@
 ---
 
 ## tags: init-ct-mysql
-#- ansible.builtin.import_playbook: almaops.common.10_ct_mysql
+# - ansible.builtin.import_playbook: almaops.common.10_ct_mysql
 
-- hosts:
-    - "{{ lookup('env', 'CLIENT_LABEL') | default('CLIENT_LABEL', true) }}_env_{{ deploy_target }}_ct_mysql"
+- name: Deploy MySQL container
+  hosts:
+    - "{{ lookup('env', 'CLIENT_LABEL') | default('CLIENT_LABEL', true) }}_env_{{ deploy_target | default('') }}_ct_mysql"
   tags:
     - init-ct-mysql
   become: true

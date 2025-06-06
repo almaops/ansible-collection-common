@@ -8,7 +8,7 @@
   ansible.builtin.file:
     path: "{{ ct_gitlab_runner_path_cfg_dir }}"
     state: directory
-    mode: 0755
+    mode: '0755'
     recurse: true
   changed_when: false
 
@@ -24,7 +24,7 @@
     restart: "{{ ct_gitlab_runner_ct_restart | bool }}"
     pull: "{{ ct_gitlab_runner_ct_pull | bool }}"
     recreate: "{{ ct_gitlab_runner_ct_recreate | bool }}"
-    etc_hosts: "{{ ct_docker_runner_ct_etc_hosts }}"
+    etc_hosts: "{{ ct_gitlab_runner_ct_etc_hosts }}"
 
 - name: "=== CT GITLAB_RUNNER === Check if runner is already registered - {{ ct_gitlab_runner_name }}"
   ansible.builtin.stat:
@@ -59,7 +59,7 @@
   changed_when: false
 
 - name: "=== CT GITLAB_RUNNER === Set runner concurrency to {{ ct_gitlab_runner_parallel_builds_number }}"
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "{{ ct_gitlab_runner_path_cfg }}"
     regexp: '^concurrent'
     line: 'concurrent = {{ ct_gitlab_runner_parallel_builds_number }}'

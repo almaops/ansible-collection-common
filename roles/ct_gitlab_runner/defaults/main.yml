@@ -31,12 +31,12 @@ ct_gitlab_runner_ct_volumes_dond: []
 ct_gitlab_runner_ct_volumes: "{{ ct_gitlab_runner_ct_volumes_cfg + ct_gitlab_runner_ct_volumes_dond }}"
 
 ct_gitlab_runner_ct_ports: []
-ct_docker_runner_ct_etc_hosts: {}
+ct_gitlab_runner_ct_etc_hosts: {}
 ct_gitlab_runner_ct_env: {}
 
 # Configuration settings
 ct_gitlab_runner_name: "{{ inventory_hostname }}"
-#ct_gitlab_runner_registration_token: ""
+# ct_gitlab_runner_registration_token: ""
 ct_gitlab_runner_coordinator_url: "https://gitlab.com/ci"
 ct_gitlab_runner_tags: []
 ct_gitlab_runner_executor: "docker"

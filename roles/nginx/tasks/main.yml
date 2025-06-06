@@ -9,9 +9,6 @@
   when: nginx_user is not defined
 
 # Setup/install tasks.
-- name: Setup RedHat-like
-  ansible.builtin.include_tasks: setup-RedHat.yml
-  when: ansible_os_family == 'RedHat' or ansible_os_family == 'Rocky'
 
 - name: Setup Ubuntu
   ansible.builtin.include_tasks: setup-Ubuntu.yml
@@ -31,10 +28,10 @@
     src: "{{ nginx_conf_template }}"
     dest: "{{ nginx_conf_file_path }}"
     owner: root
-    group: "{{ root_group }}"
+    group: "{{ root_group | default('root') }}"
     mode: '0644'
   notify:
-    - reload nginx
+    - Reload nginx
 
 - name: Ensure nginx service is running as configured.
   ansible.builtin.service:

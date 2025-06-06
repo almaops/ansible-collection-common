@@ -1,14 +1,13 @@
 ---
 
 ## tags: haproxy
-#- ansible.builtin.import_playbook: almaops.common.91_haproxy
+# - ansible.builtin.import_playbook: almaops.common.91_haproxy
 
-- hosts:
-    - "{{ lookup('env', 'CLIENT_LABEL') | default('CLIENT_LABEL', true) }}_env_{{ deploy_target }}_haproxy"
+- name: Deploy Haproxy
+  hosts:
+    - "{{ lookup('env', 'CLIENT_LABEL') | default('CLIENT_LABEL', true) }}_env_{{ deploy_target | default('') }}_haproxy"
   become: true
   roles:
-
-    # configure nginx
     - role: almaops.common.haproxy
       tags:
         - haproxy

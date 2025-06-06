@@ -1,6 +1,4 @@
 ---
-haproxy_task_prefix: "=== HAPROXY ==="
-
 haproxy_path_config: "/etc/haproxy"
 haproxy_file_config: "haproxy.cfg"
 haproxy_template_config: "haproxy.cfg.j2"

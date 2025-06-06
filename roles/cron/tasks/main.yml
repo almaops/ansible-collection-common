@@ -1,5 +1,5 @@
 ---
-- name: "{{ cron_task_prefix }} process jobs"
+- name: "=== CRON === process jobs"
   ansible.builtin.include_tasks: cronjob.yml
   loop: "{{ cron_jobs }}"
   loop_control:

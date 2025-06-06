@@ -1,6 +1,6 @@
 ---
 - name: "=== PKG INSTALL === install packages"
-  ansible.builtin.yum:
+  ansible.builtin.dnf:
     name: "{{ pkg_install_packages }}"
     state: "{{ pkg_install_state }}"
     update_cache: "{{ pkg_install_update_cache }}"
