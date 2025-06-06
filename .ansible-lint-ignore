@@ -1,9 +1,3 @@
 roles/user/tasks/main.yml jinja[spacing]
-roles/gitlab/handlers/main.yml no-changed-when
-roles/virtualbox/tasks/main.yml command-instead-of-shell
-roles/virtualbox/tasks/main.yml no-changed-when
 roles/ct_gitlab_runner/tasks/main.yml no-handler
 roles/certbot/tasks/install-with-snap.yml no-handler
-roles/certbot/tasks/create-cert-webroot.yml no-changed-when
-roles/certbot/tasks/create-cert-standalone.yml no-changed-when
-roles/certbot/tasks/create-cert-cloudflare.yml no-changed-when
