@@ -1,20 +1,13 @@
+---
 galaxy_info:
   author: Dmitrii Kashin
-  description: deploy gitlab-runner in docker container and register it 
+  description: Deploy gitlab-runner in docker container and register it
   role_name: ct_gitlab_runner
   license: MIT
-  min_ansible_version: 2.4
-  platforms:
-    - name: Ubuntu
-      versions:
-        - all
-    - name: Debian
-      versions:
-        - all
-
+  min_ansible_version: "2.15"
   galaxy_tags:
     - gitlab
-    - gitlab-runner
+    - runner
     - docker
-
 dependencies: []
+...

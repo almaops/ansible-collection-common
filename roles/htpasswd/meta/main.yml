@@ -1,27 +1,12 @@
 ---
 dependencies: []
-
 galaxy_info:
   role_name: htpasswd
   author: geerlingguy
   description: htpasswd installation and helper role for Linux servers.
   company: "Midwestern Mac, LLC"
   license: "license (BSD, MIT)"
-  min_ansible_version: 2.4
-  platforms:
-    - name: EL
-      versions:
-        - 7
-        - 8
-    - name: Fedora
-      versions:
-        - all
-    - name: Debian
-      versions:
-        - all
-    - name: Ubuntu
-      versions:
-        - all
+  min_ansible_version: "2.15"
   galaxy_tags:
     - system
     - web
@@ -34,3 +19,4 @@ galaxy_info:
     - htpasswd
     - htaccess
     - security
+...

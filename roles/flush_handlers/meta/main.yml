@@ -4,22 +4,9 @@ galaxy_info:
   description: flush ansible handlers
   role_name: flush_handlers
   license: MIT
-  min_ansible_version: 2.12
-  platforms:
-    - name: Ubuntu
-      versions:
-        - all
-    - name: Debian
-      versions:
-        - all
-    - name: EL
-      versions:
-        - all
-    - name: Fedora
-      versions:
-        - all
+  min_ansible_version: "2.15"
   galaxy_tags:
-    - flush_handlers
+    - handlers
 allow_duplicates: true
 dependencies: []
 ...

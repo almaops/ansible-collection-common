@@ -1,24 +1,12 @@
 ---
 dependencies: []
-
 galaxy_info:
   role_name: gitlab
   author: geerlingguy
   description: GitLab Git web interface
   company: "Midwestern Mac, LLC"
   license: "license (BSD, MIT)"
-  min_ansible_version: 2.0
-  platforms:
-    - name: EL
-      versions:
-        - 7
-        - 8
-    - name: Debian
-      versions:
-        - all
-    - name: Ubuntu
-      versions:
-        - all
+  min_ansible_version: "2.15"
   galaxy_tags:
     - development
     - web
@@ -27,3 +15,4 @@ galaxy_info:
     - repository
     - ci
     - integration
+...

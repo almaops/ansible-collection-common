@@ -1,16 +1,11 @@
+---
 galaxy_info:
   author: Dmitrii Kashin
   role_name: ct_keycloak
   description: keycloak container (HA cluster with mysql JDBC PING available)
   license: MIT
-  min_ansible_version: 2.8
-  platforms:
-    - name: Ubuntu
-      versions:
-        - all
-    - name: Debian
-      versions:
-        - all
+  min_ansible_version: "2.15"
   galaxy_tags:
     - keycloak
 dependencies: []
+...

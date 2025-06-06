@@ -4,12 +4,8 @@ galaxy_info:
   role_name: ct_rocketchat
   description: Role deploys a Rocket.Chat container from official Docker Hub image
   license: MIT
-  min_ansible_version: "2.12"
-  platforms:
-    - name: Ubuntu
-      versions:
-        - jammy
+  min_ansible_version: "2.15"
   galaxy_tags:
-    - rocket.chat
+    - rocketchat
 dependencies: []
 ...

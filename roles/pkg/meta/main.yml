@@ -5,20 +5,7 @@ galaxy_info:
   role_name: pkg_install
   namespace: almaops
   license: MIT
-  min_ansible_version: 2.10
-  platforms:
-    - name: Ubuntu
-      versions:
-        - all
-    - name: Debian
-      versions:
-        - all
-    - name: EL
-      versions:
-        - all
-    - name: Fedora
-      versions:
-        - all
+  min_ansible_version: "2.15"
   galaxy_tags:
     - system
     - package
