@@ -39,4 +39,5 @@
 
 - name: Generate new certificate if one doesn't exist.
   ansible.builtin.command: "{{ certbot_create_command }}"
+  changed_when: true
   when: not letsencrypt_cert.stat.exists

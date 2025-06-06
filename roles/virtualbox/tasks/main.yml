@@ -10,7 +10,8 @@
   when: virtualbox_extpack_install
 
 - name: "=== VIRTUALBOX === install Oracle Extension Pack"
-  ansible.builtin.shell: VBoxManage extpack install --replace --accept-license={{ virtualbox_extpack_key }} /root/{{ virtualbox_extpack_file }}
+  ansible.builtin.command: VBoxManage extpack install --replace --accept-license={{ virtualbox_extpack_key }} /root/{{ virtualbox_extpack_file }}
+  changed_when: false
   when: virtualbox_extpack_install
 
 - name: "=== VIRTUALBOX === Create user for VirtualBox"
@@ -32,7 +33,7 @@
 - name: "=== VIRTUALBOX === Set VM directory"
   become: true
   become_user: "{{ virtualbox_user }}"
-  ansible.builtin.shell: VBoxManage setproperty machinefolder {{ virtualbox_vmdir }}
+  ansible.builtin.command: VBoxManage setproperty machinefolder {{ virtualbox_vmdir }}
   register: _vmdir_output
   changed_when: true
   when: virtualbox_create_user

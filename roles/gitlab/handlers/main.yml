@@ -2,4 +2,5 @@
 - name: Restart gitlab
   ansible.builtin.command: gitlab-ctl reconfigure
   register: gitlab_restart
+  changed_when: false
   failed_when: gitlab_restart_handler_failed_when | bool

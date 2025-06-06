@@ -1,6 +1,4 @@
 roles/user/tasks/main.yml jinja[spacing]
-roles/gitlab/tasks/main.yml no-free-form
-roles/gitlab/tasks/main.yml no-changed-when
 roles/gitlab/handlers/main.yml no-changed-when
 roles/virtualbox/tasks/main.yml command-instead-of-shell
 roles/virtualbox/tasks/main.yml no-changed-when

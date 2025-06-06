@@ -20,7 +20,7 @@
 
 - name: Update snap after install.
   ansible.builtin.shell: snap install core; snap refresh core
-  changed_when: true
+  changed_when: false
   failed_when: false
   when: snapd_install is changed
 

@@ -17,7 +17,8 @@ tags:
   - database
   - linux
   - storage
-dependencies: {}
+dependencies:
+  community.docker: '>=4.0.0'
 repository: 'https://github.com/almaops/ansible-collection-common'
 homepage: 'https://almaops.com'
 issues: 'https://github.com/almaops/ansible-collection-common/issues'
