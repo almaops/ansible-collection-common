@@ -1,0 +1,6 @@
+---
+- name: Restart runner
+  community.docker.docker_container:
+    name: "{{ ct_gitlab_runner_ct_name }}"
+    restart: true
+...

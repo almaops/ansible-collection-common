@@ -9,15 +9,8 @@
     apply_to_this_host: false
     user_host_list: []
     host: {}
-    nologin_shell: >-
-      {%- if (ansible_os_family in [ 'Debian', 'Devuan GNU/Linux' ]) -%} /usr/sbin/nologin
-      {%- else -%} /bin/nologin
-      {%- endif -%}
-    sudo_group: >-
-      {%- if (ansible_os_family in [ 'Debian', 'Devuan GNU/Linux' ]) -%} sudo
-      {%- elif (ansible_os_family in [ 'RedHat' ]) -%} wheel
-      {%- else -%} sudo
-      {%- endif -%}
+    nologin_shell: /usr/sbin/nologin
+    sudo_group: sudo
 
 - name: "=== ALMAOPS USER === Lookup user definition for this host"
   ansible.builtin.set_fact:

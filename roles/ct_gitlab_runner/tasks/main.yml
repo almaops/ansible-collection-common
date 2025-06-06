@@ -1,5 +1,4 @@
 ---
-
 - name: "=== CT GITLAB_RUNNER === Load dond volumes"
   ansible.builtin.include_vars: "dond_volumes.yml"
   when: ct_gitlab_runner_dond_enabled | bool
@@ -63,10 +62,5 @@
     path: "{{ ct_gitlab_runner_path_cfg }}"
     regexp: '^concurrent'
     line: 'concurrent = {{ ct_gitlab_runner_parallel_builds_number }}'
-  register: ct_gitlab_runner_path_cfg_file_status
-
-- name: "=== CT GITLAB_RUNNER === Restart runner to apply concurrency settings"
-  community.docker.docker_container:
-    name: "{{ ct_gitlab_runner_ct_name }}"
-    restart: true
-  when: ct_gitlab_runner_path_cfg_file_status is changed
+  notify: Restart runner
+...

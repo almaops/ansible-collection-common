@@ -1,3 +1,0 @@
-roles/user/tasks/main.yml jinja[spacing]
-roles/ct_gitlab_runner/tasks/main.yml no-handler
-roles/certbot/tasks/install-with-snap.yml no-handler

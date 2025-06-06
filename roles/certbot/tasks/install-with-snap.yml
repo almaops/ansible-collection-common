@@ -19,10 +19,9 @@
   when: ansible_os_family != "Debian"
 
 - name: Update snap after install.
-  ansible.builtin.shell: snap install core; snap refresh core
-  changed_when: false
-  failed_when: false
-  when: snapd_install is changed
+  community.general.snap:
+    name: core
+  when: snapd_install is changed # noqa: no-handler
 
 - name: Install certbot via snap.
   community.general.snap:
