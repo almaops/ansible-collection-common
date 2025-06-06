@@ -1,5 +1,5 @@
 ---
-- name: "{{ timezone_task_prefix }} configure /etc/localtime"
+- name: "=== TIMEZONE === configure /etc/localtime"
   ansible.builtin.file:
     state: link
     src: "/usr/share/zoneinfo/{{ timezone_tz }}"

@@ -1,5 +1,5 @@
 ---
-- name: "{{ ct_kafka_ui_task_prefix }} Provision container"
+- name: "=== KAFKA UI CT === Provision container"
   community.docker.docker_container:
     env: "{{ ct_kafka_ui_ct_env }}"
     image: "{{ ct_kafka_ui_ct_image }}"

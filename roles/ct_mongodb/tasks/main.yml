@@ -1,5 +1,5 @@
 ---
-- name: "{{ ct_mongodb_task_prefix }} Create config directory"
+- name: "=== CT_MONGODB === Create config directory"
   ansible.builtin.file:
     path: "{{ ct_mongodb_path_config_base }}"
     state: "directory"
@@ -7,7 +7,7 @@
     group: "root"
     mode: "0700"
 
-- name: "{{ ct_mongodb_task_prefix }} Create env file"
+- name: "=== CT_MONGODB === Create env file"
   ansible.builtin.template:
     src: "{{ ct_mongodb_template_env }}"
     dest: "{{ ct_mongodb_path_config_file }}"
@@ -15,7 +15,7 @@
     group: "root"
     mode: "0400"
 
-- name: "{{ ct_mongodb_task_prefix }} Create data directory"
+- name: "=== CT_MONGODB === Create data directory"
   ansible.builtin.file:
     path: "{{ ct_mongodb_path_data_volume }}"
     state: "directory"
@@ -24,7 +24,7 @@
     mode: "0700"
     recurse: "true"
 
-- name: "{{ ct_mongodb_task_prefix }} Provision container"
+- name: "=== CT_MONGODB === Provision container"
   community.docker.docker_container:
     image: "{{ ct_mongodb_ct_image }}"
     name: "{{ ct_mongodb_ct_name }}"

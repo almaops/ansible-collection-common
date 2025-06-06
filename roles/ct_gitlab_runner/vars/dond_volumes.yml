@@ -1,2 +1,3 @@
+---
 ct_gitlab_runner_ct_volumes_dond:
   - "/var/run/docker.sock:/var/run/docker.sock"

@@ -1,5 +1,5 @@
 ---
-pkg_install_task_prefix: "=== ALMAOPS PKG_INSTALL ==="
+pkg_install_task_prefix: "=== PKG INSTALL ==="
 pkg_install_packages: []
 pkg_install_state: present   # latest / absent
 pkg_install_update_cache: true

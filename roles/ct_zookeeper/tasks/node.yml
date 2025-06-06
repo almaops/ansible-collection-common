@@ -1,5 +1,5 @@
 ---
-- name: "{{ ct_zookeeper_task_prefix }} Create config directory"
+- name: "=== ZOOKEEPER CT === Create config directory"
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
@@ -9,13 +9,13 @@
     - "{{ ct_zookeeper_path_config_base }}"
     - "{{ ct_zookeeper_path_base }}"
 
-- name: "{{ ct_zookeeper_task_prefix }} Create env file"
+- name: "=== ZOOKEEPER CT === Create env file"
   ansible.builtin.template:
     src: "{{ ct_zookeeper_template_env }}"
     dest: "{{ ct_zookeeper_path_config_file }}"
     mode: '0644'
 
-- name: "{{ ct_zookeeper_task_prefix }} Create data directories"
+- name: "=== ZOOKEEPER CT === Create data directories"
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
@@ -28,7 +28,7 @@
     - "{{ ct_zookeeper_path_zk_logs }}"
   when: ct_zookeeper_persist_data|bool
 
-- name: "{{ ct_zookeeper_task_prefix }} Create container"
+- name: "=== ZOOKEEPER CT === Create container"
   community.docker.docker_container:
     name: "{{ ct_zookeeper_ct_name }}"
     image: "{{ ct_zookeeper_ct_image }}:{{ ct_zookeeper_ct_version }}"

@@ -1,5 +1,5 @@
 ---
-- name: "{{ ct_kafka_task_prefix }} Create Kafka node"
+- name: "=== CT KAFKA === Create Kafka node"
   ansible.builtin.include_tasks: node.yml
   loop: "{{ ct_kafka_nodes }}"
   loop_control:

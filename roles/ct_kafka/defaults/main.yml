@@ -1,5 +1,5 @@
 ---
-ct_kafka_task_prefix: "=== KAFKA CT ==="
+ct_kafka_task_prefix: "=== CT KAFKA ==="
 
 # Common settings
 ct_kafka_persist_data: true

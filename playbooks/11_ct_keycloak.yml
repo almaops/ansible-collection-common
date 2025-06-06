@@ -6,7 +6,7 @@
 - hosts:
     - "{{ lookup('env', 'CLIENT_LABEL') | default('CLIENT_LABEL', true) }}_env_{{ deploy_target }}_ct_keycloak"
   tags:
-    - init-ct-keycloak
+    - init-ct-keycloak                  
   become: true
   roles:
     - role: almaops.common.ct_keycloak

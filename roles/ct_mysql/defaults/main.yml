@@ -1,6 +1,6 @@
 ---
 # Genaral settings
-ct_mysql_task_prefix: "=== ALMAOPS CT_MYSQL ==="
+ct_mysql_task_prefix: "=== CT MYSQL ==="
 
 # Path settings
 ct_mysql_path_base: "/srv/{{ ct_mysql_ct_name }}"
@@ -36,7 +36,7 @@ ct_mysql_ct_volumes_main:
   - "{{ ct_mysql_path_data }}:{{ ct_mysql_path_ct_data }}"
 ct_mysql_ct_volumes_extra: []
 ct_mysql_ct_volumes: "{{ ct_mysql_ct_volumes_main + ct_mysql_ct_volumes_extra }}"
-  
+
 # Environment variables
 ct_mysql_env:
   MYSQL_ROOT_PASSWORD: "AlmaOps112"

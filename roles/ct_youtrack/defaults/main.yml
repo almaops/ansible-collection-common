@@ -35,7 +35,7 @@ ct_youtrack_ct_volumes_data:
   - "{{ ct_youtrack_path_data }}:{{ ct_youtrack_path_ct_data }}"
   - "{{ ct_youtrack_path_conf }}:{{ ct_youtrack_path_ct_conf }}"
   - "{{ ct_youtrack_path_logs }}:{{ ct_youtrack_path_ct_logs }}"
-  - "{{ ct_youtrack_path_backups }}:{{ct_youtrack_path_ct_backups }}"
+  - "{{ ct_youtrack_path_backups }}:{{ ct_youtrack_path_ct_backups }}"
 ct_youtrack_ct_volumes_extra: []
 ct_youtrack_ct_volumes: "{{ ct_youtrack_ct_volumes_data + ct_youtrack_ct_volumes_extra }}"
 ...

@@ -1,5 +1,5 @@
 ---
-- name: "{{ ct_rocketchat_task_prefix }} Create config directory"
+- name: "=== CT_ROCKETCHAT === Create config directory"
   ansible.builtin.file:
     path: "{{ ct_rocketchat_path_config_base }}"
     state: "directory"
@@ -7,7 +7,7 @@
     group: "root"
     mode: "0700"
 
-- name: "{{ ct_rocketchat_task_prefix }} Create env file"
+- name: "=== CT_ROCKETCHAT === Create env file"
   ansible.builtin.template:
     src: "{{ ct_rocketchat_template_env }}"
     dest: "{{ ct_rocketchat_path_config_file }}"
@@ -15,7 +15,7 @@
     group: "root"
     mode: "0400"
 
-- name: "{{ ct_rocketchat_task_prefix }} Create data directory"
+- name: "=== CT_ROCKETCHAT === Create data directory"
   ansible.builtin.file:
     path: "{{ ct_rocketchat_path_data_volume }}"
     state: "directory"
@@ -23,7 +23,7 @@
     group: "root"
     mode: "0700"
 
-- name: "{{ ct_rocketchat_task_prefix }} Provision container"
+- name: "=== CT_ROCKETCHAT === Provision container"
   community.docker.docker_container:
     image: "{{ ct_rocketchat_ct_image }}"
     name: "{{ ct_rocketchat_ct_name }}"
@@ -64,8 +64,8 @@
       retries: 3
       start_period: 60s
 
-- name: "{{ ct_rocketchat_task_prefix }}. Recursively change ownership and mode for the '{{ ct_rocketchat_path_data_base }}' directory"
-  file:
+- name: "=== CT_ROCKETCHAT === Recursively change ownership and mode for the directory - {{ ct_rocketchat_path_data_base }}"
+  ansible.builtin.file:
     path: "{{ ct_rocketchat_path_data_base }}"
     state: directory
     recurse: "yes"

@@ -1,5 +1,5 @@
 ---
-- name: "{{ pip_install_task_prefix }} Install pip"
+- name: "=== PIP INSTALL === Install pip"
   ansible.builtin.include_role:
     name: almaops.common.pkg
   vars:
@@ -10,7 +10,7 @@
     - ansible_distribution | default('none') in [ 'Ubuntu', 'Debian', 'Astra Linux' ]
     - pip_install_enable_pkg_install
 
-- name: "{{ pip_install_task_prefix }} install pip packages: {{ pip_install_packages | join(' ') }}"
+- name: "=== PIP INSTALL === install pip packages: {{ pip_install_packages | join(' ') }}"
   ansible.builtin.pip:
     name: "{{ pip_install_packages }}"
     state: "{{ pip_install_state }}"

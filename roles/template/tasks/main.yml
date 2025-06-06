@@ -1,23 +1,32 @@
 ---
-- fail:
+- name: Assert variables are defined
+  ansible.builtin.fail:
     msg: "template_src or template_src must be defined, if they are defined but you see this message, check their content with debug"
   when:
     - template_src is not defined
     - template_content is not defined
 
-- block:
-    - name: create file by template file
+- name: File template
+  when: template_src is defined
+  block:
+    - name: Create file by template file
       ansible.builtin.template:
         src: "{{ template_src }}"
         dest: "{{ template_dest }}"
+        owner: "{{ template_owner | default(omit) }}"
+        group: "{{ template_group | default(omit) }}"
+        mode: '{{ template_mode | default(omit) }}'
       register: template_result
-  when: template_src is defined
 
-- block:
-    - name: create file by inline template
+- name: Inline template
+  when: template_content is defined
+  block:
+    - name: Create file by inline template
       ansible.builtin.copy:
         content: "{{ template_content }}"
         dest: "{{ template_dest }}"
+        owner: "{{ template_owner | default(omit) }}"
+        group: "{{ template_group | default(omit) }}"
+        mode: '{{ template_mode | default(omit) }}'
       register: template_result
-  when: template_content is defined
 ...

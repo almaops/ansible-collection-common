@@ -1,12 +1,12 @@
 ---
-- name: "{{ timezone_task_prefix }} Install packages"
+- name: "=== TIMEZONE === Install packages"
   ansible.builtin.include_role:
     name: almaops.common.pkg
   vars:
     pkg_install_packages:
       - "tzdata"
 
-- name: "{{ timezone_task_prefix }} configure /etc/timezone"
+- name: "=== TIMEZONE === configure /etc/timezone"
   ansible.builtin.copy:
     dest: "/etc/timezone"
     content: |
@@ -16,7 +16,7 @@
     group: root
   when: ansible_os_family == "Debian"
 
-- name: "{{ timezone_task_prefix }} configure /etc/sysconfig/clock"
+- name: "=== TIMEZONE === configure /etc/sysconfig/clock"
   ansible.builtin.copy:
     dest: "/etc/sysconfig/clock"
     content: |
@@ -26,7 +26,7 @@
     group: root
   when: ansible_os_family == "RedHat"
 
-- name: "{{ timezone_task_prefix }} configure /etc/localtime"
+- name: "=== TIMEZONE === configure /etc/localtime"
   ansible.builtin.file:
     src: "/usr/share/zoneinfo/{{ timezone_tz }}"
     dest: "/etc/localtime"

@@ -1,5 +1,5 @@
 ---
-ct_redis_task_prefix: "=== ALMAOPS CT_REDIS ==="
+ct_redis_task_prefix: "=== CT REDIS ==="
 # Common settings
 ct_redis_enable_ports: true
 ct_redis_enable_custom_config: false

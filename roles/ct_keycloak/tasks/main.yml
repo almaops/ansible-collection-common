@@ -1,20 +1,20 @@
 ---
 
-- name: "{{ ct_keycloak_task_prefix }} Fail if admin name is not defined"
-  fail:
+- name: "=== CT KEYCLOAK === Fail if admin name is not defined"
+  ansible.builtin.fail:
     msg: "WARNING! You are required to set ct_keycloak_env.KC_BOOTSTRAP_ADMIN_USERNAME for this role"
   when: ct_keycloak_env.KC_BOOTSTRAP_ADMIN_USERNAME is not defined
 
-- name: "{{ ct_keycloak_task_prefix }} Fail if admin password is not defined"
-  fail:
+- name: "=== CT KEYCLOAK === Fail if admin password is not defined"
+  ansible.builtin.fail:
     msg: "WARNING! You are required to set ct_keycloak_env.KC_BOOTSTRAP_ADMIN_PASSWORD for this role"
   when: ct_keycloak_env.KC_BOOTSTRAP_ADMIN_PASSWORD is not defined
 
-- name: "{{ ct_keycloak_task_prefix }} Enable JDBC PING"
+- name: "=== CT KEYCLOAK === Enable JDBC PING"
   ansible.builtin.include_vars: "enable_jdbc_ping.yml"
   when: ct_keycloak_enable_jdbc_ping | bool
-  
-- name: "{{ ct_keycloak_task_prefix }} Directories"
+
+- name: "=== CT KEYCLOAK === Directories"
   ansible.builtin.file:
     path: "{{ dir.path }}"
     state: directory
@@ -33,7 +33,7 @@
       group: "0"
   changed_when: false
 
-- name: "{{ ct_keycloak_task_prefix }} Templates"
+- name: "=== CT KEYCLOAK === Templates"
   ansible.builtin.template:
     src: "{{ tmpl.src }}"
     dest: "{{ tmpl.dest }}"
@@ -51,8 +51,8 @@
       owner: "1000"
       group: "0"
 
-- name: "{{ ct_keycloak_task_prefix }} Provision container {{ ct_keycloak_ct_name }}"
-  docker_container:
+- name: "=== CT KEYCLOAK === Provision container {{ ct_keycloak_ct_name }}"
+  community.docker.docker_container:
     name: "{{ ct_keycloak_ct_name }}"
     image: "{{ ct_keycloak_ct_image }}"
     ports: "{{ ct_keycloak_ct_ports }}"

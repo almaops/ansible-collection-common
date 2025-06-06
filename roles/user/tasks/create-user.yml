@@ -2,7 +2,7 @@
 # user
 - name: "=== ALMAOPS USER === Check user shell [{{ username }}]"
   ansible.builtin.set_fact:
-    new_shell: "{{ host.shell | default( shell | default(default_shell) ) }}"
+    new_shell: "{{ host.shell | default(shell | default(default_shell)) }}"
 
 - name: "=== ALMAOPS USER === Check if user is disabled [{{ username }}]"
   ansible.builtin.set_fact:

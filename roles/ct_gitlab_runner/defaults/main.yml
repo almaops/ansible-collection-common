@@ -1,6 +1,6 @@
 ---
 # General Settings
-ct_gitlab_runner_task_prefix: "=== ALMAOPS CT_GITLAB_RUNNER ==="
+ct_gitlab_runner_task_prefix: "=== CT GITLAB_RUNNER ==="
 
 # Common settings
 ct_gitlab_runner_cache_s3_enabled: false

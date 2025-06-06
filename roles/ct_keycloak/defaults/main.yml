@@ -1,6 +1,6 @@
 ---
 # General settings
-ct_keycloak_task_prefix: "=== ALMAOPS CT_KEYCLOAK ==="
+ct_keycloak_task_prefix: "=== CT KEYCLOAK ==="
 
 # Flags
 ct_keycloak_enable_jdbc_ping: false
@@ -61,7 +61,7 @@ ct_keycloak_env:
   JGROUPS_DISCOVERY_EXTERNAL_IP: ""
   KC_CACHE_CONFIG_FILE: ""
 ct_keycloak_env_extra: {}
-  
+
 ct_keycloak_hostname: "{{ inventory_hostname }}"
 
 # docs:

@@ -1,5 +1,5 @@
 ---
-vars_task_prefix: "=== ALMAOPS VAR_LOADER ==="
+vars_task_prefix: "=== LOAD VARS ==="
 vars_source: "{{ vars_root }}/{{ vars_group }}"
 # These parameters must be set
 # vars_root: "{{ playbook_dir }}/vars"

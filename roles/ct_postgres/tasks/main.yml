@@ -1,18 +1,18 @@
 ---
-- name: "{{ ct_postgres_task_prefix }} Create directories"
+- name: "=== CT POSTGRESQL === Create directories"
   ansible.builtin.file:
     path: "{{ ct_postgres_path_data }}"
     state: directory
     mode: '0755'
     recurse: true
 
-- name: "{{ ct_postgres_task_prefix }} Create env file"
-  template:
+- name: "=== CT POSTGRESQL === Create env file"
+  ansible.builtin.template:
     src: "{{ ct_postgres_template_env }}"
     dest: "{{ ct_postgres_path_env }}"
     mode: '0640'
 
-- name: "{{ ct_postgres_task_prefix }} Create container"
+- name: "=== CT POSTGRESQL === Create container"
   community.docker.docker_container:
     name: "{{ ct_postgres_ct_name }}"
     image: "{{ ct_postgres_ct_image }}"

@@ -1,5 +1,5 @@
 ---
-haproxy_task_prefix: "=== ALMAOPS HAPROXY ==="
+haproxy_task_prefix: "=== HAPROXY ==="
 
 haproxy_path_config: "/etc/haproxy"
 haproxy_file_config: "haproxy.cfg"

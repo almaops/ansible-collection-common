@@ -1,5 +1,5 @@
 ---
-- name: "=== ALMAOPS USER === Create {{ sudo_group }} group"
+- name: "=== ALMAOPS USER === Create group - {{ sudo_group }}"
   ansible.builtin.group:
     name: "{{ sudo_group }}"
     state: present
@@ -12,7 +12,7 @@
     group: root
     mode: '0440'
 
-- name: "=== ALMAOPS USER === Remember that {{ sudo_group }} group is already configured on this host"
+- name: "=== ALMAOPS USER === Remember that group is already configured on this host - {{ sudo_group }}"
   ansible.builtin.set_fact:
     sudo_group_configured: true
 ...

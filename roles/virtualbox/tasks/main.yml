@@ -1,26 +1,26 @@
 ---
-- name: "{{ virtualbox_task_prefix }} Distro specific tasks"
+- name: "=== VIRTUALBOX === Distro specific tasks"
   ansible.builtin.include_tasks: "{{ ansible_os_family }}.yml"
 
-- name: "{{ virtualbox_task_prefix }} Download Oracle Extension Pack for VirtualBox"
+- name: "=== VIRTUALBOX === Download Oracle Extension Pack for VirtualBox"
   ansible.builtin.get_url:
     url: "{{ virtualbox_download_site }}/{{ virtualbox_version_full }}/{{ virtualbox_extpack_file }}"
     dest: "/root/{{ virtualbox_extpack_file }}"
     mode: '0644'
   when: virtualbox_extpack_install
 
-- name: "{{ virtualbox_task_prefix }} install Oracle Extension Pack"
+- name: "=== VIRTUALBOX === install Oracle Extension Pack"
   ansible.builtin.shell: VBoxManage extpack install --replace --accept-license={{ virtualbox_extpack_key }} /root/{{ virtualbox_extpack_file }}
   when: virtualbox_extpack_install
 
-- name: "{{ virtualbox_task_prefix }} Create user for VirtualBox"
+- name: "=== VIRTUALBOX === Create user for VirtualBox"
   ansible.builtin.user:
     group: "{{ virtualbox_group }}"
     name: "{{ virtualbox_user }}"
     home: "{{ virtualbox_home }}"
   when: virtualbox_create_user
 
-- name: "{{ virtualbox_task_prefix }} Create VM directory"
+- name: "=== VIRTUALBOX === Create VM directory"
   ansible.builtin.file:
     path: "{{ virtualbox_vmdir }}"
     mode: '0775'
@@ -29,9 +29,11 @@
     state: directory
   when: virtualbox_create_user
 
-- name: "{{ virtualbox_task_prefix }} Set VM directory"
+- name: "=== VIRTUALBOX === Set VM directory"
   become: true
   become_user: "{{ virtualbox_user }}"
   ansible.builtin.shell: VBoxManage setproperty machinefolder {{ virtualbox_vmdir }}
+  register: _vmdir_output
+  changed_when: true
   when: virtualbox_create_user
 ...

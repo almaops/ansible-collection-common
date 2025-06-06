@@ -1,5 +1,5 @@
 ---
-- name: "{{ ct_kafka_task_prefix }} Create config directory"
+- name: "=== CT KAFKA === Create config directory"
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
@@ -8,7 +8,7 @@
   loop:
     - "{{ ct_kafka_path_config_base }}"
 
-- name: "{{ ct_kafka_task_prefix }} Create data directory"
+- name: "=== CT KAFKA === Create data directory"
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
@@ -20,13 +20,13 @@
     - "{{ ct_kafka_path_data }}"
   when: ct_kafka_persist_data
 
-- name: "{{ ct_kafka_task_prefix }} Create env file"
+- name: "=== CT KAFKA === Create env file"
   ansible.builtin.template:
     src: "{{ ct_kafka_template_env }}"
     dest: "{{ ct_kafka_path_config_file }}"
     mode: '0644'
 
-- name: "{{ ct_kafka_task_prefix }} Create container"
+- name: "=== CT KAFKA === Create container"
   community.docker.docker_container:
     name: "{{ ct_kafka_ct_name }}"
     image: "{{ ct_kafka_ct_image }}:{{ ct_kafka_ct_version }}"

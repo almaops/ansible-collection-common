@@ -1,11 +1,11 @@
 ---
 
-- name: "{{ ct_mysql_task_prefix }} Fail if root password is not defined"
-  fail:
+- name: "=== CT MYSQL === Fail if root password is not defined"
+  ansible.builtin.fail:
     msg: "WARNING! You are required to set ct_mysql_env.MYSQL_ROOT_PASSWORD for this role"
   when: ct_mysql_env.MYSQL_ROOT_PASSWORD is not defined
 
-- name: "{{ ct_mysql_task_prefix }} Directories"
+- name: "=== CT MYSQL === Directories"
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
@@ -16,7 +16,7 @@
     - "{{ ct_mysql_path_data }}"
   changed_when: false
 
-- name: "{{ ct_mysql_task_prefix }} Templates"
+- name: "=== CT MYSQL === Templates"
   ansible.builtin.template:
     src: "{{ tmpl.src }}"
     dest: "{{ tmpl.dest }}"
@@ -26,7 +26,7 @@
     - src: "{{ ct_mysql_template_env }}"
       dest: "{{ ct_mysql_path_env }}/{{ ct_mysql_file_env }}"
 
-- name: "{{ ct_mysql_task_prefix }} Provision container {{ ct_mysql_ct_name }}"
+- name: "=== CT MYSQL === Provision container {{ ct_mysql_ct_name }}"
   community.docker.docker_container:
     name: "{{ ct_mysql_ct_name }}"
     image: "{{ ct_mysql_ct_image }}"

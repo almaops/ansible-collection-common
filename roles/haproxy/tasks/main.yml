@@ -1,22 +1,22 @@
 ---
 
-- name: "{{ haproxy_task_prefix }} Enable stats"
+- name: "=== HAPROXY === Enable stats"
   ansible.builtin.include_vars: "enable_stats.yml"
   when: haproxy_enable_stats | bool
 
-- name: "{{ haproxy_task_prefix }} Install haproxy package"
+- name: "=== HAPROXY === Install haproxy package"
   ansible.builtin.apt:
     name: "{{ haproxy_pkg }}"
     state: "present"
 
-- name: "{{ haproxy_task_prefix }} Install haproxy config"
+- name: "=== HAPROXY === Install haproxy config"
   ansible.builtin.template:
     src: "{{ haproxy_template_config }}"
     dest: "{{ haproxy_path_config }}/{{ haproxy_file_config }}"
     mode: "0644"
-  notify: "{{ haproxy_task_prefix }} restart haproxy"
+  notify: "=== HAPROXY === restart haproxy"
 
-- name: "{{ haproxy_task_prefix }} Enable autostart"
+- name: "=== HAPROXY === Enable autostart"
   ansible.builtin.systemd:
     name: "{{ haproxy_service }}"
     enabled: true

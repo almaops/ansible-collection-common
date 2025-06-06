@@ -1,5 +1,5 @@
 ---
-- name: "{{ ct_youtrack_task_prefix }} Create base directory"
+- name: "=== CT YOUTRACK === Create base directory"
   ansible.builtin.file:
     path: "{{ ct_youtrack_path_base }}"
     state: directory
@@ -7,7 +7,7 @@
     group: root
     mode: '0750'
 
-- name: "{{ ct_youtrack_task_prefix }} Create data directories"
+- name: "=== CT YOUTRACK === Create data directories"
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
@@ -20,7 +20,7 @@
     - "{{ youtrack_path_logs }}"
     - "{{ youtrack_path_backups }}"
 
-- name: "{{ ct_youtrack_task_prefix }} Provision container"
+- name: "=== CT YOUTRACK === Provision container"
   community.docker.docker_container:
     image: "{{ ct_youtrack_ct_image }}"
     name: "{{ ct_youtrack_ct_name }}"

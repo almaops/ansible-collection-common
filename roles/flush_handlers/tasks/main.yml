@@ -1,4 +1,4 @@
 ---
-- name: flush handlers
-  meta: flush_handlers
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
 ...

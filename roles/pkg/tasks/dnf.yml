@@ -1,5 +1,5 @@
 ---
-- name: "{{ pkg_install_task_prefix }} install packages"
+- name: "=== PKG INSTALL === install packages"
   ansible.builtin.dnf:
     name: "{{ pkg_install_packages }}"
     state: "{{ pkg_install_state }}"

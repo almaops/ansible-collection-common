@@ -1,16 +1,17 @@
 ---
 
 ## tags: always
-#- ansible.builtin.import_playbook: almaops.common.00_load_env_vars
+# - ansible.builtin.import_playbook: almaops.common.00_load_env_vars
 
-- hosts:
-    - "{{ lookup('env', 'CLIENT_LABEL') | default('CLIENT_LABEL', true) }}_env_{{ deploy_target }}_all"
+- name: Load environment specific variables
+  hosts:
+    - "{{ lookup('env', 'CLIENT_LABEL') | default('CLIENT_LABEL', true) }}_env_{{ deploy_target | default('') }}_all"
   tags:
     - always
   vars:
     vars_root: "{{ lookup('env', 'PWD') }}/vars/envs"
   tasks:
-    - name: load variables
+    - name: Load variables
       ansible.builtin.include_role:
         name: almaops.common.var_loader
       loop_control:
