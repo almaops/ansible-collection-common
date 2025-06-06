@@ -12,7 +12,7 @@
     user: "{{ (job.user is defined) | ternary(job.user, cron_default_user) }}"
     disabled: "{{ (job.skip is defined) | ternary(job.skip, false) | bool }}"
     job: "{{ job.command }}"
-  loop: "{{ [(job.schedule.split(' ') | select('!=', '') | list)] }}"
+  loop: "{{ [job.schedule.split(' ') | select('!=', '') | list] }}"
   loop_control:
     loop_var: schedule
     label: '{{ job.schedule }}'

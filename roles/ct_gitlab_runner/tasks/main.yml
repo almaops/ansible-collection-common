@@ -13,7 +13,7 @@
   changed_when: false
 
 - name: "=== CT GITLAB_RUNNER === Provision container {{ ct_gitlab_runner_ct_name }}"
-  community,docker.docker_container:
+  community.docker.docker_container:
     name: "{{ ct_gitlab_runner_ct_name }}"
     image: "{{ ct_gitlab_runner_ct_image }}"
     ports: "{{ ct_gitlab_runner_ct_ports }}"
