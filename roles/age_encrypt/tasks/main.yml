@@ -1,0 +1,74 @@
+---
+- name: "=== AGE === Discover latest version"
+  ansible.builtin.set_fact:
+    age_encrypt_version: "{{ (lookup('url', 'https://api.github.com/repos/{{ age_encrypt_github_repo }}/releases/latest',
+      headers=age_encrypt_github_headers, split_lines=False) | from_json).get('tag_name') | replace('v', '') }}"
+  run_once: true
+  until: age_encrypt_version is version('0.0.0', '>=')
+  retries: 10
+  when:
+    - age_encrypt_version == "latest"
+
+- name: "=== AGE === Create directories"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - "{{ age_encrypt_path_bin }}"
+
+- name: "=== AGE === Download tarball"
+  ansible.builtin.get_url:
+    url: "{{ age_encrypt_url }}"
+    dest: "{{ age_encrypt_path_install }}/{{ age_encrypt_tarball }}"
+    headers: "{{ age_encrypt_github_headers }}"
+    mode: '0644'
+  register: age_encrypt_download
+  until: age_encrypt_download is succeeded
+  retries: 5
+  delay: 2
+
+- name: "=== AGE === Unpack tarball"
+  ansible.builtin.unarchive:
+    src: "{{ age_encrypt_path_install }}/{{ age_encrypt_tarball }}"
+    dest: "{{ age_encrypt_path_install }}"
+    mode: '0755'
+    list_files: true
+
+- name: "=== AGE === Move binaries"
+  ansible.builtin.copy:
+    src: "{{ age_encrypt_path_temp }}/{{ item }}"
+    dest: "{{ age_encrypt_path_install }}/{{ item }}-{{ age_encrypt_version }}"
+    mode: '0755'
+    remote_src: true
+  loop:
+    - age
+    - age-keygen
+
+- name: "=== AGE ===  Create symlink"
+  ansible.builtin.file:
+    src: "{{ age_encrypt_path_install }}/{{ item }}-{{ age_encrypt_version }}"
+    dest: "{{ age_encrypt_path_bin }}/{{ item }}"
+    state: link
+    mode: '0755'
+  loop:
+    - age
+    - age-keygen
+
+- name: "=== AGE === Remove temp dir"
+  ansible.builtin.file:
+    path: "{{ age_encrypt_path_temp }}"
+    state: absent
+
+- name: "=== AGE === Create readme"
+  ansible.builtin.copy:
+    content: |
+      This directory contains Age encryption tool
+      See https://github.com/FiloSottile/age
+      You can add {{ age_encrypt_path_bin }} to your ${PATH}
+
+      This app has been installed with almaops.common collection
+      https://github.com/almaops/ansible-collection-common
+    dest: "{{ age_encrypt_path_readme }}"
+    mode: '0444'
+...

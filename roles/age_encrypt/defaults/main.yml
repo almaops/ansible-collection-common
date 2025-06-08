@@ -1,0 +1,20 @@
+---
+# Helpers
+age_encrypt_arch: "{{ prefab_mapped_go_arch }}"
+age_encrypt_system: "{{ ansible_system }}"
+age_encrypt_github_repo: "FiloSottile/age"
+age_encrypt_github_headers: "{{ {'GITHUB_TOKEN': lookup('ansible.builtin.env', 'GITHUB_TOKEN')} if (lookup('ansible.builtin.env', 'GITHUB_TOKEN')) else {} }}"
+
+# Version
+age_encrypt_version: "latest"
+
+# Path settings
+age_encrypt_path_install: "/opt/age-encrypt"
+age_encrypt_path_bin: "{{ age_encrypt_path_install }}/bin"
+age_encrypt_path_readme: "{{ age_encrypt_path_install }}/README"
+age_encrypt_path_temp: "{{ age_encrypt_path_install }}/age"
+
+# Download
+age_encrypt_tarball: "age-v{{ age_encrypt_version }}-{{ age_encrypt_system | lower }}-{{ age_encrypt_arch }}.tar.gz"
+age_encrypt_url: "https://github.com/{{ age_encrypt_github_repo }}/releases/download/v{{ age_encrypt_version }}/{{ age_encrypt_tarball }}"
+...

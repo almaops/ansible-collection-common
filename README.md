@@ -29,6 +29,7 @@ collections:
 
 |Role|Description|Notes|
 |---|---|---|
+|[almaops.common.age_encrypt](https://github.com/almaops/ansible-collection-common/tree/master/roles/age_encrypt)|Install [Age encryption](https://github.com/FiloSottile/age)||
 |[almaops.common.bind9](https://github.com/almaops/ansible-collection-common/tree/master/roles/bind9)|Install and configure [Bind9](https://bind9.readthedocs.io/en/latest/reference.html) DNS server||
 |[almaops.common.certbot](https://github.com/almaops/ansible-collection-common/tree/master/roles/certbot)|Install certbot and manage Let's Encrypt certificates|Forked from [geerlingguy.certbot](https://github.com/geerlingguy/ansible-role-certbot)|
 |[almaops.common.cron](https://github.com/almaops/ansible-collection-common/tree/master/roles/cron)|Manage cron jobs||
