@@ -27,83 +27,40 @@ collections:
 
 ## Roles
 
-### almaops.common.certbot
-
-### almaops.common.clickhouse_backup
-
-### almaops.common.cron
-Configure of cron jobs. [README](./roles/cron/README.md)
-
-### almaops.common.ct_kafka
-Deploy Kafka cluster in containers. [README](./roles/ct_kafka/README.md)
-
-### almaops.common.ct_kafka_ui
-Deploy Kafka UI container. [README](./roles/ct_kafka_ui/README.md)
-
-### almaops.common.ct_minio
-Deploy Minio container. [README](./roles/ct_minio/README.md)
-
-### almaops.common.ct_mongodb
-Deploy MongoDB container. [README](./roles/ct_mongodb/README.md)
-
-### almaops.common.ct_redis
-Deploy Redis container. [README](./roles/ct_redis/README.md)
-
-### almaops.common.ct_rocketchat
-Deploy [Rocket.Chat](https://www.rocket.chat) container. [README](./roles/ct_rocketchat/README.md)
-
-### almaops.common.ct_youtrack
-Deploy [YouTrack container](https://hub.docker.com/r/jetbrains/youtrack/), no configuration/customization.
-
-### almaops.common.ct_zookeeper
-Deploy Zookeeper cluster in containers. [README](./roles/ct_zookeeper/README.md)
-
-### almaops.common.docker
-Installation/configuration for Docker daemon and Docker client userspace configuration. [README](./roles/pip/README.md)
-
-### almaops.common.flush_handlers
-Flushing Ansible handlers between other roles. [README](./roles/flush_handlers/README.md)
-
-### almaops.common.gitlab
-Deploy Gitlab CI/CD. Forked from [Jeff Geerling](https://github.com/geerlingguy/ansible-role-gitlab)
-
-### almaops.common.htpasswd
-Install and configure htpasswd. Forked from [Jeff Geerling](https://github.com/geerlingguy/ansible-role-htpasswd)
-
-### almaops.common.nginx
-Install and configure nginx. Forked from [Jeff Geerling](https://github.com/geerlingguy/ansible-role-nginx)
-
-### almaops.common.pip
-Install Python PIP packages. [README](./roles/pip/README.md)
-
-### almaops.common.pkg
-Install OS packages. [README](./roles/pkg/README.md)
-
-### almaops.common.systemd
-Setup and configure systemd units. [README](./roles/systemd/README.md)
-
-### almaops.common.template
-Templating from file or in-place. [README](./roles/template/README.md)
-
-### almaops.common.timezone
-Setup host's time zone. [README](./roles/timezone/README.md)
-
-### almaops.common.user
-Manage OS users. [README](./roles/user/README.md)
-
-### almaops.common.var_loader
-Load Ansible variables files from directory. [README](./roles/var_loader/README.md)
-
-### almaops.common.virtualbox
-Install and configure VirtualBox. [README](./roles/virtualbox/README.md)
+|Role|Description|Notes|
+|---|---|---|
+|[almaops.common.bind9](https://github.com/almaops/ansible-collection-common/tree/master/roles/bind9)|Install and configure [Bind9](https://bind9.readthedocs.io/en/latest/reference.html) DNS server||
+|[almaops.common.certbot](https://github.com/almaops/ansible-collection-common/tree/master/roles/certbot)|Install certbot and manage Let's Encrypt certificates|Forked from [geerlingguy.certbot](https://github.com/geerlingguy/ansible-role-certbot)|
+|[almaops.common.cron](https://github.com/almaops/ansible-collection-common/tree/master/roles/cron)|Manage cron jobs||
+|[almaops.common.ct_clickhouse](https://github.com/almaops/ansible-collection-common/tree/master/roles/ct_clickhouse)|Deploy [Clickhouse](https://clickhouse.com/) container||
+|[almaops.common.ct_kafka](https://github.com/almaops/ansible-collection-common/tree/master/roles/ct_kafka)|Deploy Kafka cluster in containers||
+|[almaops.common.ct_kafka_ui](https://github.com/almaops/ansible-collection-common/tree/master/roles/ct_kafka_ui)|Deploy Kafka UI container||
+|[almaops.common.ct_keycloak](https://github.com/almaops/ansible-collection-common/tree/master/roles/ct_keycloak)|Deploy [Keycloak](https://www.keycloak.org/) container||
+|[almaops.common.ct_minio](https://github.com/almaops/ansible-collection-common/tree/master/roles/ct_minio)|Deploy [Minio](https://min.io/) container||
+|[almaops.common.ct_mongodb](https://github.com/almaops/ansible-collection-common/tree/master/roles/ct_mongodb)|Deploy [MongoDB](https://github.com/mongodb/mongo) container||
+|[almaops.common.ct_mysql](https://github.com/almaops/ansible-collection-common/tree/master/roles/ct_mysql)|Deploy [MySQL](https://www.mysql.com/) container||
+|[almaops.common.ct_postgres](https://github.com/almaops/ansible-collection-common/tree/master/roles/ct_postgres)|Deploy [PostgreSQL](https://www.postgresql.org/) container||
+|[almaops.common.ct_redis](https://github.com/almaops/ansible-collection-common/tree/master/roles/ct_redis)|Deploy [Redis](https://github.com/redis/redis) container||
+|[almaops.common.ct_rocketchat](https://github.com/almaops/ansible-collection-common/tree/master/roles/ct_rocketchat)|Deploy [RocketChat](https://www.rocket.chat/) container||
+|[almaops.common.ct_youtrack](https://github.com/almaops/ansible-collection-common/tree/master/roles/ct_youtrack)|Deploy [JetBrains Youtrack](https://www.jetbrains.com/youtrack/) container||
+|[almaops.common.ct_zookeeper](https://github.com/almaops/ansible-collection-common/tree/master/roles/ct_zookeeper)|Deploy ZooKeeper cluster in containers||
+|[almaops.common.docker](https://github.com/almaops/ansible-collection-common/tree/master/roles/docker)|Install [Docker engine](https://docs.docker.com/engine/)||
+|[almaops.common.flush_handlers](https://github.com/almaops/ansible-collection-common/tree/master/roles/flush_handlers)|Alias for [`ansible.builtin.meta`](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/meta_module.html)||
+|[almaops.common.gitlab](https://github.com/almaops/ansible-collection-common/tree/master/roles/gitlab)|Install and configure [Gitlab](https://about.gitlab.com/install/)|Forked from [geerlingguy.gitlab](https://github.com/geerlingguy/ansible-role-gitlab)|
+|[almaops.common.htpasswd](https://github.com/almaops/ansible-collection-common/tree/master/roles/htpasswd)|Manage htpasswd passwords|Forked from [geerlingguy.htpasswd](https://github.com/geerlingguy/ansible-role-htpasswd)|
+|[almaops.common.nginx](https://github.com/almaops/ansible-collection-common/tree/master/roles/nginx)|Install Nginx and manage vhosts|Forked from [geerlingguy.nginx](https://github.com/geerlingguy/ansible-role-nginx)|
+|[almaops.common.pip](https://github.com/almaops/ansible-collection-common/tree/master/roles/pip)|Manage Python PIP packages||
+|[almaops.common.pkg](https://github.com/almaops/ansible-collection-common/tree/master/roles/pkg)|Manage OS packages||
+|[almaops.common.prefab](https://github.com/almaops/ansible-collection-common/tree/master/roles/prefab)|Variables for re-use||
+|[almaops.common.systemd](https://github.com/almaops/ansible-collection-common/tree/master/roles/systemd)|Manage systemd units||
+|[almaops.common.template](https://github.com/almaops/ansible-collection-common/tree/master/roles/template)|Create files from jinja2 or inline templates||
+|[almaops.common.timezone](https://github.com/almaops/ansible-collection-common/tree/master/roles/timezone)|Set timezone||
+|[almaops.common.user](https://github.com/almaops/ansible-collection-common/tree/master/roles/user)|Manage OS users||
+|[almaops.common.var_loader](https://github.com/almaops/ansible-collection-common/tree/master/roles/var_loader)|Load variables from arbitrary directories||
+|[almaops.common.virtualbox](https://github.com/almaops/ansible-collection-common/tree/master/roles/virtualbox)|Install [VirtualBox](https://www.virtualbox.org/)||
 
 ## Playbooks
 
-### almaops.common.pkg_upgrade_all
-Upgrade all packages on target host.
-```
-# Upgrades all packages on all inventory hosts
-~$ ansible-playbook almaops.common.pkg_upgrade_all -e almaops_target_pkg_upgrade_all=all
-```
-
-```
+|Playbook|Target variable|
+|---|---|
+|almaops.common.pkg_upgrade_all|`almaops_target_pkg_upgrade_all`|
