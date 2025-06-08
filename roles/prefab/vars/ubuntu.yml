@@ -1,0 +1,23 @@
+---
+# Info on ubuntu releases
+# dates formatted as YYYY-MM-DD
+# source - https://wiki.ubuntu.com/Releases
+prefab_ubuntu_releases:
+  - codename_short: "noble"
+    codename_long: "Noble Numbat"
+    release: "24.04"
+    lts: true
+    release_date: "2024-04-25"
+    end_of_support: "2029-june"
+    eol: "2036-april"
+    release_notes: "https://discourse.ubuntu.com/t/noble-numbat-release-notes/39890"
+    updates:
+      - update: "1"
+        update_full: "24.04.1"
+        update_date: "2024-08-29"
+        release_notes: "https://discourse.ubuntu.com/t/noble-numbat-point-release-changes/47565/1"
+      - update: "2"
+        update_full: "24.04.2"
+        update_date: "2025-02-20"
+        release_notes: "https://discourse.ubuntu.com/t/noble-numbat-point-release-changes/47565/3"
+...

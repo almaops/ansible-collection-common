@@ -1,0 +1,10 @@
+---
+prefab_mapping_go_arch:
+  'x86_64': 'amd64'
+  'aarch64': 'arm64'
+  'i386': '386'
+  'armv7l': 'armv7'
+  'armv6l': 'armv6'
+
+prefab_mapped_go_arch: "{{ prefab_mapping_go_arch.get(ansible_architecture, ansible_architecture) }}"
+...

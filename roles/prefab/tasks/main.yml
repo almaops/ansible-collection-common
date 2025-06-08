@@ -1,0 +1,8 @@
+---
+- name: Load prefab variables
+  ansible.builtin.include_vars:
+    dir: vars
+    extensions:
+      - "yml"
+      - "yaml"
+...

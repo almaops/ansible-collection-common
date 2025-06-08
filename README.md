@@ -106,25 +106,4 @@ Upgrade all packages on target host.
 ~$ ansible-playbook almaops.common.pkg_upgrade_all -e almaops_target_pkg_upgrade_all=all
 ```
 
-## HowTo's
-### HowTo: manual collection upload
-
-1. take [Galaxy API token](https://galaxy.ansible.com/ui/token/) and set the appropriate env var:
-```
-export GALAXY_TOKEN=<...>
-```
-
-2. run the following
-```
-git checkout master
-yq '.version |= (split(".") | .[-1] |= ((. tag = "!!int") + 1) | join("."))' galaxy.yml > galaxy.yml.new
-mv galaxy.yml.new galaxy.yml
-export COLLECTION_VERSION=$(yq .version galaxy.yml)
-git add galaxy.yml
-git commit -m "bump version $COLLECTION_VERSION"
-git tag "$COLLECTION_VERSION" master
-git push -v origin master
-git push origin --tags
-ansible-galaxy collection build .
-ansible-galaxy collection publish --token $GALAXY_TOKEN "almaops-common-${COLLECTION_VERSION}.tar.gz"
 ```

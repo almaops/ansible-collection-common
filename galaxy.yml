@@ -26,3 +26,5 @@ issues: 'https://github.com/almaops/ansible-collection-common/issues'
 build_ignore:
   - .gitignore
   - .yamllint
+  - .github
+...
