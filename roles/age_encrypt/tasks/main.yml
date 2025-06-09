@@ -33,7 +33,7 @@
     src: "{{ age_encrypt_path_install }}/{{ age_encrypt_tarball }}"
     dest: "{{ age_encrypt_path_install }}"
     mode: '0755'
-    list_files: true
+    remote_src: true
 
 - name: "=== AGE === Move binaries"
   ansible.builtin.copy:
