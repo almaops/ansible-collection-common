@@ -33,7 +33,7 @@ nginx_tcp_nodelay: "on"
 nginx_keepalive_timeout: "75"
 nginx_keepalive_requests: "600"
 
-nginx_server_tokens: "on"
+nginx_server_tokens: "off"
 
 nginx_client_max_body_size: "64m"
 
@@ -47,7 +47,14 @@ nginx_extra_conf_options: ""
 #     env VARIABLE;
 #     include /etc/nginx/main.d/*.conf;
 
-nginx_extra_http_options: ""
+nginx_extra_http_options: |
+  client_header_buffer_size 4k;
+  large_client_header_buffers 4 8k;
+  ssl_protocols TLSv1.3;
+  map $http_upgrade $connection_upgrade {
+    default upgrade;
+    '' close;
+  }
 # Example extra http options, printed inside the main server http config:
 #    nginx_extra_http_options: |
 #      proxy_buffering    off;
@@ -56,10 +63,10 @@ nginx_extra_http_options: ""
 #      proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
 #      proxy_set_header   Host $http_host;
 
-nginx_remove_default_vhost: false
+nginx_remove_default_vhost: true
 
 # Listen on IPv6 (default: true)
-nginx_listen_ipv6: true
+nginx_listen_ipv6: false
 
 nginx_vhosts: []
 # Example vhost below, showing all available options:
@@ -69,8 +76,6 @@ nginx_vhosts: []
 #   index: "index.html index.htm" # default: "index.html index.htm"
 #   filename: "example.com.conf" # Can be used to set the vhost filename.
 #
-#   # Properties that are only added if defined:
-#   server_name_redirect: "www.example.com" # default: N/A
 #   error_page: ""
 #   access_log: ""
 #   error_log: ""
