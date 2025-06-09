@@ -1,6 +1,7 @@
 [![License](https://img.shields.io/badge/license-MIT%20License-brightgreen.svg)](./LICENSE)
 [![ansible-lint](https://github.com/almaops/ansible-collection-common/actions/workflows/ansible-lint.yml/badge.svg)](https://github.com/almaops/ansible-collection-common/actions/workflows/ansible-lint.yml)
-[![REUSE status](https://api.reuse.software/badge/github.com/almaops/ansible-collection-common)](https://api.reuse.software/info/github.com/almaops/ansible-collection-common)
+[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/almaops/ansible-collection-common)](https://github.com/almaops/ansible-collection-common/releases)
+![GitHub last commit](https://img.shields.io/github/last-commit/almaops/ansible-collection-common)
 # Ansible Collection - almaops.common
 
 ## Description
