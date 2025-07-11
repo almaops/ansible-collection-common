@@ -11,5 +11,6 @@ argument_specs:
         choices:
           - "present"
           - "absent"
-
+      cron_default_file:
+        type: "str"
 ...
