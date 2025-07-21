@@ -6,6 +6,7 @@ user_force_set_password: "{{ force_set_password | default(false) }}"
 
 user_lock_password: "{{ forcelock_password_set_password | default(false) }}"
 # lock_password: false
+
 user_disable_user: "{{ disable_user | default(false) }}"
 # disable_user: false
 
