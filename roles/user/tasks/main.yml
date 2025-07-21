@@ -6,11 +6,11 @@
 
 - name: "=== ALMAOPS USER === Set facts"
   ansible.builtin.set_fact:
-    apply_to_this_host: false
+    user_apply_to_this_host: false
     user_host_list: []
     host: {}
-    nologin_shell: /usr/sbin/nologin
-    sudo_group: sudo
+    user_nologin_shell: /usr/sbin/nologin
+    user_sudo_group: sudo
 
 - name: "=== ALMAOPS USER === Lookup user definition for this host"
   ansible.builtin.set_fact:
@@ -23,13 +23,13 @@
 
 - name: "=== ALMAOPS USER === Check if we shall apply user settings to this host"
   ansible.builtin.set_fact:
-    apply_to_this_host: true
+    user_apply_to_this_host: true
   when: user_host_list | length > 0
 
 - name: "=== ALMAOPS USER === Gathering host configuration"
   ansible.builtin.set_fact:
     host: "{{ user_host_list | first }}"
-  when: apply_to_this_host
+  when: user_apply_to_this_host
 
 - name: "=== ALMAOPS USER === Configure sudo group"
   ansible.builtin.include_tasks: configure-sudo-group.yml
@@ -43,12 +43,12 @@
     state: absent
     force: true
   when:
-    - apply_to_this_host
+    - user_apply_to_this_host
     - host.delete_user | default(user_delete)
 
 - name: "=== ALMAOPS USER === Create user {{ username }}"
   ansible.builtin.include_tasks: create-user.yml
   when:
-    - apply_to_this_host
+    - user_apply_to_this_host
     - not (host.delete_user | default(user_delete))
 ...

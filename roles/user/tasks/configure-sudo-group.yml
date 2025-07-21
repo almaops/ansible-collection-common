@@ -1,10 +1,10 @@
 ---
-- name: "=== ALMAOPS USER === Create group - {{ sudo_group }}"
+- name: "=== ALMAOPS USER === Create group - {{ user_sudo_group }}"
   ansible.builtin.group:
-    name: "{{ sudo_group }}"
+    name: "{{ user_sudo_group }}"
     state: present
 
-- name: "=== ALMAOPS USER === Add sudo configuration for group {{ sudo_group }}"
+- name: "=== ALMAOPS USER === Add sudo configuration for group {{ user_sudo_group }}"
   ansible.builtin.template:
     src: sudo-nopasswd.j2
     dest: /etc/sudoers.d/sudo-group-nopasswd
@@ -12,7 +12,7 @@
     group: root
     mode: '0440'
 
-- name: "=== ALMAOPS USER === Remember that group is already configured on this host - {{ sudo_group }}"
+- name: "=== ALMAOPS USER === Remember that group is already configured on this host - {{ user_sudo_group }}"
   ansible.builtin.set_fact:
     user_sudo_group_configured: true
 ...

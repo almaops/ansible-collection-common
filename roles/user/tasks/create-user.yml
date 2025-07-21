@@ -6,7 +6,7 @@
 
 - name: "=== ALMAOPS USER === Check if user is disabled [{{ username }}]"
   ansible.builtin.set_fact:
-    user_new_shell: "{{ nologin_shell }}"
+    user_new_shell: "{{ user_nologin_shell }}"
   when: host.disable_user | default(user_disable_user)
 
 - name: "=== ALMAOPS USER === Check user password [{{ username }}]"
@@ -24,7 +24,7 @@
     user_new_groups: |
       {{ host.groups | default([]) +
       user_common_groups | default([]) +
-      (host.give_sudo | default(user_give_sudo)) | ternary([sudo_group], []) }}
+      (host.give_sudo | default(user_give_sudo)) | ternary([user_sudo_group], []) }}
 
 - name: "=== ALMAOPS USER === Create/configure user [{{ username }}]"
   ansible.builtin.user:
