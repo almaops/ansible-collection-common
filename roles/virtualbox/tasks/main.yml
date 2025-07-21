@@ -34,7 +34,6 @@
   become: true
   become_user: "{{ virtualbox_user }}"
   ansible.builtin.command: VBoxManage setproperty machinefolder {{ virtualbox_vmdir }}
-  register: _vmdir_output
   changed_when: true
   when: virtualbox_create_user
 ...

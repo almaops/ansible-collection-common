@@ -2,7 +2,7 @@
 - name: Check if certificate already exists.
   ansible.builtin.stat:
     path: /etc/letsencrypt/live/{{ cert_item.domains | first | replace('*.', '') }}/cert.pem
-  register: letsencrypt_cert
+  register: certbot_letsencrypt_cert
 
 - name: Ensure pre and post hook folders exist.
   ansible.builtin.file:
@@ -40,4 +40,4 @@
 - name: Generate new certificate if one doesn't exist.
   ansible.builtin.command: "{{ certbot_create_command }}"
   changed_when: true
-  when: not letsencrypt_cert.stat.exists
+  when: not certbot_letsencrypt_cert.stat.exists

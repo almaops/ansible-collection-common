@@ -3,7 +3,7 @@
   ansible.builtin.package:
     name: snapd
     state: present
-  register: snapd_install
+  register: certbot_snapd_install
 
 - name: Ensure snapd is enabled.
   ansible.builtin.systemd:
@@ -21,7 +21,7 @@
 - name: Update snap after install.
   community.general.snap:
     name: core
-  when: snapd_install is changed # noqa: no-handler
+  when: certbot_snapd_install is changed # noqa: no-handler
 
 - name: Install certbot via snap.
   community.general.snap:
