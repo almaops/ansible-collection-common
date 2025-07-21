@@ -8,7 +8,7 @@
   ansible.builtin.set_fact:
     user_apply_to_this_host: false
     user_host_list: []
-    host: {}
+    user_host: {}
     user_nologin_shell: /usr/sbin/nologin
     user_sudo_group: sudo
 
@@ -28,7 +28,7 @@
 
 - name: "=== ALMAOPS USER === Gathering host configuration"
   ansible.builtin.set_fact:
-    host: "{{ user_host_list | first }}"
+    user_host: "{{ user_host_list | first }}"
   when: user_apply_to_this_host
 
 - name: "=== ALMAOPS USER === Configure sudo group"
