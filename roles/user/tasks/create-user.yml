@@ -2,26 +2,26 @@
 # user
 - name: "=== ALMAOPS USER === Check user shell [{{ username }}]"
   ansible.builtin.set_fact:
-    new_shell: "{{ host.shell | default(shell | default(user_default_shell)) }}"
+    _new_shell: "{{ host.shell | default(shell | default(user_default_shell)) }}"
 
 - name: "=== ALMAOPS USER === Check if user is disabled [{{ username }}]"
   ansible.builtin.set_fact:
-    new_shell: "{{ nologin_shell }}"
+    _new_shell: "{{ nologin_shell }}"
   when: host.disable_user | default(user_disable_user)
 
 - name: "=== ALMAOPS USER === Check user password [{{ username }}]"
   ansible.builtin.set_fact:
-    new_password: "{{ host.password | default(password) | password_hash('sha512') }}"
+    _new_password: "{{ host.password | default(password) | password_hash('sha512') }}"
   when: host.password is defined or password is defined
 
 - name: "=== ALMAOPS USER === Disable password login [{{ username }}]"
   ansible.builtin.set_fact:
-    new_password: '*'
+    _new_password: '*'
   when: user_lock_password or (host.password is undefined and password is undefined)
 
 - name: "=== ALMAOPS USER === Check user groups [{{ username }}]"
   ansible.builtin.set_fact:
-    new_groups: |
+    _new_groups: |
       {{ host.groups | default([]) +
       user_common_groups | default([]) +
       (host.give_sudo | default(user_give_sudo)) | ternary([sudo_group], []) }}
@@ -30,9 +30,9 @@
   ansible.builtin.user:
     state: present
     name: "{{ username }}"
-    shell: "{{ new_shell }}"
-    groups: "{{ new_groups }}"
-    password: "{{ new_password }}"
+    shell: "{{ _new_shell }}"
+    groups: "{{ _new_groups }}"
+    password: "{{ _new_password }}"
     update_password: "{{ (host.force_set_password | default(user_force_set_password)) | ternary('always', 'on_create') }}"
 
 # sudo commands
