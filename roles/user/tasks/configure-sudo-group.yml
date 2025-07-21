@@ -14,5 +14,5 @@
 
 - name: "=== ALMAOPS USER === Remember that group is already configured on this host - {{ sudo_group }}"
   ansible.builtin.set_fact:
-    sudo_group_configured: true
+    user_sudo_group_configured: true
 ...

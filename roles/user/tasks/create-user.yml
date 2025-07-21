@@ -2,12 +2,12 @@
 # user
 - name: "=== ALMAOPS USER === Check user shell [{{ username }}]"
   ansible.builtin.set_fact:
-    new_shell: "{{ host.shell | default(shell | default(default_shell)) }}"
+    new_shell: "{{ host.shell | default(shell | default(user_default_shell)) }}"
 
 - name: "=== ALMAOPS USER === Check if user is disabled [{{ username }}]"
   ansible.builtin.set_fact:
     new_shell: "{{ nologin_shell }}"
-  when: host.disable_user | default(disable_user)
+  when: host.disable_user | default(user_disable_user)
 
 - name: "=== ALMAOPS USER === Check user password [{{ username }}]"
   ansible.builtin.set_fact:
@@ -17,14 +17,14 @@
 - name: "=== ALMAOPS USER === Disable password login [{{ username }}]"
   ansible.builtin.set_fact:
     new_password: '*'
-  when: lock_password or (host.password is undefined and password is undefined)
+  when: user_lock_password or (host.password is undefined and password is undefined)
 
 - name: "=== ALMAOPS USER === Check user groups [{{ username }}]"
   ansible.builtin.set_fact:
     new_groups: |
       {{ host.groups | default([]) +
-      common_groups | default([]) +
-      (host.give_sudo | default(give_sudo)) | ternary([sudo_group], []) }}
+      user_common_groups | default([]) +
+      (host.give_sudo | default(user_give_sudo)) | ternary([sudo_group], []) }}
 
 - name: "=== ALMAOPS USER === Create/configure user [{{ username }}]"
   ansible.builtin.user:
@@ -33,7 +33,7 @@
     shell: "{{ new_shell }}"
     groups: "{{ new_groups }}"
     password: "{{ new_password }}"
-    update_password: "{{ (host.force_set_password | default(force_set_password)) | ternary('always', 'on_create') }}"
+    update_password: "{{ (host.force_set_password | default(user_force_set_password)) | ternary('always', 'on_create') }}"
 
 # sudo commands
 - name: "=== ALMAOPS USER === Configure available sudo commands"
@@ -60,7 +60,7 @@
   when:
     - ssh_public_keys is defined
     - ssh_public_keys | selectattr('name', 'equalto', item) | list | length == 0
-  with_items: "{{ (host.authorized_keys | default(authorized_keys)) }}"
+  with_items: "{{ (host.authorized_keys | default(user_authorized_keys)) }}"
 
 - name: "=== ALMAOPS USER === Set authorized ssh keys [{{ username }}]"
   ansible.builtin.template:

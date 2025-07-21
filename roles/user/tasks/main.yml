@@ -33,7 +33,7 @@
 
 - name: "=== ALMAOPS USER === Configure sudo group"
   ansible.builtin.include_tasks: configure-sudo-group.yml
-  when: not sudo_group_configured
+  when: not user_sudo_group_configured
   tags:
     - sudo_configuration
 
@@ -44,11 +44,11 @@
     force: true
   when:
     - apply_to_this_host
-    - host.delete_user | default(delete_user)
+    - host.delete_user | default(user_delete)
 
 - name: "=== ALMAOPS USER === Create user {{ username }}"
   ansible.builtin.include_tasks: create-user.yml
   when:
     - apply_to_this_host
-    - not (host.delete_user | default(delete_user))
+    - not (host.delete_user | default(user_delete))
 ...
