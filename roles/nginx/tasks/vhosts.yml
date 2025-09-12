@@ -13,9 +13,6 @@
     mode: '0755'
   notify: Reload nginx
 
-- debug:
-    var: nginx_vhosts
-
 - name: Add managed vhost config files.
   ansible.builtin.template:
     src: "{{ item.template|default(nginx_vhost_template) }}"

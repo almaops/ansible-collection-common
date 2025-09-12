@@ -18,18 +18,6 @@
   ansible.builtin.include_tasks: setup-Debian.yml
   when: ansible_os_family == 'Debian'
 
-- include_tasks: setup-AstraLinux.yml
-  when: ansible_distribution == 'Astra Linux'
-
-- include_tasks: setup-FreeBSD.yml
-  when: ansible_os_family == 'FreeBSD'
-
-- include_tasks: setup-OpenBSD.yml
-  when: ansible_os_family == 'OpenBSD'
-
-- include_tasks: setup-Archlinux.yml
-  when: ansible_os_family == 'Archlinux'
-
 # Vhost configuration.
 - name: Template vhost
   ansible.builtin.import_tasks: vhosts.yml
