@@ -157,8 +157,8 @@ def main():
         data["Statement"].append(
             {
                 "Effect": statement["effect"],
-                "Action": [",".join(statement["action"])],
-                "Resource": [",".join(statement["resource"])],
+                "Action": statement["action"],
+                "Resource": statement["resource"],
             }
         )
 
