@@ -1,0 +1,74 @@
+---
+- name: Ensure target host is running on the Debian OS family
+  ansible.builtin.meta: end_host
+  when: ansible_os_family != 'Debian'
+
+- name: Check if snapd is installed
+  ansible.builtin.package_facts:
+    manager: auto
+
+- name: Completely purge snap ecosystem
+  when: "'snapd' in ansible_facts.packages"
+  block:
+    - name: Get list of installed snap packages
+      ansible.builtin.command: snap list
+      register: snap_list_output
+      changed_when: false
+      failed_when: false
+
+    - name: Remove all installed snap packages
+      ansible.builtin.command: "snap remove --purge {{ item }}"
+      loop: "{{ snap_list_output.stdout_lines[1:] | map('split') | map('first') | list }}"
+      when: snap_list_output.rc == 0 and (snap_list_output.stdout_lines | length) > 1
+      register: snap_remove_result
+      until: snap_remove_result is success
+      retries: 3
+      delay: 2
+      changed_when: true
+
+    - name: Stop and disable snapd systemd services
+      ansible.builtin.systemd:
+        name: "{{ item }}"
+        state: stopped
+        enabled: false
+      loop:
+        - snapd.service
+        - snapd.socket
+        - snapd.seeded.service
+      failed_when: false
+
+    - name: Purge snapd package via APT
+      ansible.builtin.apt:
+        name: snapd
+        state: absent
+        purge: true
+
+    - name: Unmount any lingering snap mounts
+      ansible.builtin.mount:
+        path: "{{ item.mount }}"
+        state: unmounted
+      loop: "{{ ansible_facts.mounts }}"
+      when: "'/snap/' in item.mount"
+
+    - name: Deep clean all snap directory structures
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /snap
+        - /var/snap
+        - /var/lib/snapd
+        - /var/cache/snapd
+        - /root/snap
+
+- name: Create APT block to prevent snapd re-installation
+  ansible.builtin.copy:
+    dest: /etc/apt/preferences.d/nosnap.pref
+    content: |
+      # Block managed by almaops.common collection
+      Package: snapd
+      Pin: release a=*
+      Pin-Priority: -10
+    mode: '0644'
+  notify: Update apt cache
+...

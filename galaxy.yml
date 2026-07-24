@@ -1,10 +1,10 @@
 ---
 namespace: almaops
 name: common
-version: 1.0.56
+version: 1.0.57
 readme: README.md
 authors:
-  - Valentin Gostev <val@almaops.ru>
+  - Valentin Gostev <val@almaops.com>
   - Dmitrii Kashin <freehck@freehck.com>
 description: 'Base Almaops roles'
 license:

@@ -1,0 +1,15 @@
+---
+galaxy_info:
+  author: "Valentin Gostev"
+  description: "Roles wipes out snapd and all snap packages"
+  role_name: snapoff
+  namespace: almaops
+  license: MIT
+  min_ansible_version: "2.15"
+  galaxy_tags:
+    - tools
+    - snap
+    - ubuntu
+allow_duplicates: true
+dependencies: []
+...
