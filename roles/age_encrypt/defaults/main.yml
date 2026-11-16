@@ -3,10 +3,16 @@
 age_encrypt_arch: "{{ prefab_mapped_go_arch }}"
 age_encrypt_system: "{{ ansible_system }}"
 age_encrypt_github_repo: "FiloSottile/age"
-age_encrypt_github_headers: "{{ {'GITHUB_TOKEN': lookup('ansible.builtin.env', 'GITHUB_TOKEN')} if (lookup('ansible.builtin.env', 'GITHUB_TOKEN')) else {} }}"
+age_encrypt_github_token: "{{ lookup('ansible.builtin.env', 'GITHUB_TOKEN') }}"
+age_encrypt_github_headers: >-
+  {{
+    {'Authorization': 'Bearer ' ~ age_encrypt_github_token}
+    if age_encrypt_github_token | length > 0
+    else {}
+  }}
 
 # Version
-age_encrypt_version: "latest"
+age_encrypt_version: "1.3.2"
 
 # Path settings
 age_encrypt_path_install: "/opt/age-encrypt"
@@ -17,4 +23,13 @@ age_encrypt_path_temp: "{{ age_encrypt_path_install }}/age"
 # Download
 age_encrypt_tarball: "age-v{{ age_encrypt_version }}-{{ age_encrypt_system | lower }}-{{ age_encrypt_arch }}.tar.gz"
 age_encrypt_url: "https://github.com/{{ age_encrypt_github_repo }}/releases/download/v{{ age_encrypt_version }}/{{ age_encrypt_tarball }}"
+
+age_encrypt_binaries:
+  - age
+  - age-keygen
+  - age-inspect
+  - age-plugin-batchpass
+  - age-plugin-pq
+  - age-plugin-tag
+  - age-plugin-tagpq
 ...

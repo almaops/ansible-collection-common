@@ -1,0 +1,7 @@
+---
+- name: Install Age encryption
+  hosts: "{{ age_encrypt_target_hosts }}"
+  become: true
+  roles:
+    - role: almaops.common.age_encrypt
+...

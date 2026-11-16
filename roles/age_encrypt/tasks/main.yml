@@ -41,9 +41,7 @@
     dest: "{{ age_encrypt_path_install }}/{{ item }}-{{ age_encrypt_version }}"
     mode: '0755'
     remote_src: true
-  loop:
-    - age
-    - age-keygen
+  loop: "{{ age_encrypt_binaries }}"
 
 - name: "=== AGE ===  Create symlink"
   ansible.builtin.file:
@@ -51,9 +49,7 @@
     dest: "{{ age_encrypt_path_bin }}/{{ item }}"
     state: link
     mode: '0755'
-  loop:
-    - age
-    - age-keygen
+  loop: "{{ age_encrypt_binaries }}"
 
 - name: "=== AGE === Remove temp dir"
   ansible.builtin.file:
