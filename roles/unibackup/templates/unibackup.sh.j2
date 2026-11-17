@@ -1,0 +1,289 @@
+#!/usr/bin/env bash
+# Managed by Ansible. Local changes will be overwritten.
+set -euo pipefail
+umask 077
+
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+export LC_ALL=C
+
+# Configuration
+BASE_DIR={{ unibackup_basedir | quote }}
+BACKUP_NAME={{ unibackup_name | quote }}
+BACKUP_DIR={{ unibackup_backup_dir | quote }}
+BACKUP_GROUP={{ unibackup_backup_group | quote }}
+BACKUP_FILE_MODE={{ unibackup_backup_file_mode | quote }}
+RETENTION_NUM={{ unibackup_retention_num | string | quote }}
+RETENTION_DAYS={{ unibackup_retention_days | string | quote }}
+
+MANAGE_SERVICE={% if unibackup_manage_service | bool %}true{% else %}false{% endif %}
+
+STOP_COMMAND={{ unibackup_manage_stop | quote }}
+PREPARE_COMMAND={{ unibackup_manage_prepare | quote }}
+START_COMMAND={{ unibackup_manage_start | quote }}
+
+AGE_ENCRYPT={% if unibackup_age_encrypt | bool %}true{% else %}false{% endif %}
+
+AGE_RECIPIENTS_FILE={{ unibackup_age_recipients_file | quote }}
+
+SOURCES=(
+{% for source in unibackup_data_source_dirs %}
+    {{ source | quote }}
+{% endfor %}
+)
+
+{% raw %}
+# Runtime state
+TEMP_FILE=""
+NEEDS_START=0
+TAR_SOURCES=()
+
+log() {
+    printf '[%s] [%s] %s\n' \
+        "$(date -u '+%Y-%m-%dT%H:%M:%SZ')" "$BACKUP_NAME" "$*" >&2
+}
+
+die() {
+    log "ERROR: $*"
+    exit 1
+}
+
+run_hook() {
+    # A separate shell enforces fail-fast semantics even when called
+    # from a conditional in cleanup. Do not pass the lock FD to hooks.
+    /bin/bash -euo pipefail -c "$1" 9>&-
+}
+
+stop_services() {
+    log "Stopping services"
+    run_hook "$STOP_COMMAND"
+}
+
+start_services() {
+    log "Starting services"
+    run_hook "$START_COMMAND"
+}
+
+prepare_backup() {
+    if [[ -n "$PREPARE_COMMAND" ]]; then
+        log "Preparing application backup"
+        run_hook "$PREPARE_COMMAND"
+    fi
+}
+
+cleanup() {
+    local rc=$?
+    trap - EXIT
+    trap '' INT TERM
+
+    # Attempt recovery even if the stop hook only partially succeeded.
+    if (( NEEDS_START )); then
+        log "Attempting service recovery"
+        if start_services; then
+            NEEDS_START=0
+        else
+            log "ERROR: Service recovery failed"
+            (( rc != 0 )) || rc=1
+        fi
+    fi
+
+    if [[ -n "$TEMP_FILE" ]]; then
+        if ! rm -f -- "$TEMP_FILE"; then
+            log "ERROR: Cannot remove temporary archive: $TEMP_FILE"
+            (( rc != 0 )) || rc=1
+        fi
+    fi
+
+    if (( rc != 0 )); then
+        log "Backup job failed (exit code $rc)"
+    fi
+    exit "$rc"
+}
+
+trap cleanup EXIT
+trap 'exit 130' INT
+trap 'exit 143' TERM
+
+validate_config() {
+    local cmd source
+
+    [[ "$BASE_DIR" == /* ]] || die "Base directory must be absolute"
+    [[ "$BACKUP_NAME" =~ ^[a-zA-Z0-9_][a-zA-Z0-9._-]*$ ]] ||
+        die "Invalid backup name: $BACKUP_NAME"
+    [[ "$RETENTION_NUM" =~ ^[1-9][0-9]*$ ]] ||
+        die "Retention count must be a positive integer"
+    [[ "$RETENTION_DAYS" =~ ^(0|[1-9][0-9]*)$ ]] ||
+        die "Retention days must be a non-negative integer"
+    (( ${#SOURCES[@]} > 0 )) || die "No backup sources configured"
+
+    for cmd in tar gzip flock realpath mktemp mv rm date stat mkdir; do
+        command -v "$cmd" >/dev/null || die "Missing command: $cmd"
+    done
+
+    for source in "${SOURCES[@]}"; do
+        [[ "$source" == /* ]] || die "Source must be absolute: $source"
+    done
+
+    if [[ "$MANAGE_SERVICE" == true ]]; then
+        [[ "$STOP_COMMAND" =~ [^[:space:]] ]] || die "Stop hook is empty"
+        [[ "$START_COMMAND" =~ [^[:space:]] ]] || die "Start hook is empty"
+    fi
+
+    if [[ "$AGE_ENCRYPT" == true ]]; then
+        command -v age >/dev/null || die "Missing command: age"
+        [[ -f "$AGE_RECIPIENTS_FILE" && -r "$AGE_RECIPIENTS_FILE" ]] ||
+            die "Cannot read recipients file: $AGE_RECIPIENTS_FILE"
+    fi
+}
+
+validate_sources() {
+    local mode=$1 source resolved
+    TAR_SOURCES=()
+
+    for source in "${SOURCES[@]}"; do
+        if [[ "$mode" == existing ]]; then
+            [[ -d "$source" ]] || die "Source directory missing: $source"
+            resolved=$(realpath -e -- "$source")
+        else
+            # Prepare hook may create a source directory later.
+            resolved=$(realpath -m -- "$source")
+        fi
+
+        [[ "$resolved" != / ]] || die "Backing up / is not supported"
+        if [[ "$BACKUP_DIR" == "$resolved" ||
+              "$BACKUP_DIR" == "$resolved/"* ]]; then
+            die "Backup destination is inside source: $resolved"
+        fi
+
+        # Relative-to-root archive member names; no leading slash.
+        TAR_SOURCES+=( "${resolved#/}" )
+    done
+}
+
+create_archive() {
+    if [[ "$AGE_ENCRYPT" == true ]]; then
+        tar -C / --acls --xattrs -czf - -- "${TAR_SOURCES[@]}" |
+            age -R "$AGE_RECIPIENTS_FILE" > "$TEMP_FILE"
+    else
+        tar -C / --acls --xattrs -czf - -- "${TAR_SOURCES[@]}" > "$TEMP_FILE"
+    fi
+}
+
+rotate_backups() {
+    local -a archives=()
+    local file suffix now cutoff mtime i rank
+
+    log "Rotating backups: keep newest $RETENTION_NUM; age threshold $RETENTION_DAYS days"
+
+    # One glob gives a globally sorted list in the C locale, even
+    # when both encrypted and unencrypted archives exist.
+    shopt -s nullglob
+    for file in "$BACKUP_DIR/$BACKUP_NAME-"*.tar.gz*; do
+        [[ -f "$file" && ! -L "$file" ]] || continue
+        suffix=${file##*/}
+        suffix=${suffix#"$BACKUP_NAME-"}
+        [[ "$suffix" =~ ^[0-9]{8}T[0-9]{6}\.[0-9]{9}Z\.tar\.gz(\.age)?$ ]] || continue
+        archives+=( "$file" )
+    done
+    shopt -u nullglob
+
+    now=$(date +%s)
+    cutoff=$(( now - RETENTION_DAYS * 86400 ))
+    rank=0
+
+    # Traverse newest first (UTC timestamps are lexically sortable).
+    for (( i=${#archives[@]}-1; i>=0; i-- )); do
+        file=${archives[i]}
+        rank=$(( rank + 1 ))
+
+        # The newest N backups are protected regardless of age.
+        if (( rank <= RETENTION_NUM )); then
+            continue
+        fi
+
+        # Days=0 disables the age protection (count-only retention).
+        if (( RETENTION_DAYS > 0 )); then
+            mtime=$(stat -c %Y -- "$file")
+            if (( mtime > cutoff )); then
+                continue
+            fi
+        fi
+
+        log "Deleting old backup: $file"
+        rm -- "$file"
+    done
+}
+
+main() {
+    local timestamp extension final_file rc
+
+    validate_config
+
+    BACKUP_DIR=$(realpath -m -- "$BACKUP_DIR")
+    if [[ -z "$PREPARE_COMMAND" ]]; then
+        validate_sources existing
+    else
+        validate_sources prospective
+    fi
+
+    mkdir -p -- "$BACKUP_DIR"
+    BACKUP_DIR=$(realpath -e -- "$BACKUP_DIR")
+
+    # Do not overlap runs of the same job.
+    exec 9>"$BACKUP_DIR/.backup.lock"
+    if flock -n -E 75 9; then
+        :
+    else
+        rc=$?
+        if (( rc == 75 )); then
+            log "Another backup is running; skipping"
+            exit 0
+        fi
+        die "Cannot acquire backup lock (exit code $rc)"
+    fi
+
+    extension=tar.gz
+    if [[ "$AGE_ENCRYPT" == true ]]; then
+        extension=tar.gz.age
+        # Check recipients before taking any service offline.
+        age -R "$AGE_RECIPIENTS_FILE" </dev/null >/dev/null
+    fi
+
+    timestamp=$(date -u '+%Y%m%dT%H%M%S.%NZ')
+    final_file="$BACKUP_DIR/$BACKUP_NAME-$timestamp.$extension"
+    [[ ! -e "$final_file" && ! -L "$final_file" ]] ||
+        die "Backup already exists: $final_file"
+
+    # A failed backup must never appear under a completed archive name.
+    TEMP_FILE=$(mktemp "$BACKUP_DIR/.${BACKUP_NAME}.XXXXXX")
+
+    log "Backup started"
+
+    if [[ "$MANAGE_SERVICE" == true ]]; then
+        NEEDS_START=1
+        stop_services
+    fi
+
+    # Run independently of service management for online/native backups.
+    prepare_backup
+    validate_sources existing
+
+    log "Creating archive"
+    create_archive
+    chgrp -- "$BACKUP_GROUP" "$TEMP_FILE"
+    chmod -- "$BACKUP_FILE_MODE" "$TEMP_FILE"
+    mv -T -- "$TEMP_FILE" "$final_file"
+    TEMP_FILE=""
+    log "Backup created: $final_file"
+
+    # Minimize downtime: restart before performing retention.
+    if (( NEEDS_START )); then
+        start_services
+        NEEDS_START=0
+    fi
+
+    rotate_backups
+    log "Backup completed successfully"
+}
+
+main "$@"
+{% endraw %}

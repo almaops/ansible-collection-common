@@ -1,0 +1,40 @@
+---
+- name: Create backup access group
+  ansible.builtin.group:
+    name: "{{ unibackup_backup_group }}"
+    system: true
+    state: present
+
+- name: Create unibackup base directory
+  ansible.builtin.file:
+    path: "{{ unibackup_basedir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0700"
+
+- name: Create backup parent directory
+  ansible.builtin.file:
+    path: "{{ unibackup_backup_dir | dirname }}"
+    owner: "{{ unibackup_backup_owner }}"
+    group: "{{ unibackup_backup_group }}"
+    mode: "{{ unibackup_backup_dir_mode }}"
+    state: directory
+
+- name: Create backup destination directory
+  ansible.builtin.file:
+    path: "{{ unibackup_backup_dir }}"
+    owner: "{{ unibackup_backup_owner }}"
+    group: "{{ unibackup_backup_group }}"
+    mode: "{{ unibackup_backup_dir_mode }}"
+    state: directory
+
+- name: Deploy unibackup script
+  ansible.builtin.template:
+    src: unibackup.sh.j2
+    dest: "{{ unibackup_script }}"
+    owner: root
+    group: root
+    mode: "0700"
+    validate: "/bin/bash -n %s"
+...

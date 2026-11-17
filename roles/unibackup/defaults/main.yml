@@ -1,0 +1,42 @@
+---
+unibackup_basedir: "/opt/unibackup"
+unibackup_name: "myapp"
+unibackup_script: "{{ unibackup_basedir }}/{{ unibackup_name }}.sh"
+unibackup_backup_dir: "/srv/backups/{{ unibackup_name }}"
+unibackup_backup_owner: "root"
+unibackup_backup_group: "unibackup"
+unibackup_backup_dir_mode: "2750"
+unibackup_backup_file_mode: "0640"
+
+# Keep X last backups regardless of age
+unibackup_retention_num: 5
+# Remove backups older than Y days
+unibackup_retention_days: 10
+
+# Controls whether we have to do something prior/after backup
+# for example stop docker container
+unibackup_manage_service: true
+unibackup_manage_stop: |
+  docker compose -f /opt/myapp/docker-compose.yml stop
+
+# Command to run after stop, but before archiving
+unibackup_manage_prepare: ""
+# unibackup_manage_prepare: |
+#   mkdir -p /srv/postgres-backup
+#   docker exec postgres pg_dumpall -U postgres \
+#     > /srv/postgres-backup/database.sql
+
+unibackup_manage_start: |
+  docker compose -f /opt/myapp/docker-compose.yml up -d
+
+# Use age encryption tool
+unibackup_age_encrypt: false
+
+# Path to recipients file on target
+unibackup_age_recipients_file: "/etc/backup.recipients"
+
+
+unibackup_data_source_dirs: []
+  # - /srv/postgres
+  # - /srv/appdata
+...

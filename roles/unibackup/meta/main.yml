@@ -1,0 +1,13 @@
+---
+galaxy_info:
+  author: "Valentin Gostev"
+  description: "Simple backup script"
+  role_name: unibackup
+  namespace: almaops
+  license: MIT
+  min_ansible_version: "2.15"
+  galaxy_tags:
+    - backup
+allow_duplicates: true
+dependencies: []
+...
