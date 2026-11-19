@@ -1,0 +1,40 @@
+---
+# Templates
+ct_silo_template_env: "env.j2"
+ct_silo_template_compose: "compose.yml.j2"
+
+# Path settings
+ct_silo_path_base: "/srv/ct_silo/{{ ct_silo_ct_name }}"
+ct_silo_path_env: "{{ ct_silo_path_base }}/{{ ct_silo_ct_name }}.env"
+ct_silo_path_compose: "{{ ct_silo_path_base }}/docker-compose.yml"
+ct_silo_path_data: "{{ ct_silo_path_base }}/data"
+ct_silo_path_ct_data: "/data"
+
+# Container settings
+ct_silo_ct_name: "silo"
+ct_silo_ct_version: "RELEASE.2026-11-12T00-00-00Z"
+ct_silo_ct_image: "pgsty/silo:{{ ct_silo_ct_version }}"
+ct_silo_ct_state: "started"
+ct_silo_ct_restart_policy: "always"
+ct_silo_ct_restart: false
+ct_silo_ct_pull: false
+ct_silo_ct_recreate: false
+ct_silo_ct_network_mode: "default"
+ct_silo_ct_networks: []
+ct_silo_ct_ports:
+  - "127.0.0.1:9000:9000"
+  - "127.0.0.1:9001:9001"
+ct_silo_ct_volumes:
+  - "{{ ct_silo_path_data }}:{{ ct_silo_path_ct_data }}"
+
+ct_silo_ct_command:
+  - "server"
+  - "--console-address"
+  - ":9001"
+  - "{{ ct_silo_path_ct_data }}"
+
+# Environment variables
+# ct_silo_env_minio_root_user: "root"
+# ct_silo_env_minio_root_password: "changeme"
+ct_silo_env_extra: {}
+...

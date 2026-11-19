@@ -1,0 +1,39 @@
+---
+- name: Create application directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+    recurse: true
+    owner: root
+    group: root
+  loop:
+    - "{{ ct_silo_path_base }}"
+    - "{{ ct_silo_path_data }}"
+
+- name: Deploy environment file
+  ansible.builtin.template:
+    src: "{{ ct_silo_template_env }}"
+    dest: "{{ ct_silo_path_env }}"
+    mode: "0600"
+  diff: false
+
+- name: Deploy compose manifest
+  ansible.builtin.template:
+    src: "{{ ct_silo_template_compose }}"
+    dest: "{{ ct_silo_path_compose }}"
+    owner: root
+    group: root
+    mode: "0644"
+    validate: "docker compose -f %s config --quiet"
+
+- name: Reconcile application
+  community.docker.docker_compose_v2:
+    project_src: "{{ ct_silo_path_base }}"
+    project_name: "{{ ct_silo_ct_name }}"
+    state: present
+    recreate: auto
+    pull: missing
+    remove_orphans: true
+    wait: true
+...

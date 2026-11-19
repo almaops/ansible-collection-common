@@ -1,0 +1,35 @@
+services:
+  {{ ct_silo_ct_name }}:
+    container_name: {{ ct_silo_ct_name | to_json }}
+    image: {{ ct_silo_ct_image | to_json }}
+    restart: {{ ct_silo_ct_restart_policy | to_json }}
+    env_file:
+      - path: {{ ct_silo_path_env | to_json }}
+        format: raw
+{% if ct_silo_ct_network_mode != 'default' %}
+    network_mode: {{ ct_silo_ct_network_mode | to_json }}
+{% endif %}
+{% if ct_silo_ct_networks | length > 0 %}
+    networks:
+{{ ct_silo_ct_networks | to_nice_yaml(indent=2) | trim | indent(6, true) }}
+{% endif %}
+{% if ct_silo_ct_ports | length > 0 %}
+    ports:
+{{ ct_silo_ct_ports | to_nice_yaml(indent=2) | trim | indent(6, true) }}
+{% endif %}
+{% if (ct_silo_ct_volumes + ct_silo_ct_volume_extra) | length > 0 %}
+    volumes:
+{{ (ct_silo_ct_volumes + ct_silo_ct_volume_extra) | to_nice_yaml(indent=2) | trim | indent(6, true) }}
+{% endif %}
+{% if ct_silo_ct_command | length > 0 %}
+    command:
+{{ ct_silo_ct_command | to_nice_yaml(indent=2) | trim | indent(6, true) }}
+{% endif %}
+{% if ct_silo_ct_networks | length > 0 %}
+
+networks:
+{% for network in ct_silo_ct_networks %}
+  {{ network }}:
+    external: true
+{% endfor %}
+{% endif %}
