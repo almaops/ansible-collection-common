@@ -24,9 +24,6 @@ ct_silo_ct_networks: []
 ct_silo_ct_ports:
   - "127.0.0.1:9000:9000"
   - "127.0.0.1:9001:9001"
-ct_silo_ct_volume_extra: []
-ct_silo_ct_volume_data:
-  - "{{ ct_silo_path_data_volume }}:{{ ct_silo_path_ct_data }}"
 ct_silo_ct_volumes:
   - "{{ ct_silo_path_data }}:{{ ct_silo_path_ct_data }}"
 

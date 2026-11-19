@@ -17,9 +17,9 @@ services:
     ports:
 {{ ct_silo_ct_ports | to_nice_yaml(indent=2) | trim | indent(6, true) }}
 {% endif %}
-{% if (ct_silo_ct_volumes + ct_silo_ct_volume_extra) | length > 0 %}
+{% if ct_silo_ct_volumes | length > 0 %}
     volumes:
-{{ (ct_silo_ct_volumes + ct_silo_ct_volume_extra) | to_nice_yaml(indent=2) | trim | indent(6, true) }}
+{{ ct_silo_ct_volumes | to_nice_yaml(indent=2) | trim | indent(6, true) }}
 {% endif %}
 {% if ct_silo_ct_command | length > 0 %}
     command:
