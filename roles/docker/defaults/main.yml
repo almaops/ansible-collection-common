@@ -1,4 +1,5 @@
 ---
+docker_legacy_flow: true
 docker_enable_pkg_install: true
 docker_enable_pip_install: false
 docker_enable_configure: true
@@ -19,6 +20,25 @@ docker_package_compose_v2:
   - "docker-compose-v2"
 docker_package_python_docker:
   - "python3-docker"
+
+docker_upstream_repo_url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}"
+docker_upstream_repo_channel: "stable"
+docker_upstream_repo_key: "/etc/apt/keyrings/docker.asc"
+docker_upstream_packages:
+  - "docker-ce"
+  - "docker-ce-cli"
+  - "containerd.io"
+  - "docker-buildx-plugin"
+  - "docker-compose-plugin"
+docker_upstream_conflicting_packages:
+  - "docker.io"
+  - "docker-compose"
+  - "docker-compose-v2"
+  - "docker-doc"
+  - "docker-buildx"
+  - "podman-docker"
+  - "containerd"
+  - "runc"
 
 docker_pip_packages:
   - docker

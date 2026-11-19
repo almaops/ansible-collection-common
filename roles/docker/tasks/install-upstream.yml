@@ -1,0 +1,77 @@
+---
+- name: "=== DOCKER === Check supported distribution"
+  ansible.builtin.assert:
+    that:
+      - ansible_distribution in ['Debian', 'Ubuntu']
+    fail_msg: "Upstream Docker installation is only supported on Debian and Ubuntu"
+
+- name: "=== DOCKER === Install repository prerequisites"
+  ansible.builtin.apt:
+    name:
+      - ca-certificates
+      - curl
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+
+- name: "=== DOCKER === Create APT keyring directory"
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: "=== DOCKER === Download upstream repository GPG key"
+  ansible.builtin.get_url:
+    url: "{{ docker_upstream_repo_url }}/gpg"
+    dest: "{{ docker_upstream_repo_key }}"
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: "=== DOCKER === Detect Debian package architecture"
+  ansible.builtin.command:
+    cmd: dpkg --print-architecture
+  register: docker_dpkg_arch
+  changed_when: false
+  check_mode: false
+
+- name: "=== DOCKER === Configure upstream APT repository"
+  ansible.builtin.copy:
+    dest: /etc/apt/sources.list.d/docker.sources
+    owner: root
+    group: root
+    mode: "0644"
+    content: |
+      Types: deb
+      URIs: {{ docker_upstream_repo_url }}
+      Suites: {{ ansible_distribution_release }}
+      Components: {{ docker_upstream_repo_channel }}
+      Architectures: {{ docker_dpkg_arch.stdout }}
+      Signed-By: {{ docker_upstream_repo_key }}
+
+- name: "=== DOCKER === Update APT cache"
+  ansible.builtin.apt:
+    update_cache: true
+
+- name: "=== DOCKER === Remove conflicting packages"
+  ansible.builtin.apt:
+    name: "{{ docker_upstream_conflicting_packages }}"
+    state: absent
+    purge: false
+    autoremove: false
+
+- name: "=== DOCKER === Install upstream Docker packages"
+  ansible.builtin.apt:
+    name: "{{ docker_upstream_packages +
+      (docker_enable_docker_python |
+      ternary(docker_package_python_docker, [])) }}"
+    state: present
+
+- name: "=== DOCKER === Enable and start Docker service"
+  ansible.builtin.systemd:
+    name: "{{ docker_systemd_service }}"
+    enabled: true
+    state: started
+...

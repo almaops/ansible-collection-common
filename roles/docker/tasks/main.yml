@@ -10,7 +10,14 @@
       (docker_enable_docker_python | ternary(docker_package_python_docker, [])) }}"
   when:
     - docker_enable_pkg_install
+    - docker_legacy_flow | bool
     - ansible_distribution | default(undef(hint="you must gather facts before running this role")) in [ 'Ubuntu', 'Debian', 'Astra Linux' ]
+
+- name: "=== DOCKER === Install upstream packages"
+  ansible.builtin.include_tasks: install-upstream.yml
+  when:
+    - docker_enable_pkg_install
+    - not (docker_legacy_flow | bool)
 
 - name: "=== DOCKER === Install PIP library"
   ansible.builtin.include_role:
