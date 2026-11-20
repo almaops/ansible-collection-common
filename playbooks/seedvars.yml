@@ -1,0 +1,134 @@
+---
+# ==============================================================================
+# Playbook: almaops.common.seed
+# ==============================================================================
+# Description:
+#   Seeds host variables from composable feature profile directories defined in
+#   each host's comma-separated `features` inventory attribute, then re-applies
+#   native `inventory/host_vars/` so per-host overrides always take precedence
+#   over profile defaults.
+#
+# Expected Project Layout:
+#   <project_root>/
+#   ├── ansible.cfg                  # inventory = inventory/
+#   ├── inventory/
+#   │   ├── group_vars/all/00-seed.yml
+#   │   ├── host_vars/<hostname>/    # Re-applied last to win over profiles
+#   │   ├── 00-hosts.ini             # my.nginx.host features=base,nginx
+#   │   └── 99-constructed.yml       # Optional: builds feature_<name> groups
+#   └── vars/
+#       └── features/
+#           ├── base/*.yml
+#           └── nginx/*.yml
+#
+# Playbook Variables:
+#   seed_hosts (str | list, default: [])
+#     Target host pattern(s) to seed. Defaults to an empty list so playbooks
+#     must explicitly declare which hosts/groups to seed. Respects `--limit`.
+#
+#   seed_profiles_subpath (str, default: 'vars/features')
+#     Path to the profiles directory relative to the project root
+#     (`inventory_dir | dirname`).
+#
+#   seed_profiles_dir (str, optional)
+#     Full path override to the profiles directory. If omitted, derived from
+#     `<project_root>/<seed_profiles_subpath>`.
+#
+# Host Inventory Variables:
+#   features (str, optional)
+#     Comma-separated list of profile folder names loaded in exact left-to-right
+#     order (e.g., `features=base,nginx,certbot_dns`).
+#
+# Auditing & Debugging (via almaops.common.avars):
+#   Pass via `import_playbook` `vars:` or CLI `-e`:
+#     - avars_debug=true              Print overwritten variables and diffs
+#     - avars_debug_new=true          Print newly introduced variables
+#     - avars_debug_show_values=false Mask values in CI logs
+#     - avars_fail_on_override=true   Fail if any variable is overwritten
+#
+# Usage Examples:
+#   # 1. Basic import targeting a specific group
+#   - name: Seed web servers
+#     ansible.builtin.import_playbook: almaops.common.seed
+#     vars:
+#       seed_hosts: feature_nginx
+#
+#   # 2. Custom subpath and debug auditing
+#   - name: Seed web servers with debug auditing
+#     ansible.builtin.import_playbook: almaops.common.seed
+#     vars:
+#       seed_hosts: feature_nginx
+#       seed_profiles_subpath: vars/features
+#       avars_debug: true
+# 
+# Example constructed plugin config (<project_root>/inventory/99-constructed):
+# ---
+# plugin: ansible.builtin.constructed
+# strict: false
+# keyed_groups:
+#   - key: >-
+#       (
+#         features.split(',')
+#         | map('trim')
+#         | reject('equalto', 'solo')
+#         | reject('equalto', '')
+#         | list
+#       )
+#       if features is defined else []
+#     prefix: feature
+# ...
+# ==============================================================================
+
+- name: Seed host variables from assigned feature profiles
+  hosts: "{{ seed_hosts | default([]) }}"
+  gather_facts: false
+  tasks:
+    - name: Resolve seed directory paths
+      ansible.builtin.set_fact:
+        _seed_profiles_dir: >-
+          {{
+            seed_profiles_dir
+            | default(
+                ((inventory_dir | dirname) if inventory_dir is defined else lookup('env', 'PWD'))
+                ~ '/'
+                ~ (seed_profiles_subpath | default('vars/features') | regex_replace('^/', ''))
+              )
+          }}
+        _seed_host_vars_dir: "{{ inventory_dir ~ '/host_vars' if inventory_dir is defined else '' }}"
+      no_log: true
+      tags:
+        - always
+
+    - name: Load assigned feature profiles
+      ansible.builtin.include_role:
+        name: almaops.common.avars
+      vars:
+        avars_dir: "{{ _seed_profiles_dir }}/{{ item | trim }}"
+      loop: "{{ features.split(',') if (features is defined and features | length > 0) else [] }}"
+      when: (item | trim | length) > 0
+      tags:
+        - always
+
+    - name: Re-apply inventory/host_vars directory if present
+      ansible.builtin.include_role:
+        name: almaops.common.avars
+      vars:
+        avars_dir: "{{ _seed_host_vars_dir }}/{{ inventory_hostname }}"
+      when:
+        - _seed_host_vars_dir | length > 0
+        - (_seed_host_vars_dir ~ '/' ~ inventory_hostname) is directory
+      tags:
+        - always
+
+    - name: Re-apply inventory/host_vars file if present
+      ansible.builtin.include_vars:
+        file: "{{ item }}"
+      loop:
+        - "{{ _seed_host_vars_dir }}/{{ inventory_hostname }}.yml"
+        - "{{ _seed_host_vars_dir }}/{{ inventory_hostname }}.yaml"
+      when:
+        - _seed_host_vars_dir | length > 0
+        - item is file
+      tags:
+        - always
+...

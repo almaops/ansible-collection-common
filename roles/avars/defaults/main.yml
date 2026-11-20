@@ -1,0 +1,19 @@
+---
+# Path to the directory containing variable files to include (required)
+avars_dir: ""
+
+# Print a diff whenever an existing variable is overwritten
+avars_debug: false
+
+# Print a diff whenever an new variable is defined
+avars_debug_new: false
+
+# True to show variable values on diff
+avars_debug_show_values: false
+
+# Fail the play if any existing variable is overwritten
+avars_fail_on_override: false
+
+# Regex of variable names to exclude from diff auditing
+avars_ignore_regex: "^(_|ansible_|avars_)"
+...

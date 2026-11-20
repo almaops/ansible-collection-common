@@ -1,0 +1,93 @@
+---
+- name: Validate that avars_dir is specified
+  ansible.builtin.assert:
+    that:
+      - avars_dir is defined
+      - (avars_dir | string | trim | length) > 0
+    fail_msg: "Parameter 'avars_dir' must be provided to role 'avars'."
+
+- name: Snapshot host variables before loading {{ avars_dir }}
+  ansible.builtin.set_fact:
+    _avars_before: >-
+      {{
+        hostvars[inventory_hostname]
+        | dict2items
+        | rejectattr('key', 'match', avars_ignore_regex)
+        | items2dict
+      }}
+  no_log: true
+  when: (avars_debug | bool) or (avars_debug_new | bool) or (avars_fail_on_override | bool)
+
+- name: Include variables from {{ avars_dir }}
+  ansible.builtin.include_vars:
+    dir: "{{ avars_dir }}"
+
+- name: Audit variable changes from {{ avars_dir }}
+  when: (avars_debug | bool) or (avars_debug_new | bool) or (avars_fail_on_override | bool)
+  block:
+    - name: Snapshot host variables after loading {{ avars_dir }}
+      ansible.builtin.set_fact:
+        _avars_after: >-
+          {{
+            hostvars[inventory_hostname]
+            | dict2items
+            | rejectattr('key', 'match', avars_ignore_regex)
+            | items2dict
+          }}
+      no_log: true
+
+    - name: Identify new and overwritten variable keys
+      ansible.builtin.set_fact:
+        _avars_new_keys: "{{ _avars_after.keys() | difference(_avars_before.keys()) | list }}"
+        _avars_diff_keys: >-
+          {%- set changed = [] -%}
+          {%- for k in (_avars_after.keys() | intersect(_avars_before.keys())) -%}
+            {%- if _avars_before[k] != _avars_after[k] -%}
+              {%- set _ = changed.append(k) -%}
+            {%- endif -%}
+          {%- endfor -%}
+          {{ changed }}
+      no_log: true
+
+    - name: Print newly defined variables
+      ansible.builtin.debug:
+        msg: >-
+          {{
+            "NEW in [" ~ avars_dir ~ "]: '" ~ item ~ "' = '" ~ _avars_after[item] ~ "'"
+            if (avars_debug_show_values | bool)
+            else "NEW in [" ~ avars_dir ~ "]: '" ~ item ~ "'"
+          }}
+      loop: "{{ _avars_new_keys }}"
+      when:
+        - avars_debug_new | bool
+        - _avars_new_keys | length > 0
+
+    - name: Print overwritten variables
+      ansible.builtin.debug:
+        msg: >-
+          {{
+            "OVERRIDE in [" ~ avars_dir ~ "]: '" ~ item ~ "' changed from '" ~ _avars_before[item] ~ "' -> '" ~ _avars_after[item] ~ "'"
+            if (avars_debug_show_values | bool)
+            else "OVERRIDE in [" ~ avars_dir ~ "]: '" ~ item ~ "'"
+          }}
+      loop: "{{ _avars_diff_keys }}"
+      when:
+        - avars_debug | bool
+        - _avars_diff_keys | length > 0
+
+    - name: Fail if variable overwrite is disallowed
+      ansible.builtin.assert:
+        that:
+          - _avars_diff_keys | length == 0
+        fail_msg: "Variable overwrite blocked in [{{ avars_dir }}]: {{ _avars_diff_keys }}"
+      when: avars_fail_on_override | bool
+
+  always:
+    - name: Clean up temporary snapshot facts
+      ansible.builtin.set_fact:
+        _avars_before: {}
+        _avars_after: {}
+        _avars_new_keys: []
+        _avars_diff_keys: []
+      no_log: true
+...
