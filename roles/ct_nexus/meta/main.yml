@@ -1,0 +1,15 @@
+---
+galaxy_info:
+  author: Valentin Gostev
+  description: Deploy Sonatype's Nexus container
+  role_name: ct_nexus
+  namespace: almaops
+  license: MIT
+  min_ansible_version: "2.15"
+  galaxy_tags:
+    - nexus
+    - artifacts
+    - storage
+    - mirror
+dependencies: []
+...

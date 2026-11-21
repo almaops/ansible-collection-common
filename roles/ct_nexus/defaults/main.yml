@@ -1,0 +1,29 @@
+---
+# Templates
+ct_nexus_template_env: "env.j2"
+ct_nexus_template_compose: "compose.yml.j2"
+
+# Path settings
+ct_nexus_path_base: "/srv/ct_nexus"
+ct_nexus_path_nexus: "{{ ct_nexus_path_base }}/{{ ct_nexus_ct_name }}"
+ct_nexus_path_env: "{{ ct_nexus_path_nexus }}/{{ ct_nexus_ct_name }}.env"
+ct_nexus_path_compose: "{{ ct_nexus_path_nexus }}/docker-compose.yml"
+ct_nexus_path_data: "{{ ct_nexus_path_nexus }}/data"
+ct_nexus_path_ct_data: "/nexus-data"
+
+ct_nexus_uid: "200"
+
+# Container settings
+ct_nexus_ct_name: "nexus"
+ct_nexus_ct_version: "3.98.3-alpine"
+ct_nexus_ct_image: "sonatype/nexus3:{{ ct_nexus_ct_version }}"
+ct_nexus_ct_restart_policy: "always"
+ct_nexus_ct_ports:
+  - "127.0.0.1:8081:8081"
+ct_nexus_ct_volumes:
+  - "{{ ct_nexus_path_data }}:{{ ct_nexus_path_ct_data }}"
+
+# Environment variables
+ct_nexus_env:
+  INSTALL4J_ADD_VM_PARAMS: "-Xms1024m -Xmx1024m -XX:MaxDirectMemorySize=1024m"
+...

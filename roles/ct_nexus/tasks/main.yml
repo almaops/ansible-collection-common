@@ -1,0 +1,50 @@
+---
+- name: Create base directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+    recurse: true
+    owner: root
+    group: root
+  loop:
+    - "{{ ct_nexus_path_base }}"
+    - "{{ ct_nexus_path_nexus }}"
+
+- name: Create app directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+    recurse: true
+    owner: "{{ ct_nexus_uid }}"
+    group: "{{ ct_nexus_uid }}"
+  loop:
+    - "{{ ct_nexus_path_data }}"
+
+- name: Deploy environment file
+  ansible.builtin.template:
+    src: "{{ ct_nexus_template_env }}"
+    dest: "{{ ct_nexus_path_env }}"
+    mode: "0600"
+  diff: false
+
+- name: Deploy compose manifest
+  ansible.builtin.template:
+    src: "{{ ct_nexus_template_compose }}"
+    dest: "{{ ct_nexus_path_compose }}"
+    owner: root
+    group: root
+    mode: "0644"
+    validate: "docker compose -f %s config --quiet"
+
+- name: Reconcile application
+  community.docker.docker_compose_v2:
+    project_src: "{{ ct_nexus_path_nexus }}"
+    project_name: "{{ ct_nexus_ct_name }}"
+    state: present
+    recreate: auto
+    pull: missing
+    remove_orphans: true
+    wait: true
+...

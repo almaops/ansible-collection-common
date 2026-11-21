@@ -1,0 +1,16 @@
+services:
+  {{ ct_nexus_ct_name }}:
+    container_name: {{ ct_nexus_ct_name | to_json }}
+    image: {{ ct_nexus_ct_image | to_json }}
+    restart: {{ ct_nexus_ct_restart_policy | to_json }}
+    env_file:
+      - path: {{ ct_nexus_path_env | to_json }}
+        format: raw
+{% if ct_nexus_ct_ports | length > 0 %}
+    ports:
+{{ ct_nexus_ct_ports | to_nice_yaml(indent=2) | trim | indent(6, true) }}
+{% endif %}
+{% if ct_nexus_ct_volumes | length > 0 %}
+    volumes:
+{{ ct_nexus_ct_volumes | to_nice_yaml(indent=2) | trim | indent(6, true) }}
+{% endif %}
