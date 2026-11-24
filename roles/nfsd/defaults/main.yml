@@ -1,0 +1,27 @@
+---
+nfsd_server_packages:
+  - nfs-kernel-server
+  - nfs-common
+
+nfsd_server_service_name: nfs-kernel-server
+nfsd_server_service_enabled: true
+nfsd_server_service_state: started
+
+# Optional tuning
+nfsd_server_threads: 16
+
+# NFS feature flags
+nfsd_server_vers3: false
+nfsd_server_vers4: true
+nfsd_server_vers4_0: false
+nfsd_server_vers4_1: true
+nfsd_server_vers4_2: true
+
+# Bind to all interfaces by default.
+# Restrict access using host/network firewall.
+nfsd_server_host: "0.0.0.0"
+nfsd_server_port: 2049
+
+# Export definitions
+nfsd_server_exports: []
+...

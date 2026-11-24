@@ -1,0 +1,67 @@
+---
+- name: Ensure NFS configuration directories exist
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  loop:
+    - /etc/exports.d
+    - /etc/nfs.conf.d
+
+- name: Install NFS server packages
+  ansible.builtin.apt:
+    name: "{{ nfsd_server_packages }}"
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+
+- name: Configure NFS server
+  ansible.builtin.template:
+    src: nfs.conf.j2
+    dest: /etc/nfs.conf.d/90-ansible.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart NFS server
+
+- name: Create NFS export directories
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('root') }}"
+    mode: "{{ item.mode | default('0755') }}"
+  loop: "{{ nfsd_server_exports }}"
+  loop_control:
+    label: "{{ item.path }}"
+
+- name: Configure NFS exports
+  ansible.builtin.template:
+    src: exports.j2
+    dest: /etc/exports.d/ansible.exports
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Reload NFS exports
+
+- name: Enable and start NFS server
+  ansible.builtin.systemd_service:
+    name: "{{ nfsd_server_service_name }}"
+    enabled: "{{ nfsd_server_service_enabled }}"
+    state: "{{ nfsd_server_service_state }}"
+
+- name: Apply pending NFS configuration changes
+  ansible.builtin.meta: flush_handlers
+
+- name: Verify NFS exports
+  ansible.builtin.command:
+    cmd: exportfs -v
+  register: nfsd_server_exportfs
+  changed_when: false
+
+- name: Display active NFS exports
+  ansible.builtin.debug:
+    var: nfsd_server_exportfs.stdout_lines
+...

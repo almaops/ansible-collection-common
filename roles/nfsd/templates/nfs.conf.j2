@@ -1,0 +1,12 @@
+# Managed by Ansible
+
+[nfsd]
+threads={{ nfsd_server_threads }}
+host={{ nfsd_server_host }}
+port={{ nfsd_server_port }}
+
+vers3={{ 'y' if nfsd_server_vers3 else 'n' }}
+vers4={{ 'y' if nfsd_server_vers4 else 'n' }}
+vers4.0={{ 'y' if nfsd_server_vers4_0 else 'n' }}
+vers4.1={{ 'y' if nfsd_server_vers4_1 else 'n' }}
+vers4.2={{ 'y' if nfsd_server_vers4_2 else 'n' }}

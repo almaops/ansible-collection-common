@@ -1,0 +1,5 @@
+{% for export in nfsd_server_exports %}
+{% for client in export.clients %}
+{{ export.path }} {{ client.host }}({{ client.options | default('rw,sync,no_subtree_check,root_squash') }})
+{% endfor %}
+{% endfor %}
