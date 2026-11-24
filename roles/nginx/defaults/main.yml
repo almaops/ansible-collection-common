@@ -1,4 +1,15 @@
 ---
+nginx_legacy_flow: false
+nginx_mainline: true
+
+nginx_apt_key_url: "https://nginx.org/keys/nginx_signing.key"
+nginx_apt_key_path: "/usr/share/keyrings/nginx-archive-keyring.asc"
+
+nginx_apt_repo_url: "https://nginx.org/packages{{ '/mainline' if nginx_mainline else '' }}/{{ ansible_distribution | lower }}"
+
+nginx_apt_cache_valid_time: 3600
+nginx_package_state: present
+
 # Used only for Debian/Ubuntu installation, as the -t option for apt.
 nginx_default_release: ""
 
@@ -19,7 +30,7 @@ nginx_conf_template: "nginx.conf.j2"
 nginx_vhost_template: "vhost.j2"
 
 nginx_worker_processes: >-
-  "{{ ansible_processor_vcpus | default(ansible_processor_count) }}"
+  "{{ ansible_facts['processor_vcpus'] | default(ansible_facts['processor_count']) }}"
 nginx_worker_connections: "1024"
 nginx_multi_accept: "off"
 

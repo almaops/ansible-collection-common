@@ -1,0 +1,75 @@
+---
+- name: Install repository prerequisites
+  ansible.builtin.apt:
+    name:
+      - ca-certificates
+      - gnupg
+      - "{{ ansible_distribution | lower }}-archive-keyring"
+    state: present
+    update_cache: true
+    cache_valid_time: "{{ nginx_apt_cache_valid_time }}"
+  when: ansible_distribution == "Debian"
+
+- name: Install repository prerequisites on Ubuntu
+  ansible.builtin.apt:
+    name:
+      - ca-certificates
+      - gnupg
+      - ubuntu-keyring
+    state: present
+    update_cache: true
+    cache_valid_time: "{{ nginx_apt_cache_valid_time }}"
+  when: ansible_distribution == "Ubuntu"
+
+- name: Download nginx repository signing key
+  ansible.builtin.get_url:
+    url: "{{ nginx_apt_key_url }}"
+    dest: "{{ nginx_apt_key_path }}"
+    owner: root
+    group: root
+    mode: "0644"
+    force: true
+
+- name: Verify nginx signing key fingerprint
+  ansible.builtin.command:
+    argv:
+      - gpg
+      - --batch
+      - --show-keys
+      - --with-colons
+      - "{{ nginx_apt_key_path }}"
+  register: nginx_key_info
+  changed_when: false
+  failed_when: >-
+    nginx_key_info.rc != 0 or
+    'fpr:::::::::573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62:'
+    not in nginx_key_info.stdout
+
+- name: Configure nginx upstream repository
+  ansible.builtin.copy:
+    dest: /etc/apt/sources.list.d/nginx.list
+    content: |
+      deb [signed-by={{ nginx_apt_key_path }}] {{ nginx_apt_repo_url }} {{ ansible_distribution_release }} nginx
+    owner: root
+    group: root
+    mode: "0644"
+  register: nginx_repo_result
+
+- name: Configure nginx repository pinning
+  ansible.builtin.copy:
+    dest: /etc/apt/preferences.d/99nginx
+    content: |
+      Package: *
+      Pin: origin nginx.org
+      Pin: release o=nginx
+      Pin-Priority: 900
+    owner: root
+    group: root
+    mode: "0644"
+  register: nginx_pin_result
+
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: true
+  when: nginx_repo_result.changed or nginx_pin_result.changed
+...

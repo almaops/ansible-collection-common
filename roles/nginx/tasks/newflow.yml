@@ -1,0 +1,48 @@
+---
+- name: Verify supported OS family
+  ansible.builtin.assert:
+    that:
+      - ansible_facts['distribution'] in ['Debian', 'Ubuntu']
+
+# Variable setup.
+- name: Include OS-specific variables.
+  ansible.builtin.include_vars: "{{ ansible_facts['os_family'] }}.yml"
+
+- name: Configure upstream repository
+  ansible.builtin.include_tasks: repository.yml
+  when: not nginx_legacy_flow | bool
+
+- name: Install nginx
+  ansible.builtin.apt:
+    name: nginx
+    state: "{{ nginx_package_state }}"
+    update_cache: true
+    cache_valid_time: "{{ nginx_apt_cache_valid_time }}"
+
+- name: Enable and start nginx
+  ansible.builtin.systemd:
+    name: nginx
+    enabled: true
+    state: started
+
+# Vhost configuration.
+- name: Template vhost
+  ansible.builtin.import_tasks: vhosts.yml
+
+# Nginx setup.
+- name: Copy nginx configuration in place.
+  ansible.builtin.template:
+    src: "{{ nginx_conf_template }}"
+    dest: "{{ nginx_conf_file_path }}"
+    owner: root
+    group: "{{ root_group | default('root') }}"
+    mode: '0644'
+  notify:
+    - Reload nginx
+
+- name: Ensure nginx service is running as configured.
+  ansible.builtin.service:
+    name: nginx
+    state: "{{ nginx_service_state }}"
+    enabled: "{{ nginx_service_enabled }}"
+...
